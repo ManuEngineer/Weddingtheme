@@ -184,7 +184,7 @@ input,select,button,textarea{font-family:inherit}
 .mym-board-row:has(.mym-board-col-3){grid-template-columns:3fr 1fr}
 .mym-board-form label{display:flex;flex-direction:column;gap:5px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8fa093}
 .mym-board-form label .req{color:var(--mym-terra);margin-left:2px}
-.mym-board-form input,.mym-board-form select,.mym-board-form textarea{background:#1f2a24;border:1px solid var(--mym-forest-line);border-radius:4px;padding:10px;color:var(--mym-cream-on-dark);font-size:14px;transition:border-color .2s}
+.mym-board-form input,.mym-board-form select,.mym-board-form textarea{background:#1f2a24;border:1px solid var(--mym-forest-line);border-radius:4px;padding:10px;color:var(--mym-cream-on-dark);font-size:14px;transition:border-color .2s;width:100%;min-width:0}
 .mym-board-form input:focus,.mym-board-form select:focus,.mym-board-form textarea:focus{outline:none;border-color:var(--mym-gold)}
 .mym-board-form input::placeholder,.mym-board-form textarea::placeholder{color:#4a5e52}
 .mym-board-form textarea{resize:vertical;min-height:62px}
@@ -395,10 +395,6 @@ input,select,button,textarea{font-family:inherit}
 .mym-section-content.mym-wrap{max-width:1040px;margin:0 auto}
 
 /* RESPONSIVE */
-@media(max-width:980px){
-  .mym-board-form{grid-template-columns:1fr 1fr}
-  .mym-board-submit{grid-column:1 / -1}
-}
 @media(max-width:880px){
   .mym-story-grid,.mym-travel-grid,.mym-hero--editorial{grid-template-columns:1fr}
   .mym-hero--editorial .col-photo{min-height:50vh}
@@ -408,5 +404,8 @@ input,select,button,textarea{font-family:inherit}
 }
 @media(max-width:680px){
   .mym-gallery-grid{grid-template-columns:repeat(2,1fr)}
-  .mym-board-form{grid-template-columns:1fr}
+}
+@media(max-width:540px){
+  .mym-board-row:has(.mym-board-col-2,.mym-board-col-1){grid-template-columns:1fr}
+  .mym-board-cols{grid-template-columns:1fr}
 }
