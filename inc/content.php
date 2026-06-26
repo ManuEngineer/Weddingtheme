@@ -118,8 +118,8 @@ function mym_content( $lang = null ) {
 		'hero' => array(
 			'eyebrow' => 'Nos casamos', 'first' => '', 'second' => '', 'conn' => 'y',
 			'place' => '',
-			'save' => 'Reservad la fecha', 'until' => 'para el gran día',
-			'note' => 'Reservad desde ya uno de estos días:',
+			'save' => 'Reserva la fecha', 'until' => 'para el gran día',
+			'note' => 'Reserva desde ya uno de estos días:',
 		),
 		'cd' => array( 'days' => 'Días', 'hours' => 'Horas', 'mins' => 'Minutos', 'secs' => 'Segundos' ),
 		'story' => array(
