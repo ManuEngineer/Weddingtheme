@@ -1,0 +1,65 @@
+/*
+ * Cordillera - Editor-Stile
+ * Wird im Gutenberg-Editor geladen damit die Vorschau
+ * dem Frontend entspricht.
+ */
+
+body { background: #F4EEE2; font-family: 'Jost', sans-serif; color: #2B2820; }
+
+/* Kicker-Stil (Paragraph-Block mit Klasse "is-style-kicker") */
+p.is-style-kicker,
+.mym-kicker {
+  font-size: 12px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: #BB6244;
+  margin-bottom: 12px;
+  font-family: 'Jost', sans-serif;
+}
+
+/* Auf dunklem Hintergrund (Geschichte, FAQ) */
+.mym-bg-forest p.is-style-kicker,
+.mym-bg-forest .mym-kicker { color: #d9b873; }
+
+/* Grosse Ueberschrift (Heading-Block mit Klasse "is-style-h2-gross") */
+h2.is-style-h2-gross,
+.wp-block-heading.is-style-h2-gross {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(40px, 5.5vw, 68px);
+  font-weight: 500;
+  color: #2F4339;
+  line-height: 1.04;
+}
+
+/* Bild mit Rahmen (Geschichte-Foto) */
+figure.is-style-foto-rahmen img {
+  border: 8px solid rgba(255,255,255,0.08);
+  border-radius: 2px;
+}
+
+/* Signatur-Zeile */
+.mym-story-sign {
+  display: flex; align-items: center; gap: 14px; color: #A9823F; margin-top: 24px;
+}
+.mym-story-sign .line { height: 1px; width: 40px; background: #A9823F; }
+.mym-story-sign .names {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic; font-size: 22px; letter-spacing: .04em;
+}
+.mym-story-sign .conn { color: #d9b873; }
+
+/* Travel Legs */
+.mym-travel-legs { display: flex; flex-direction: column; gap: 18px; margin-top: 24px; }
+.mym-leg { display: flex; gap: 16px; align-items: flex-start; }
+.mym-leg .dot { margin-top: 6px; flex: none; width: 9px; height: 9px; border-radius: 50%; background: #A9823F; }
+.mym-leg h4 { font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: #2F4339; font-weight: 500; font-family: 'Jost', sans-serif; margin: 0 0 3px; }
+.mym-leg p { color: #6e685b; font-size: 15px; margin: 0; }
+
+/* Programm-Tabelle im Editor */
+.mym-prog-table { width: 100%; border-collapse: collapse; border: none; }
+.mym-prog-table tr { border: none; }
+.mym-prog-table td { padding: 20px 16px; border: none; border-bottom: 1px solid #e3dac8; vertical-align: top; background: transparent; }
+.mym-prog-table tr:last-child td { border-bottom: none; }
+.mym-prog-table .zeit { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 26px; color: #A9823F; white-space: nowrap; width: 96px; text-align: right; padding-right: 24px; }
+.mym-prog-table h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 26px; color: #2F4339; margin: 0 0 4px; font-weight: 500; }
+.mym-prog-table p { color: #6e685b; font-size: 15px; margin: 0; }
