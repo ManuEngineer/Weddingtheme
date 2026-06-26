@@ -125,7 +125,7 @@ function mym_content( $lang = null ) {
 		'story' => array(
 			'kicker' => 'Nuestra historia', 'title' => 'Cómo empezó todo',
 			'body' => array(
-				'Aquí contáis vuestra historia juntos — dónde os conocisteis y qué os une.',
+				'Aquí cuentan su historia juntos — dónde se conocieron y qué los une.',
 				'Este texto es solo un marcador. Crea una página con el slug «historia» para reemplazarlo.',
 			),
 		),
@@ -142,7 +142,7 @@ function mym_content( $lang = null ) {
 		),
 		'travel' => array(
 			'kicker' => 'Lugar y ruta', 'title' => 'Lugar y cómo llegar',
-			'body' => 'Aquí describís dónde se celebra y cómo llegan mejor vuestros invitados.',
+			'body' => 'Aquí describen dónde se celebra y cómo llegan mejor sus invitados.',
 			'maplabel' => 'Lugar del evento', 'mapnote' => 'Mapa pronto',
 			'legs' => array(
 				array( 'En coche', 'Indicaciones para llegar en coche.' ),
@@ -172,13 +172,13 @@ function mym_content( $lang = null ) {
 		),
 		'gallery' => array(
 			'kicker' => 'Recuerdos', 'title' => 'Galería de fotos',
-			'body' => 'Aquí reunimos las fotos del gran día. Vedlas — y subid las vuestras.',
+			'body' => 'Aquí reunimos las fotos del gran día. Véanlas — y suban las suyas.',
 			'cta' => 'Ir a la galería y subir',
 			'note' => 'El enlace de la galería se configura en el Customizer.',
 		),
 		'gifts' => array(
 			'kicker' => 'Regalar', 'title' => 'Regalos',
-			'body' => 'Vuestra presencia es el mejor regalo. Quien además quiera obsequiarnos algo, quizá encuentre aquí una idea:',
+			'body' => 'Su presencia es el mejor regalo. Quien además quiera obsequiarnos algo, quizá encuentre aquí una idea:',
 			'note' => 'Los detalles llegarán más cerca de la fecha.',
 			'items' => array(
 				array( '01', 'Fondo de viaje', 'Una contribución a nuestro viaje juntos.' ),
@@ -188,12 +188,12 @@ function mym_content( $lang = null ) {
 		),
 		'faq' => array(
 			'kicker' => 'Bueno saber', 'title' => 'Preguntas frecuentes',
-			'disclaimer' => 'Información sin garantía — verificad con fuentes oficiales antes de viajar.',
+			'disclaimer' => 'Información sin garantía — verifiquen en fuentes oficiales antes de viajar.',
 			'items' => array(
-				array( '¿Hasta cuándo confirmamos asistencia?', 'Aquí ponéis vuestra respuesta.' ),
-				array( '¿Hay código de vestimenta?', 'Aquí ponéis vuestra respuesta.' ),
-				array( '¿Podemos llevar a los niños?', 'Aquí ponéis vuestra respuesta.' ),
-				array( '¿Dónde podemos alojarnos?', 'Aquí ponéis vuestra respuesta.' ),
+				array( '¿Hasta cuándo confirmamos asistencia?', 'Aquí pongan su respuesta.' ),
+				array( '¿Hay código de vestimenta?', 'Aquí pongan su respuesta.' ),
+				array( '¿Podemos llevar a los niños?', 'Aquí pongan su respuesta.' ),
+				array( '¿Dónde podemos alojarnos?', 'Aquí pongan su respuesta.' ),
 			),
 		),
 		'footer' => array(
