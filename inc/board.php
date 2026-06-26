@@ -317,6 +317,15 @@ function mym_board_submit() {
 		wp_send_json_success( array( 'moderated' => true ) );
 	}
 
+	/* Rate-Limit: max. 3 Eintraege pro IP pro 6 Stunden */
+	$ip      = isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ? trim( explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) )[0] ) : ( isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : 'unknown' );
+	$rl_key  = 'mym_board_rl_' . md5( $ip );
+	$rl_count = (int) get_transient( $rl_key );
+	if ( $rl_count >= 3 ) {
+		wp_send_json_error( array( 'message' => __( 'Zu viele Einträge von dieser Adresse. Bitte später erneut versuchen.', 'mym-hochzeit' ) ) );
+	}
+	set_transient( $rl_key, $rl_count + 1, 6 * HOUR_IN_SECONDS );
+
 	/* Felder einlesen + bereinigen */
 	$name      = isset( $_POST['name'] )      ? sanitize_text_field( wp_unslash( $_POST['name'] ) )      : '';
 	$type      = isset( $_POST['type'] ) && $_POST['type'] === 'seek' ? 'seek' : 'offer';
