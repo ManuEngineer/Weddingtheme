@@ -12,14 +12,14 @@ function mym_customize_register( $wp_customize ) {
 
 	$wp_customize->add_panel( 'mym_panel', array(
 		'title'       => __( 'Hochzeit: Einstellungen', 'mym-hochzeit' ),
-		'description' => __( 'Datum, Karte, Galerie-Link und Hotels anpassen.', 'mym-hochzeit' ),
+		'description' => __( 'Datum, Karte, Galerie-Link und Grundeinstellungen anpassen.', 'mym-hochzeit' ),
 		'priority'    => 5,
 	) );
 
 	/* ---- Brautpaar & Ort ---- */
 	$wp_customize->add_section( 'mym_couple', array(
 		'title' => __( 'Brautpaar & Ort', 'mym-hochzeit' ), 'panel' => 'mym_panel',
-		'description' => __( 'Namen, Verbinder und Ort. Leer = der Seitentitel wird verwendet.', 'mym-hochzeit' ),
+		'description' => __( 'Namen, Verbinder und Ort. Für mehrsprachige Versionen die Übersetzungen unter Sprachen → String-Übersetzungen pflegen.', 'mym-hochzeit' ),
 	) );
 	$wp_customize->add_setting( 'mym_partner_a', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field', 'transport' => 'refresh' ) );
 	$wp_customize->add_control( 'mym_partner_a', array(
@@ -37,26 +37,14 @@ function mym_customize_register( $wp_customize ) {
 	) );
 	$wp_customize->add_setting( 'mym_connector', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field' ) );
 	$wp_customize->add_control( 'mym_connector', array(
-		'label' => __( 'Verbinder der Namen — Deutsch', 'mym-hochzeit' ),
-		'description' => __( 'Zwischen den Namen, z.B. & oder und. Leer = Standard „&".', 'mym-hochzeit' ),
-		'section' => 'mym_couple', 'type' => 'text',
-	) );
-	$wp_customize->add_setting( 'mym_connector_es', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field' ) );
-	$wp_customize->add_control( 'mym_connector_es', array(
-		'label' => __( 'Verbinder der Namen — Español', 'mym-hochzeit' ),
-		'description' => __( 'z.B. y. Leer = Standard „y".', 'mym-hochzeit' ),
+		'label' => __( 'Verbinder der Namen', 'mym-hochzeit' ),
+		'description' => __( 'z.B. & oder und. Leer = Standard „&". Für sprachspezifische Varianten Polylang → String-Übersetzungen verwenden.', 'mym-hochzeit' ),
 		'section' => 'mym_couple', 'type' => 'text',
 	) );
 	$wp_customize->add_setting( 'mym_place', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field' ) );
 	$wp_customize->add_control( 'mym_place', array(
-		'label' => __( 'Ort — Deutsch (Untertitel im Startbild)', 'mym-hochzeit' ),
-		'description' => __( 'z.B. „Region · Land". Leer = wird ausgeblendet. Für eine andere Sprache das Feld darunter nutzen.', 'mym-hochzeit' ),
-		'section' => 'mym_couple', 'type' => 'text',
-	) );
-	$wp_customize->add_setting( 'mym_place_es', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field' ) );
-	$wp_customize->add_control( 'mym_place_es', array(
-		'label' => __( 'Ort — Español', 'mym-hochzeit' ),
-		'description' => __( 'Wird auf der spanischen Seite angezeigt. Leer = es gilt der deutsche Ort.', 'mym-hochzeit' ),
+		'label' => __( 'Ort (Untertitel im Startbild)', 'mym-hochzeit' ),
+		'description' => __( 'z.B. „Region · Land". Leer = wird ausgeblendet. Übersetzungen via Polylang → String-Übersetzungen.', 'mym-hochzeit' ),
 		'section' => 'mym_couple', 'type' => 'text',
 	) );
 

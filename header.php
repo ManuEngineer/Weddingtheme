@@ -3,8 +3,6 @@
  * Header
  * @package MyM_Hochzeit
  */
-$lang = mym_preview_lang();
-$c    = mym_content( $lang );
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -28,15 +26,12 @@ $c    = mym_content( $lang );
 		<?php
 		if ( has_nav_menu( 'primary' ) ) {
 			wp_nav_menu( array( 'theme_location' => 'primary', 'container' => false, 'items_wrap' => '%3$s', 'depth' => 1 ) );
-		} else {
-			$home = trailingslashit( home_url( '/' ) );
-			printf( '<a href="%s#story">%s</a>',   esc_url( $home ), esc_html( $c['nav']['story'] ) );
-			printf( '<a href="%s#program">%s</a>', esc_url( $home ), esc_html( $c['nav']['program'] ) );
-			printf( '<a href="%s#travel">%s</a>',  esc_url( $home ), esc_html( $c['nav']['travel'] ) );
-			printf( '<a href="%s#stay">%s</a>',    esc_url( $home ), esc_html( $c['nav']['stay'] ) );
-			printf( '<a href="%s#gallery">%s</a>', esc_url( $home ), esc_html( $c['nav']['gallery'] ) );
-			printf( '<a href="%s#gifts">%s</a>',   esc_url( $home ), esc_html( $c['nav']['gifts'] ) );
-			printf( '<a href="%s#faq">%s</a>',     esc_url( $home ), esc_html( $c['nav']['faq'] ) );
+		} elseif ( current_user_can( 'edit_theme_options' ) ) {
+			printf(
+				'<a href="%s" style="font-size:.8em;opacity:.6">%s</a>',
+				esc_url( admin_url( 'nav-menus.php' ) ),
+				esc_html__( 'Menü einrichten', 'mym-hochzeit' )
+			);
 		}
 		?>
 	</nav>

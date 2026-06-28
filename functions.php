@@ -8,7 +8,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'MYM_VERSION', '1.2.1' );
+define( 'MYM_VERSION', '2.0.0' );
 
 /* ============================================================
  * 1) THEME SETUP
@@ -44,10 +44,10 @@ function mym_assets() {
 		'defaultHero' => mym_opt( 'mym_hero_variant', 'horizont' ),
 		'isEditor'    => current_user_can( 'edit_posts' ),
 		'i18n'        => array(
-			'sending'  => __( 'Wird gesendet …', 'mym-hochzeit' ),
-			'thanks'   => __( 'Danke! Dein Eintrag wird nach kurzer Pruefung sichtbar.', 'mym-hochzeit' ),
-			'errName'  => __( 'Bitte gib einen Namen an.', 'mym-hochzeit' ),
-			'error'    => __( 'Etwas ist schiefgelaufen. Bitte versuche es spaeter erneut.', 'mym-hochzeit' ),
+			'sending'  => mym_s( 'mym_js_sending',  'Sending …' ),
+			'thanks'   => mym_s( 'mym_js_thanks',   'Thank you! Your entry will be visible after review.' ),
+			'errName'  => mym_s( 'mym_js_err_name', 'Please enter your name.' ),
+			'error'    => mym_s( 'mym_js_error',    'Something went wrong. Please try again later.' ),
 		),
 	) );
 }
@@ -84,40 +84,30 @@ function mym_current_lang() {
 		$l = pll_current_language();
 		if ( $l ) { return $l; }
 	}
-	$locale = get_locale();
-	return ( strpos( $locale, 'es' ) === 0 ) ? 'es' : 'de';
+	/* Derive 2-letter code from WP locale (e.g. de_DE → de, es_CL → es, en_US → en). */
+	return substr( get_locale(), 0, 2 );
 }
 
 /**
  * Gibt die Sprachumschalter-Links aus.
- * Mit Polylang: echte uebersetzte Permalinks.
- * Ohne Polylang: einfacher DE/ES-Umschalter via ?lang= (nur kosmetisch fuer Vorschau).
+ * Mit Polylang: echte übersetzte Permalinks für jede aktive Sprache.
+ * Ohne Polylang: kein Umschalter (Mono-Sprach-Installation).
  */
 function mym_language_switcher() {
+	if ( ! function_exists( 'pll_the_languages' ) ) { return ''; }
+	$langs = pll_the_languages( array( 'raw' => 1, 'hide_if_empty' => 0 ) );
+	if ( empty( $langs ) ) { return ''; }
 	$out = '<ul class="mym-lang">';
-	if ( function_exists( 'pll_the_languages' ) ) {
-		$langs = pll_the_languages( array( 'raw' => 1, 'hide_if_empty' => 0 ) );
-		foreach ( $langs as $lang ) {
-			$cls  = $lang['current_lang'] ? ' current-lang' : '';
-			$slug = strtoupper( $lang['slug'] );
-			$out .= '<li class="lang-item' . $cls . '"><a href="' . esc_url( $lang['url'] ) . '" lang="' . esc_attr( $lang['locale'] ) . '">' . esc_html( $slug ) . '</a></li>';
-		}
-	} else {
-		$cur   = mym_current_lang();
-		$other = ( $cur === 'de' ) ? 'es' : 'de';
-		$url   = add_query_arg( 'lang', $other );
-		$out  .= '<li class="lang-item"><a class="mym-lang-btn" href="' . esc_url( $url ) . '">' . strtoupper( $other ) . '</a></li>';
+	foreach ( $langs as $lang ) {
+		$cls  = $lang['current_lang'] ? ' current-lang' : '';
+		$slug = strtoupper( $lang['slug'] );
+		$out .= '<li class="lang-item' . $cls . '"><a href="' . esc_url( $lang['url'] ) . '" lang="' . esc_attr( $lang['locale'] ) . '">' . esc_html( $slug ) . '</a></li>';
 	}
 	$out .= '</ul>';
 	return $out;
 }
 
-/* Fallback-Sprache via ?lang= (nur ohne Polylang, fuer lokale Vorschau) */
 function mym_preview_lang() {
-	if ( function_exists( 'pll_current_language' ) ) { return mym_current_lang(); }
-	if ( isset( $_GET['lang'] ) && in_array( $_GET['lang'], array( 'de', 'es' ), true ) ) {
-		return sanitize_text_field( wp_unslash( $_GET['lang'] ) );
-	}
 	return mym_current_lang();
 }
 
@@ -186,8 +176,44 @@ function mym_monogram() {
 
 require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/board.php';
-require get_template_directory() . '/inc/content.php';
+require get_template_directory() . '/inc/content.php'; /* v1 compat — mym_content() still available for child themes */
 require get_template_directory() . '/inc/sections.php';
+require get_template_directory() . '/inc/strings.php';
+
+/* ============================================================
+ * 4c) NAVIGATIONS-ANKER-FILTER
+ * Konvertiert Seiten-Permalinks im Hauptmenü auf der Startseite
+ * zu Intra-Page-Ankern (#slug), damit das Onepager-Scrolling
+ * funktioniert. Auf anderen Seiten bleiben echte Permalinks.
+ * ========================================================== */
+add_filter( 'wp_nav_menu_objects', function ( $items, $args ) {
+	if ( ! is_front_page() || ! isset( $args->theme_location ) || $args->theme_location !== 'primary' ) {
+		return $items;
+	}
+	foreach ( $items as $item ) {
+		if ( $item->object === 'page' && (int) $item->menu_item_parent === 0 ) {
+			$slug = get_post_field( 'post_name', (int) $item->object_id );
+			if ( $slug ) {
+				$item->url = '#' . $slug;
+			}
+		}
+	}
+	return $items;
+}, 10, 2 );
+
+/* ============================================================
+ * 4d) SEITEN-VORLAGEN registrieren
+ * Bestimmt den Sektionstyp auf der Startseite:
+ *   page-board.php   → Unterkunftsbörse (Seiteninhalt + Formular)
+ *   page-gallery.php → Galerie (Seiteninhalt + CTA-Button)
+ *   page-map.php     → Anreise (Seiteninhalt + Karten-Embed)
+ * ========================================================== */
+add_filter( 'theme_page_templates', function ( $templates ) {
+	$templates['page-board.php']   = __( 'Unterkunftsbörse', 'mym-hochzeit' );
+	$templates['page-gallery.php'] = __( 'Foto-Galerie', 'mym-hochzeit' );
+	$templates['page-map.php']     = __( 'Anreise & Karte', 'mym-hochzeit' );
+	return $templates;
+} );
 
 /* ============================================================
  * Template-Hilfsfunktionen (hier definiert, nicht im Template,
