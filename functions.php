@@ -553,7 +553,7 @@ function mym_register_block_patterns() {
 	register_block_pattern( 'mym-hochzeit/galerie', array(
 		'title'       => 'Galerie / Galería',
 		'categories'  => array( 'mym-hochzeit' ),
-		'description' => 'Kicker, Titel, Beschreibung und Link zur Galerie.',
+		'description' => 'Kicker, Titel, Text und Button zur Galerie. Den Link im Button-Block anpassen.',
 		'content'     => '<!-- wp:paragraph {"className":"is-style-kicker"} -->
 <p class="is-style-kicker">Erinnerungen</p>
 <!-- /wp:paragraph -->
@@ -573,14 +573,10 @@ function mym_register_block_patterns() {
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"left"}} -->
 <div class="wp-block-buttons">
 <!-- wp:button {"className":"mym-gallery-cta"} -->
-<div class="wp-block-button mym-gallery-cta"><a class="wp-block-button__link" href="#">Zur Galerie &amp; Upload →</a></div>
+<div class="wp-block-button mym-gallery-cta"><a class="wp-block-button__link wp-element-button" href="https://dein-galerie-link.ch">Zur Galerie &amp; Upload →</a></div>
 <!-- /wp:button -->
 </div>
-<!-- /wp:buttons -->
-
-<!-- wp:paragraph {"style":{"typography":{"fontStyle":"italic"}}} -->
-<p style="font-style:italic">Den Galerie-Link tragt ihr im Customizer unter „Foto-Galerie" ein.</p>
-<!-- /wp:paragraph -->',
+<!-- /wp:buttons -->',
 	) );
 }
 add_action( 'init', 'mym_register_block_patterns' );

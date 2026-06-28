@@ -56,7 +56,6 @@ function mym_photo( $url, $alt = '' ) {
 endif;
 
 /* ---------- Sektionen aus Menü ---------- */
-$immich_url  = get_theme_mod( 'mym_immich_url', '' );
 $map_embed   = get_theme_mod( 'mym_map_embed', '' );
 $menu_locs   = get_nav_menu_locations();
 $raw_items   = array();
@@ -159,7 +158,6 @@ $cd_note   = mym_s( 'mym_hero_dates_note', 'Save one of these dates:' );
 			'index'      => $sect_index,
 			'bg'         => $bg,
 			'section_id' => $page->post_name,
-			'immich_url' => $immich_url,
 			'map_embed'  => $map_embed,
 		);
 

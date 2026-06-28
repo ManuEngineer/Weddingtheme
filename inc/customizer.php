@@ -88,17 +88,6 @@ function mym_customize_register( $wp_customize ) {
 		'section' => 'mym_general', 'type' => 'textarea',
 	) );
 
-	/* ---- Foto-Galerie (Immich) ---- */
-	$wp_customize->add_section( 'mym_gallery', array(
-		'title' => __( 'Foto-Galerie (Immich)', 'mym-hochzeit' ), 'panel' => 'mym_panel',
-	) );
-	$wp_customize->add_setting( 'mym_immich_url', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
-	$wp_customize->add_control( 'mym_immich_url', array(
-		'label' => __( 'Immich-Galerie-Link', 'mym-hochzeit' ),
-		'description' => __( 'Link zum geteilten Album / Upload (z.B. https://example.com/share/...)', 'mym-hochzeit' ),
-		'section' => 'mym_gallery', 'type' => 'url',
-	) );
-
 	/* ---- Fotos ---- */
 	$wp_customize->add_section( 'mym_photos', array(
 		'title' => __( 'Fotos', 'mym-hochzeit' ), 'panel' => 'mym_panel',
