@@ -577,13 +577,14 @@ function mym_register_block_patterns() {
 <!-- /wp:html -->',
 	) );
 
-	/* ---- Karten-Platzhalter ---- */
-	register_block_pattern( 'mym-hochzeit/karte-platzhalter', array(
-		'title'       => 'Karten-Platzhalter',
+	/* ---- Karte (nur Karte) ---- */
+	register_block_pattern( 'mym-hochzeit/karte', array(
+		'title'       => 'Karte',
 		'categories'  => array( 'mym-hochzeit' ),
-		'description' => 'Stilisierter Platzhalter mit "Karte folgt"-Hinweis — solange der Veranstaltungsort noch nicht feststeht. Einfach später durch das Muster "Karte" ersetzen.',
+		'description' => 'Eingebettete Karte. Solange src="" ist, erscheint der Platzhalter. Einfach die URL zwischen den Anführungszeichen bei src= eintragen und der Platzhalter wird automatisch durch die echte Karte ersetzt.',
 		'content'     => '<!-- wp:html -->
 <div class="mym-map">
+  <iframe src="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Karte"></iframe>
   <svg viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true">
     <path d="M0,210 L70,160 L140,200 L220,130 L300,185 L400,120" fill="none" stroke="#7d9080" stroke-width="1.4"></path>
     <path d="M0,250 L90,215 L170,245 L260,190 L340,235 L400,200" fill="none" stroke="#a7b3a0" stroke-width="1.2"></path>
@@ -595,30 +596,25 @@ function mym_register_block_patterns() {
 <!-- /wp:html -->',
 	) );
 
-	/* ---- Karte (nur Karte) ---- */
-	register_block_pattern( 'mym-hochzeit/karte', array(
-		'title'       => 'Karte',
-		'categories'  => array( 'mym-hochzeit' ),
-		'description' => 'Eingebettete Karte (OpenStreetMap / Google Maps). Die src-URL im iframe ersetzen.',
-		'content'     => '<!-- wp:html -->
-<div class="mym-map">
-  <iframe src="KARTEN-URL" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Karte"></iframe>
-</div>
-<!-- /wp:html -->',
-	) );
-
 	/* ---- Karte mit Text (zwei Spalten) ---- */
 	register_block_pattern( 'mym-hochzeit/karte-mit-text', array(
 		'title'       => 'Karte mit Text',
 		'categories'  => array( 'mym-hochzeit' ),
-		'description' => 'Zwei Spalten: links Text / Anreisebeschreibung, rechts eingebettete Karte.',
+		'description' => 'Zwei Spalten: links Text / Anreisebeschreibung, rechts Karte. Platzhalter erscheint solange src="" ist — URL eintragen und die echte Karte erscheint.',
 		'content'     => '<!-- wp:html -->
 <div class="mym-travel-grid">
   <div>
     <p>Beschreibung des Veranstaltungsorts und Anfahrtshinweise...</p>
   </div>
   <div class="mym-map">
-    <iframe src="KARTEN-URL" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Karte"></iframe>
+    <iframe src="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Karte"></iframe>
+    <svg viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,210 L70,160 L140,200 L220,130 L300,185 L400,120" fill="none" stroke="#7d9080" stroke-width="1.4"></path>
+      <path d="M0,250 L90,215 L170,245 L260,190 L340,235 L400,200" fill="none" stroke="#a7b3a0" stroke-width="1.2"></path>
+      <path d="M40,40 C120,20 160,90 260,60 C320,42 360,70 390,55" fill="none" stroke="#b7c0ad" stroke-width="1" stroke-dasharray="3 5"></path>
+    </svg>
+    <div class="center"><div class="pin"></div><span class="label">Veranstaltungsort</span></div>
+    <span class="mapnote">Karte folgt</span>
   </div>
 </div>
 <!-- /wp:html -->',

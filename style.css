@@ -161,6 +161,9 @@ input,select,button,textarea{font-family:inherit}
 .mym-map .center{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);text-align:center}
 .mym-map .label{font-family:var(--serif);font-size:24px;color:var(--mym-forest)}
 .mym-map .mapnote{position:absolute;bottom:10px;right:12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7d8c80}
+/* iframe[src=""] → iframe versteckt, SVG-Platzhalter sichtbar; bei echter URL umgekehrt */
+.mym-map iframe[src=""]{display:none}
+.mym-map iframe:not([src=""])~svg,.mym-map iframe:not([src=""])~.center,.mym-map iframe:not([src=""])~.mapnote{display:none}
 
 /* STAY + BOARD */
 .mym-stay-inner{max-width:1040px;margin:0 auto}
