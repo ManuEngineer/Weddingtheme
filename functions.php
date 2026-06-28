@@ -577,6 +577,24 @@ function mym_register_block_patterns() {
 <!-- /wp:html -->',
 	) );
 
+	/* ---- Karten-Platzhalter ---- */
+	register_block_pattern( 'mym-hochzeit/karte-platzhalter', array(
+		'title'       => 'Karten-Platzhalter',
+		'categories'  => array( 'mym-hochzeit' ),
+		'description' => 'Stilisierter Platzhalter mit "Karte folgt"-Hinweis — solange der Veranstaltungsort noch nicht feststeht. Einfach später durch das Muster "Karte" ersetzen.',
+		'content'     => '<!-- wp:html -->
+<div class="mym-map">
+  <svg viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,210 L70,160 L140,200 L220,130 L300,185 L400,120" fill="none" stroke="#7d9080" stroke-width="1.4"></path>
+    <path d="M0,250 L90,215 L170,245 L260,190 L340,235 L400,200" fill="none" stroke="#a7b3a0" stroke-width="1.2"></path>
+    <path d="M40,40 C120,20 160,90 260,60 C320,42 360,70 390,55" fill="none" stroke="#b7c0ad" stroke-width="1" stroke-dasharray="3 5"></path>
+  </svg>
+  <div class="center"><div class="pin"></div><span class="label">Veranstaltungsort</span></div>
+  <span class="mapnote">Karte folgt</span>
+</div>
+<!-- /wp:html -->',
+	) );
+
 	/* ---- Karte (nur Karte) ---- */
 	register_block_pattern( 'mym-hochzeit/karte', array(
 		'title'       => 'Karte',
