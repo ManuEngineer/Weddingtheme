@@ -469,7 +469,7 @@ function mym_register_block_patterns() {
 	register_block_pattern( 'mym-hochzeit/geschenke', array(
 		'title'       => 'Geschenke / Regalos',
 		'categories'  => array( 'mym-hochzeit' ),
-		'description' => 'Einleitung + drei Karten als Spalten.',
+		'description' => 'Einleitung + drei Geschenk-Karten im Box-Stil.',
 		'content'     => '<!-- wp:paragraph {"className":"is-style-kicker"} -->
 <p class="is-style-kicker">Schenken</p>
 <!-- /wp:paragraph -->
@@ -482,21 +482,25 @@ function mym_register_block_patterns() {
 <p>Eure Anwesenheit ist das schönste Geschenk. Wer uns darüber hinaus etwas schenken möchte, findet hier vielleicht eine Idee:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:columns -->
-<div class="wp-block-columns">
-<!-- wp:column --><div class="wp-block-column">
-<!-- wp:heading {"level":3} --><h3>01 — Idee</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p>Kurzbeschreibung.</p><!-- /wp:paragraph -->
-</div><!-- /wp:column -->
-<!-- wp:column --><div class="wp-block-column">
-<!-- wp:heading {"level":3} --><h3>02 — Idee</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p>Kurzbeschreibung.</p><!-- /wp:paragraph -->
-</div><!-- /wp:column -->
-<!-- wp:column --><div class="wp-block-column">
-<!-- wp:heading {"level":3} --><h3>03 — Idee</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p>Kurzbeschreibung.</p><!-- /wp:paragraph -->
-</div><!-- /wp:column -->
-</div><!-- /wp:columns -->',
+<!-- wp:html -->
+<div class="mym-gifts-grid">
+  <div class="mym-gift">
+    <span class="num">01</span>
+    <h3>Idee</h3>
+    <p>Kurzbeschreibung.</p>
+  </div>
+  <div class="mym-gift">
+    <span class="num">02</span>
+    <h3>Idee</h3>
+    <p>Kurzbeschreibung.</p>
+  </div>
+  <div class="mym-gift">
+    <span class="num">03</span>
+    <h3>Idee</h3>
+    <p>Kurzbeschreibung.</p>
+  </div>
+</div>
+<!-- /wp:html -->',
 	) );
 	/* ---- Übernachtung ---- */
 	register_block_pattern( 'mym-hochzeit/uebernachtung', array(

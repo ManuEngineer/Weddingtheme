@@ -356,6 +356,10 @@ input,select,button,textarea{font-family:inherit}
 .mym-section-content .mym-hotel p{color:var(--mym-muted-soft);font-size:15px!important;margin:0!important}
 .mym-section-content .mym-hotel .link{color:var(--mym-terra);font-size:14px;text-decoration:underline;margin-top:auto}
 @media(max-width:880px){.mym-section-content .mym-hotels{grid-template-columns:1fr}}
+.mym-section-content .mym-gifts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
+.mym-section-content .mym-gift h3{font-family:var(--serif)!important;font-size:25px!important;color:var(--mym-forest);margin:0!important}
+.mym-section-content .mym-gift p{color:var(--mym-muted-soft);font-size:15px!important;margin:0!important}
+@media(max-width:880px){.mym-section-content .mym-gifts-grid{grid-template-columns:1fr}}
 
 /* Travel Legs (Anreise) — Overrides gegen die generischen .mym-section-content h4/p Regeln */
 .mym-section-content .mym-travel-legs{display:flex;flex-direction:column;gap:18px;margin-top:24px}
