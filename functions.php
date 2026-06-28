@@ -570,13 +570,9 @@ function mym_register_block_patterns() {
 <p>Einfach auf den Button klicken, Fotos hochladen und mit allen Gästen teilen.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"left"}} -->
-<div class="wp-block-buttons">
-<!-- wp:button {"className":"mym-gallery-cta"} -->
-<div class="wp-block-button mym-gallery-cta"><a class="wp-block-button__link wp-element-button" href="https://dein-galerie-link.ch">Zur Galerie &amp; Upload →</a></div>
-<!-- /wp:button -->
-</div>
-<!-- /wp:buttons -->',
+<!-- wp:html -->
+<p class="mym-center"><a class="mym-gallery-cta" href="https://dein-galerie-link.ch" target="_blank" rel="noopener">Zur Galerie &amp; Upload →</a></p>
+<!-- /wp:html -->',
 	) );
 }
 add_action( 'init', 'mym_register_block_patterns' );
