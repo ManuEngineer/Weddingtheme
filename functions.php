@@ -596,15 +596,22 @@ function mym_register_block_patterns() {
 <!-- /wp:html -->',
 	) );
 
-	/* ---- Karte mit Text (zwei Spalten) ---- */
+	/* ---- Karte mit Text (zwei Spalten, wie Anreise-Sektion) ---- */
 	register_block_pattern( 'mym-hochzeit/karte-mit-text', array(
 		'title'       => 'Karte mit Text',
 		'categories'  => array( 'mym-hochzeit' ),
-		'description' => 'Zwei Spalten: links Text / Anreisebeschreibung, rechts Karte. Platzhalter erscheint solange src="" ist — URL eintragen und die echte Karte erscheint.',
+		'description' => 'Zwei Spalten: links Kicker, Titel, Text und Anreise-Abschnitte — rechts Karte. Platzhalter erscheint solange src="" ist; URL eintragen und die echte Karte erscheint.',
 		'content'     => '<!-- wp:html -->
 <div class="mym-travel-grid">
   <div>
-    <p>Beschreibung des Veranstaltungsorts und Anfahrtshinweise...</p>
+    <p class="is-style-kicker">Ort &amp; Weg</p>
+    <h2 class="is-style-h2-gross">Ort &amp; Anreise</h2>
+    <p>Beschreibung des Veranstaltungsorts und Anfahrtshinweise.</p>
+    <div class="mym-travel-legs">
+      <div class="mym-leg"><span class="dot"></span><div><h4>Anreise 1</h4><p>Beschreibung.</p></div></div>
+      <div class="mym-leg"><span class="dot"></span><div><h4>Anreise 2</h4><p>Beschreibung.</p></div></div>
+      <div class="mym-leg"><span class="dot"></span><div><h4>Vor Ort</h4><p>Beschreibung.</p></div></div>
+    </div>
   </div>
   <div class="mym-map">
     <iframe src="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Karte"></iframe>
