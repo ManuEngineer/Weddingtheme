@@ -92,17 +92,13 @@ $sect_faq     = mym_section_page( 'faq', 'preguntas' );
 			</div>
 			<h3 class="mym-sub-label"><?php echo esc_html( $c['stay']['hotels_title'] ); ?></h3>
 			<div class="mym-hotels">
-				<?php foreach ( $c['stay']['hotels'] as $i => $h ) :
-					$url = get_theme_mod( 'mym_hotel' . ( $i + 1 ) . '_url', '' ); ?>
+				<?php foreach ( $c['stay']['hotels'] as $h ) : ?>
 					<div class="mym-hotel">
 						<div class="mym-hotel-head">
 							<h4><?php echo esc_html( $h[0] ); ?></h4>
 							<span class="tag"><?php echo esc_html( $h[2] ); ?></span>
 						</div>
 						<p><?php echo esc_html( $h[1] ); ?></p>
-						<?php if ( $url ) : ?>
-							<a class="link" href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Ansehen →', 'mym-hochzeit' ); ?></a>
-						<?php endif; ?>
 					</div>
 				<?php endforeach; ?>
 			</div>

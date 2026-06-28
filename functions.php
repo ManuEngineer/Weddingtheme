@@ -8,7 +8,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'MYM_VERSION', '1.2.0' );
+define( 'MYM_VERSION', '1.2.1' );
 
 /* ============================================================
  * 1) THEME SETUP

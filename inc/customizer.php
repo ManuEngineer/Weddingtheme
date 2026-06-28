@@ -134,20 +134,6 @@ function mym_customize_register( $wp_customize ) {
 		'section' => 'mym_map', 'type' => 'url',
 	) );
 
-	/* ---- Hotels (3 Karten) ---- */
-	$wp_customize->add_section( 'mym_hotels', array(
-		'title' => __( 'Hotels (Links)', 'mym-hochzeit' ), 'panel' => 'mym_panel',
-		'description' => __( 'Optionale Links fuer die drei Hotel-Karten. Texte stammen aus der Sprachdatei.', 'mym-hochzeit' ),
-	) );
-	for ( $i = 1; $i <= 3; $i++ ) {
-		$wp_customize->add_setting( "mym_hotel{$i}_url", array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
-		$wp_customize->add_control( "mym_hotel{$i}_url", array(
-			/* translators: %d hotel number */
-			'label' => sprintf( __( 'Hotel %d — Link', 'mym-hochzeit' ), $i ),
-			'section' => 'mym_hotels', 'type' => 'url',
-		) );
-	}
-
 	/* ---- Boerse ---- */
 	$wp_customize->add_section( 'mym_board', array(
 		'title' => __( 'Unterkunfts-Boerse', 'mym-hochzeit' ), 'panel' => 'mym_panel',
