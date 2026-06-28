@@ -46,6 +46,7 @@ input,select,button,textarea{font-family:inherit}
 .mym-nav{display:flex;align-items:center;gap:clamp(12px,2vw,28px);flex-wrap:wrap;justify-content:center;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#4a463d}
 .mym-nav a{transition:color .2s}
 .mym-nav a:hover{color:var(--mym-terra)}
+.mym-nav li{list-style:none;margin:0;padding:0}
 .mym-lang{display:flex;align-items:center;gap:8px;list-style:none;margin:0;padding:0}
 .mym-lang a,.mym-lang .mym-lang-btn{border:1px solid #c9b78d;background:transparent;color:var(--mym-forest);border-radius:999px;padding:7px 14px;font-size:12px;letter-spacing:.12em;cursor:pointer;transition:all .2s;text-transform:uppercase;display:inline-block}
 .mym-lang a:hover,.mym-lang .mym-lang-btn:hover{background:var(--mym-forest);color:var(--mym-cream);border-color:var(--mym-forest)}
@@ -54,6 +55,7 @@ input,select,button,textarea{font-family:inherit}
 @media(max-width:880px){
   .mym-nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:var(--mym-cream);border-bottom:1px solid var(--mym-border);padding:8px 0}
   .mym-nav.open{display:flex}
+  .mym-nav li{width:100%}
   .mym-nav a{display:block;padding:14px;width:100%;text-align:center}
   .mym-burger{display:block}
 }
