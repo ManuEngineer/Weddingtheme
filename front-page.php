@@ -56,7 +56,6 @@ function mym_photo( $url, $alt = '' ) {
 endif;
 
 /* ---------- Sektionen aus Menü ---------- */
-$map_embed   = get_theme_mod( 'mym_map_embed', '' );
 $menu_locs   = get_nav_menu_locations();
 $raw_items   = array();
 if ( ! empty( $menu_locs['primary'] ) ) {
@@ -158,15 +157,12 @@ $cd_note   = mym_s( 'mym_hero_dates_note', 'Save one of these dates:' );
 			'index'      => $sect_index,
 			'bg'         => $bg,
 			'section_id' => $page->post_name,
-			'map_embed'  => $map_embed,
 		);
 
 		if ( $template === 'page-board.php' ) {
 			get_template_part( 'template-parts/section', 'board', $tpl_args );
 		} elseif ( $template === 'page-gallery.php' ) {
 			get_template_part( 'template-parts/section', 'gallery', $tpl_args );
-		} elseif ( $template === 'page-map.php' ) {
-			get_template_part( 'template-parts/section', 'map', $tpl_args );
 		} else {
 			get_template_part( 'template-parts/section', 'default', $tpl_args );
 		}

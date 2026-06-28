@@ -12,7 +12,7 @@ function mym_customize_register( $wp_customize ) {
 
 	$wp_customize->add_panel( 'mym_panel', array(
 		'title'       => __( 'Hochzeit: Einstellungen', 'mym-hochzeit' ),
-		'description' => __( 'Datum, Karte, Galerie-Link und Grundeinstellungen anpassen.', 'mym-hochzeit' ),
+		'description' => __( 'Datum, Namen, Fotos und Grundeinstellungen anpassen. Karte, Galerie-Link usw. werden direkt auf der jeweiligen Seite als Block eingefügt.', 'mym-hochzeit' ),
 		'priority'    => 5,
 	) );
 
@@ -99,17 +99,6 @@ function mym_customize_register( $wp_customize ) {
 		'description' => __( 'Wird bei den Startbild-Varianten "Editorial" und "Bogen" verwendet.', 'mym-hochzeit' ),
 		'section'     => 'mym_photos',
 	) ) );
-
-	/* ---- Karte / Anreise ---- */
-	$wp_customize->add_section( 'mym_map', array(
-		'title' => __( 'Karte & Ort', 'mym-hochzeit' ), 'panel' => 'mym_panel',
-	) );
-	$wp_customize->add_setting( 'mym_map_embed', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
-	$wp_customize->add_control( 'mym_map_embed', array(
-		'label' => __( 'Karten-Embed-URL (OpenStreetMap/Google "src")', 'mym-hochzeit' ),
-		'description' => __( 'Nur die src-URL des iframes einfuegen. Leer = stilisierte Platzhalter-Karte.', 'mym-hochzeit' ),
-		'section' => 'mym_map', 'type' => 'url',
-	) );
 
 	/* ---- Boerse ---- */
 	$wp_customize->add_section( 'mym_board', array(

@@ -206,12 +206,10 @@ add_filter( 'wp_nav_menu_objects', function ( $items, $args ) {
  * Bestimmt den Sektionstyp auf der Startseite:
  *   page-board.php   → Unterkunftsbörse (Seiteninhalt + Formular)
  *   page-gallery.php → Galerie (Seiteninhalt + CTA-Button)
- *   page-map.php     → Anreise (Seiteninhalt + Karten-Embed)
  * ========================================================== */
 add_filter( 'theme_page_templates', function ( $templates ) {
 	$templates['page-board.php']   = __( 'Unterkunftsbörse', 'mym-hochzeit' );
 	$templates['page-gallery.php'] = __( 'Foto-Galerie', 'mym-hochzeit' );
-	$templates['page-map.php']     = __( 'Anreise & Karte', 'mym-hochzeit' );
 	return $templates;
 } );
 
@@ -576,6 +574,45 @@ function mym_register_block_patterns() {
 
 <!-- wp:html -->
 <p class="mym-center"><a class="mym-gallery-cta" href="https://dein-galerie-link.ch" target="_blank" rel="noopener">Zur Galerie &amp; Upload →</a></p>
+<!-- /wp:html -->',
+	) );
+
+	/* ---- Karte (nur Karte) ---- */
+	register_block_pattern( 'mym-hochzeit/karte', array(
+		'title'       => 'Karte',
+		'categories'  => array( 'mym-hochzeit' ),
+		'description' => 'Eingebettete Karte (OpenStreetMap / Google Maps). Die src-URL im iframe ersetzen.',
+		'content'     => '<!-- wp:html -->
+<div class="mym-map">
+  <iframe src="KARTEN-URL" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Karte"></iframe>
+</div>
+<!-- /wp:html -->',
+	) );
+
+	/* ---- Karte mit Text (zwei Spalten) ---- */
+	register_block_pattern( 'mym-hochzeit/karte-mit-text', array(
+		'title'       => 'Karte mit Text',
+		'categories'  => array( 'mym-hochzeit' ),
+		'description' => 'Zwei Spalten: links Text / Anreisebeschreibung, rechts eingebettete Karte.',
+		'content'     => '<!-- wp:html -->
+<div class="mym-travel-grid">
+  <div>
+    <p>Beschreibung des Veranstaltungsorts und Anfahrtshinweise...</p>
+  </div>
+  <div class="mym-map">
+    <iframe src="KARTEN-URL" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Karte"></iframe>
+  </div>
+</div>
+<!-- /wp:html -->',
+	) );
+
+	/* ---- CTA-Button ---- */
+	register_block_pattern( 'mym-hochzeit/cta-button', array(
+		'title'       => 'CTA-Button',
+		'categories'  => array( 'mym-hochzeit' ),
+		'description' => 'Zentrierter Button im Theme-Stil (z. B. für Galerie, Formular, externe Links). Link und Text anpassen.',
+		'content'     => '<!-- wp:html -->
+<p class="mym-center"><a class="mym-gallery-cta" href="https://dein-link.ch" target="_blank" rel="noopener">Button-Text →</a></p>
 <!-- /wp:html -->',
 	) );
 }
