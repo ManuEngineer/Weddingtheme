@@ -55,14 +55,21 @@ function mym_customize_register( $wp_customize ) {
 
 	$wp_customize->add_setting( 'mym_wedding_date', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field', 'transport' => 'refresh' ) );
 	$wp_customize->add_control( 'mym_wedding_date', array(
-		'label' => __( 'Hochzeitsdatum (fuer Countdown)', 'mym-hochzeit' ),
-		'description' => __( 'Format JJJJ-MM-TT', 'mym-hochzeit' ),
-		'section' => 'mym_general', 'type' => 'date',
+		'label'       => __( 'Hochzeitsdatum', 'mym-hochzeit' ),
+		'description' => __( 'Format JJJJ-MM-TT. Erscheint vollständig im Startbild (z.B. „18. September 2027") und steuert den Countdown.', 'mym-hochzeit' ),
+		'section'     => 'mym_general', 'type' => 'date',
 	) );
 
 	$wp_customize->add_setting( 'mym_wedding_time', array( 'default' => '11:00', 'sanitize_callback' => 'sanitize_text_field' ) );
 	$wp_customize->add_control( 'mym_wedding_time', array(
 		'label' => __( 'Uhrzeit (HH:MM)', 'mym-hochzeit' ), 'section' => 'mym_general', 'type' => 'time',
+	) );
+
+	$wp_customize->add_setting( 'mym_countdown_enabled', array( 'default' => true, 'sanitize_callback' => 'mym_sanitize_bool' ) );
+	$wp_customize->add_control( 'mym_countdown_enabled', array(
+		'label'       => __( 'Countdown anzeigen', 'mym-hochzeit' ),
+		'description' => __( 'Ausschalten sobald der Countdown nicht mehr gebraucht wird — das Datum bleibt weiterhin im Startbild sichtbar.', 'mym-hochzeit' ),
+		'section'     => 'mym_general', 'type' => 'checkbox',
 	) );
 
 	$wp_customize->add_setting( 'mym_hero_variant', array( 'default' => 'horizont', 'sanitize_callback' => 'mym_sanitize_variant' ) );

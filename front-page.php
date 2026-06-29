@@ -34,8 +34,9 @@ $conn       = mym_opt( 'mym_connector', '&' ) ?: '&';
 $place      = mym_opt( 'mym_place', '' );
 $couple_alt = trim( $couple['a'] . ' ' . $conn . ' ' . $couple['b'], " $conn" );
 
-$ts        = strtotime( $wedding_date );
-$hero_when = $ts ? ( date_i18n( 'F', $ts ) . ' ' . date_i18n( 'Y', $ts ) ) : '';
+$ts             = strtotime( $wedding_date );
+$hero_when      = $ts ? date_i18n( 'j. F Y', $ts ) : '';
+$show_countdown = get_theme_mod( 'mym_countdown_enabled', true );
 
 $lang = mym_current_lang();
 $day_names_map = array(
@@ -115,6 +116,7 @@ $cd_note   = mym_s( 'mym_hero_dates_note', 'Save one of these dates:' );
 </section>
 
 <!-- ============ COUNTDOWN ============ -->
+<?php if ( $show_countdown ) : ?>
 <section class="mym-section--pad-sm mym-bg-cream mym-center">
 	<div class="mym-cd-label"><?php echo esc_html( $cd_save ); ?></div>
 	<div class="mym-cd-sub"><?php echo esc_html( $cd_until ); ?></div>
@@ -139,6 +141,7 @@ $cd_note   = mym_s( 'mym_hero_dates_note', 'Save one of these dates:' );
 	</div>
 	<?php endif; ?>
 </section>
+<?php endif; ?>
 
 <!-- ============ SEKTIONEN (aus primärem Menü) ============ -->
 <?php if ( ! empty( $section_items ) ) : ?>
