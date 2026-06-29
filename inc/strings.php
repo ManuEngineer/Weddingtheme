@@ -151,9 +151,12 @@ function mym_register_ui_strings() {
 		pll_register_string( $s[0], $s[1], 'mym-hochzeit' );
 	}
 
-	/* Customizer-Werte als übersetzbare Strings registrieren */
-	$conn = get_theme_mod( 'mym_connector', '' );
-	if ( $conn !== '' ) { pll_register_string( 'mym_connector', $conn, 'mym-hochzeit' ); }
+	/* Customizer-Werte als übersetzbare Strings registrieren.
+	 * Connector: immer registrieren — '&' als Quelle wenn Customizer leer,
+	 * damit er auch ohne Eintrag in Polylang → String-Übersetzungen erscheint. */
+	$conn     = get_theme_mod( 'mym_connector', '' );
+	$conn_src = ( $conn !== '' ) ? $conn : '&';
+	pll_register_string( 'mym_connector', $conn_src, 'mym-hochzeit' );
 	$place = get_theme_mod( 'mym_place', '' );
 	if ( $place !== '' ) { pll_register_string( 'mym_place', $place, 'mym-hochzeit' ); }
 }

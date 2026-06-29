@@ -69,11 +69,14 @@ add_action( 'wp_head', 'mym_favicon' );
  */
 function mym_opt( $key, $default = '' ) {
 	$val = get_theme_mod( $key, $default );
-	if ( function_exists( 'pll__' ) && is_string( $val ) && $val !== '' ) {
-		$translated = pll__( $val );
-		if ( $translated ) { $val = $translated; }
+	/* Wenn Customizer-Wert leer ist, Default als Polylang-Quelle verwenden —
+	 * so kann z.B. mym_connector leer bleiben und trotzdem per Sprache übersetzt werden. */
+	$src = ( $val !== '' ) ? $val : $default;
+	if ( function_exists( 'pll__' ) && is_string( $src ) && $src !== '' ) {
+		$translated = pll__( $src );
+		if ( $translated && $translated !== $src ) { return $translated; }
 	}
-	return $val;
+	return $src;
 }
 
 /* ============================================================
