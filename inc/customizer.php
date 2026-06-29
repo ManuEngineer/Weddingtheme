@@ -65,6 +65,13 @@ function mym_customize_register( $wp_customize ) {
 		'label' => __( 'Uhrzeit (HH:MM)', 'mym-hochzeit' ), 'section' => 'mym_general', 'type' => 'time',
 	) );
 
+	$wp_customize->add_setting( 'mym_date_exact', array( 'default' => false, 'sanitize_callback' => 'mym_sanitize_bool' ) );
+	$wp_customize->add_control( 'mym_date_exact', array(
+		'label'       => __( 'Genaues Datum im Startbild anzeigen', 'mym-hochzeit' ),
+		'description' => __( 'Einschalten sobald Tag, Monat und Jahr feststehen. Vorher: nur „September 2027". Nachher: „18. September 2027".', 'mym-hochzeit' ),
+		'section'     => 'mym_general', 'type' => 'checkbox',
+	) );
+
 	$wp_customize->add_setting( 'mym_countdown_enabled', array( 'default' => true, 'sanitize_callback' => 'mym_sanitize_bool' ) );
 	$wp_customize->add_control( 'mym_countdown_enabled', array(
 		'label'       => __( 'Countdown anzeigen', 'mym-hochzeit' ),

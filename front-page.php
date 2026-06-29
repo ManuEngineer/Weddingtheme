@@ -35,7 +35,8 @@ $place      = mym_opt( 'mym_place', '' );
 $couple_alt = trim( $couple['a'] . ' ' . $conn . ' ' . $couple['b'], " $conn" );
 
 $ts             = strtotime( $wedding_date );
-$hero_when      = $ts ? date_i18n( 'j. F Y', $ts ) : '';
+$exact_date     = get_theme_mod( 'mym_date_exact', false );
+$hero_when      = $ts ? ( $exact_date ? date_i18n( 'j. F Y', $ts ) : date_i18n( 'F Y', $ts ) ) : '';
 $show_countdown = get_theme_mod( 'mym_countdown_enabled', true );
 
 $lang = mym_current_lang();
