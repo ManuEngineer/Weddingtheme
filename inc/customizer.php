@@ -89,6 +89,38 @@ function mym_customize_register( $wp_customize ) {
 		),
 	) );
 
+	$wp_customize->add_setting( 'mym_hero_mtn_shift_desktop', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_shift_desktop', array(
+		'label'       => __( 'Bergketten (Desktop): Zentrum verschieben', 'mym-hochzeit' ),
+		'description' => __( 'Nur bei Startbild-Variante "Horizont", ab 881px Breite. Positiv = mehr von der rechten Seite sichtbar, negativ = mehr von der linken Seite.', 'mym-hochzeit' ),
+		'section'     => 'mym_general', 'type' => 'range',
+		'input_attrs' => array( 'min' => -20, 'max' => 20, 'step' => 1 ),
+	) );
+
+	$wp_customize->add_setting( 'mym_hero_mtn_scale_desktop', array( 'default' => 100, 'sanitize_callback' => 'mym_sanitize_mtn_scale', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_scale_desktop', array(
+		'label'       => __( 'Bergketten (Desktop): Höhe (%)', 'mym-hochzeit' ),
+		'description' => __( 'Ab 881px Breite. Skaliert Höhe und Breite der Bergkette gemeinsam. 100% = Standard.', 'mym-hochzeit' ),
+		'section'     => 'mym_general', 'type' => 'range',
+		'input_attrs' => array( 'min' => 60, 'max' => 150, 'step' => 5 ),
+	) );
+
+	$wp_customize->add_setting( 'mym_hero_mtn_shift_mobile', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_shift_mobile', array(
+		'label'       => __( 'Bergketten (Mobil): Zentrum verschieben', 'mym-hochzeit' ),
+		'description' => __( 'Nur bei Startbild-Variante "Horizont", bis 880px Breite (Handy/Tablet). Positiv = mehr von der rechten Seite sichtbar, negativ = mehr von der linken Seite.', 'mym-hochzeit' ),
+		'section'     => 'mym_general', 'type' => 'range',
+		'input_attrs' => array( 'min' => -20, 'max' => 20, 'step' => 1 ),
+	) );
+
+	$wp_customize->add_setting( 'mym_hero_mtn_scale_mobile', array( 'default' => 100, 'sanitize_callback' => 'mym_sanitize_mtn_scale', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_scale_mobile', array(
+		'label'       => __( 'Bergketten (Mobil): Höhe (%)', 'mym-hochzeit' ),
+		'description' => __( 'Bis 880px Breite (Handy/Tablet). Skaliert Höhe und Breite der Bergkette gemeinsam. 100% = Standard.', 'mym-hochzeit' ),
+		'section'     => 'mym_general', 'type' => 'range',
+		'input_attrs' => array( 'min' => 60, 'max' => 150, 'step' => 5 ),
+	) );
+
 	$wp_customize->add_setting( 'mym_dates_visible', array( 'default' => true, 'sanitize_callback' => 'mym_sanitize_bool' ) );
 	$wp_customize->add_control( 'mym_dates_visible', array(
 		'label' => __( 'Datums-Auswahl (3 Samstage) anzeigen', 'mym-hochzeit' ),
@@ -142,3 +174,5 @@ function mym_sanitize_variant( $v ) {
 	return in_array( $v, array( 'horizont', 'editorial', 'bogen' ), true ) ? $v : 'horizont';
 }
 function mym_sanitize_bool( $v ) { return (bool) $v; }
+function mym_sanitize_mtn_shift( $v ) { return max( -20, min( 20, (int) $v ) ); }
+function mym_sanitize_mtn_scale( $v ) { return max( 60, min( 150, (int) $v ) ); }

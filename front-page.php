@@ -85,10 +85,7 @@ $cd_note   = mym_s( 'mym_hero_dates_note', 'Save one of these dates:' );
 			<div class="mym-hero-rule"><span class="line"></span><span class="mym-hero-date"><?php echo esc_html( $hero_when ); ?></span><span class="line"></span></div>
 			<div class="mym-hero-place"><?php echo esc_html( $place ); ?></div>
 		</div>
-		<svg class="mym-hero-mountains" viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true">
-			<path d="M0,300 L0,150 L130,80 L220,160 L330,60 L450,160 L580,95 L700,175 L840,70 L980,155 L1090,105 L1200,165 L1200,300 Z" fill="#6e4632" opacity="0.55"></path>
-			<path d="M0,300 L0,215 L160,150 L300,225 L430,140 L580,215 L720,150 L880,225 L1010,160 L1150,225 L1200,205 L1200,300 Z" fill="#202c25"></path>
-		</svg>
+		<?php include get_template_directory() . '/assets/svg/hero-mountains.svg'; ?>
 	</div>
 
 	<!-- Editorial -->

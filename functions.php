@@ -35,6 +35,15 @@ function mym_assets() {
 	wp_enqueue_style( 'mym-fonts', 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap', array(), null );
 	wp_enqueue_style( 'mym-style', get_stylesheet_uri(), array( 'mym-fonts' ), MYM_VERSION );
 
+	$mtn_shift_d = mym_sanitize_mtn_shift( mym_opt( 'mym_hero_mtn_shift_desktop', 0 ) );
+	$mtn_scale_d = mym_sanitize_mtn_scale( mym_opt( 'mym_hero_mtn_scale_desktop', 100 ) ) / 100;
+	$mtn_shift_m = mym_sanitize_mtn_shift( mym_opt( 'mym_hero_mtn_shift_mobile', 0 ) );
+	$mtn_scale_m = mym_sanitize_mtn_scale( mym_opt( 'mym_hero_mtn_scale_mobile', 100 ) ) / 100;
+	wp_add_inline_style( 'mym-style',
+		":root{--mym-mtn-shift:{$mtn_shift_d}%;--mym-mtn-scale:{$mtn_scale_d}}" .
+		"@media(max-width:880px){:root{--mym-mtn-shift:{$mtn_shift_m}%;--mym-mtn-scale:{$mtn_scale_m}}}"
+	);
+
 	wp_enqueue_script( 'mym-script', get_template_directory_uri() . '/assets/js/main.js', array(), MYM_VERSION, true );
 	wp_localize_script( 'mym-script', 'MYM', array(
 		'ajaxUrl'     => admin_url( 'admin-ajax.php' ),
