@@ -35,21 +35,26 @@ function mym_assets() {
 	wp_enqueue_style( 'mym-fonts', 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap', array(), null );
 	wp_enqueue_style( 'mym-style', get_stylesheet_uri(), array( 'mym-fonts' ), MYM_VERSION );
 
-	/* Bergketten-Regler: Prozent-Eingabe aus dem Customizer -> viewBox-Einheiten (viewBox ist 4197 breit). */
-	$mtn_vb_width = 4197;
-	$mtn_pct_to_px = function ( $key, $default = 0 ) use ( $mtn_vb_width ) {
+	/* Bergketten-Regler: Prozent-Eingabe aus dem Customizer -> viewBox-Einheiten (viewBox ist 4197 x 300). */
+	$mtn_vb_width  = 4197;
+	$mtn_vb_height = 300;
+	$mtn_pct_to_px = function ( $key, $axis_size, $default = 0 ) {
 		$pct = mym_sanitize_mtn_shift( mym_opt( $key, $default ) );
-		return round( $pct / 100 * $mtn_vb_width, 1 );
+		return round( $pct / 100 * $axis_size, 1 );
 	};
-	$shift_schweiz_d = $mtn_pct_to_px( 'mym_hero_mtn_shift_schweiz_desktop' );
-	$shift_chile_d   = $mtn_pct_to_px( 'mym_hero_mtn_shift_chile_desktop' );
-	$shift_schweiz_m = $mtn_pct_to_px( 'mym_hero_mtn_shift_schweiz_mobile' );
-	$shift_chile_m   = $mtn_pct_to_px( 'mym_hero_mtn_shift_chile_mobile' );
+	$shift_schweiz_d   = $mtn_pct_to_px( 'mym_hero_mtn_shift_schweiz_desktop', $mtn_vb_width );
+	$shift_chile_d     = $mtn_pct_to_px( 'mym_hero_mtn_shift_chile_desktop', $mtn_vb_width );
+	$shift_schweiz_m   = $mtn_pct_to_px( 'mym_hero_mtn_shift_schweiz_mobile', $mtn_vb_width );
+	$shift_chile_m     = $mtn_pct_to_px( 'mym_hero_mtn_shift_chile_mobile', $mtn_vb_width );
+	$shift_schweiz_d_y = $mtn_pct_to_px( 'mym_hero_mtn_shift_schweiz_desktop_y', $mtn_vb_height );
+	$shift_chile_d_y   = $mtn_pct_to_px( 'mym_hero_mtn_shift_chile_desktop_y', $mtn_vb_height );
+	$shift_schweiz_m_y = $mtn_pct_to_px( 'mym_hero_mtn_shift_schweiz_mobile_y', $mtn_vb_height );
+	$shift_chile_m_y   = $mtn_pct_to_px( 'mym_hero_mtn_shift_chile_mobile_y', $mtn_vb_height );
 	$mtn_scale_d = mym_sanitize_mtn_scale( mym_opt( 'mym_hero_mtn_scale_desktop', 100 ) ) / 100;
 	$mtn_scale_m = mym_sanitize_mtn_scale( mym_opt( 'mym_hero_mtn_scale_mobile', 100 ) ) / 100;
 	wp_add_inline_style( 'mym-style',
-		":root{--mym-mtn-shift-schweiz:{$shift_schweiz_d}px;--mym-mtn-shift-chile:{$shift_chile_d}px;--mym-mtn-scale:{$mtn_scale_d}}" .
-		"@media(max-width:880px){:root{--mym-mtn-shift-schweiz:{$shift_schweiz_m}px;--mym-mtn-shift-chile:{$shift_chile_m}px;--mym-mtn-scale:{$mtn_scale_m}}}"
+		":root{--mym-mtn-shift-schweiz:{$shift_schweiz_d}px;--mym-mtn-shift-schweiz-y:{$shift_schweiz_d_y}px;--mym-mtn-shift-chile:{$shift_chile_d}px;--mym-mtn-shift-chile-y:{$shift_chile_d_y}px;--mym-mtn-scale:{$mtn_scale_d}}" .
+		"@media(max-width:880px){:root{--mym-mtn-shift-schweiz:{$shift_schweiz_m}px;--mym-mtn-shift-schweiz-y:{$shift_schweiz_m_y}px;--mym-mtn-shift-chile:{$shift_chile_m}px;--mym-mtn-shift-chile-y:{$shift_chile_m_y}px;--mym-mtn-scale:{$mtn_scale_m}}}"
 	);
 
 	wp_enqueue_script( 'mym-script', get_template_directory_uri() . '/assets/js/main.js', array(), MYM_VERSION, true );

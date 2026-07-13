@@ -105,6 +105,22 @@ function mym_customize_register( $wp_customize ) {
 		'input_attrs' => array( 'min' => -20, 'max' => 20, 'step' => 1 ),
 	) );
 
+	$wp_customize->add_setting( 'mym_hero_mtn_shift_schweiz_desktop_y', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_shift_schweiz_desktop_y', array(
+		'label'       => __( 'Bergkette Schweiz (Desktop): Höhenlage', 'mym-hochzeit' ),
+		'description' => __( 'Nur bei Startbild-Variante "Horizont", ab 881px Breite. Verschiebt die Schweizer Kette relativ zur chilenischen nach oben (negativ) oder unten (positiv).', 'mym-hochzeit' ),
+		'section'     => 'mym_general', 'type' => 'range',
+		'input_attrs' => array( 'min' => -15, 'max' => 15, 'step' => 1 ),
+	) );
+
+	$wp_customize->add_setting( 'mym_hero_mtn_shift_chile_desktop_y', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_shift_chile_desktop_y', array(
+		'label'       => __( 'Bergkette Chile (Desktop): Höhenlage', 'mym-hochzeit' ),
+		'description' => __( 'Nur bei Startbild-Variante "Horizont", ab 881px Breite. Verschiebt die chilenische Kette relativ zur schweizerischen nach oben (negativ) oder unten (positiv).', 'mym-hochzeit' ),
+		'section'     => 'mym_general', 'type' => 'range',
+		'input_attrs' => array( 'min' => -15, 'max' => 15, 'step' => 1 ),
+	) );
+
 	$wp_customize->add_setting( 'mym_hero_mtn_scale_desktop', array( 'default' => 100, 'sanitize_callback' => 'mym_sanitize_mtn_scale', 'transport' => 'refresh' ) );
 	$wp_customize->add_control( 'mym_hero_mtn_scale_desktop', array(
 		'label'       => __( 'Bergketten (Desktop): Höhe (%)', 'mym-hochzeit' ),
@@ -127,6 +143,22 @@ function mym_customize_register( $wp_customize ) {
 		'description' => __( 'Nur bei Startbild-Variante "Horizont", bis 880px Breite (Handy/Tablet). Positiv = Kette nach rechts, negativ = nach links. Achtung: nach links ist kaum Spielraum vorhanden.', 'mym-hochzeit' ),
 		'section'     => 'mym_general', 'type' => 'range',
 		'input_attrs' => array( 'min' => -20, 'max' => 20, 'step' => 1 ),
+	) );
+
+	$wp_customize->add_setting( 'mym_hero_mtn_shift_schweiz_mobile_y', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_shift_schweiz_mobile_y', array(
+		'label'       => __( 'Bergkette Schweiz (Mobil): Höhenlage', 'mym-hochzeit' ),
+		'description' => __( 'Nur bei Startbild-Variante "Horizont", bis 880px Breite (Handy/Tablet). Verschiebt die Schweizer Kette relativ zur chilenischen nach oben (negativ) oder unten (positiv).', 'mym-hochzeit' ),
+		'section'     => 'mym_general', 'type' => 'range',
+		'input_attrs' => array( 'min' => -15, 'max' => 15, 'step' => 1 ),
+	) );
+
+	$wp_customize->add_setting( 'mym_hero_mtn_shift_chile_mobile_y', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_shift_chile_mobile_y', array(
+		'label'       => __( 'Bergkette Chile (Mobil): Höhenlage', 'mym-hochzeit' ),
+		'description' => __( 'Nur bei Startbild-Variante "Horizont", bis 880px Breite (Handy/Tablet). Verschiebt die chilenische Kette relativ zur schweizerischen nach oben (negativ) oder unten (positiv).', 'mym-hochzeit' ),
+		'section'     => 'mym_general', 'type' => 'range',
+		'input_attrs' => array( 'min' => -15, 'max' => 15, 'step' => 1 ),
 	) );
 
 	$wp_customize->add_setting( 'mym_hero_mtn_scale_mobile', array( 'default' => 100, 'sanitize_callback' => 'mym_sanitize_mtn_scale', 'transport' => 'refresh' ) );
