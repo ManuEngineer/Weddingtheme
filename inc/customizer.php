@@ -89,18 +89,18 @@ function mym_customize_register( $wp_customize ) {
 		),
 	) );
 
-	$wp_customize->add_setting( 'mym_hero_mtn_shift_schweiz_desktop', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
+	$wp_customize->add_setting( 'mym_hero_mtn_shift_schweiz_desktop', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift_schweiz_h', 'transport' => 'refresh' ) );
 	$wp_customize->add_control( 'mym_hero_mtn_shift_schweiz_desktop', array(
 		'label'       => __( 'Bergkette Schweiz (Desktop): verschieben', 'mym-hochzeit' ),
-		'description' => __( 'Nur bei Startbild-Variante "Horizont", ab 881px Breite. Positiv = Kette nach rechts, negativ = nach links. Nach links ist etwas mehr Spielraum als nach rechts.', 'mym-hochzeit' ),
+		'description' => __( 'Nur bei Startbild-Variante "Horizont", ab 881px Breite. Negativ = Kette nach links. Nach rechts ist praktisch kein Spielraum vorhanden (Originalpanorama endet dort), deshalb ist dort bei 0 Schluss.', 'mym-hochzeit' ),
 		'section'     => 'mym_general', 'type' => 'range',
-		'input_attrs' => array( 'min' => -20, 'max' => 20, 'step' => 1 ),
+		'input_attrs' => array( 'min' => -20, 'max' => 0, 'step' => 1 ),
 	) );
 
 	$wp_customize->add_setting( 'mym_hero_mtn_shift_chile_desktop', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
 	$wp_customize->add_control( 'mym_hero_mtn_shift_chile_desktop', array(
 		'label'       => __( 'Bergkette Chile (Desktop): verschieben', 'mym-hochzeit' ),
-		'description' => __( 'Nur bei Startbild-Variante "Horizont", ab 881px Breite. Positiv = Kette nach rechts, negativ = nach links. Achtung: nach links ist kaum Spielraum vorhanden (Originalbild endet dort) — bei zu grossen negativen Werten wird eine leere Fläche sichtbar.', 'mym-hochzeit' ),
+		'description' => __( 'Nur bei Startbild-Variante "Horizont", ab 881px Breite. Positiv = Kette nach rechts, negativ = nach links.', 'mym-hochzeit' ),
 		'section'     => 'mym_general', 'type' => 'range',
 		'input_attrs' => array( 'min' => -20, 'max' => 20, 'step' => 1 ),
 	) );
@@ -129,18 +129,18 @@ function mym_customize_register( $wp_customize ) {
 		'input_attrs' => array( 'min' => 60, 'max' => 150, 'step' => 5 ),
 	) );
 
-	$wp_customize->add_setting( 'mym_hero_mtn_shift_schweiz_mobile', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
+	$wp_customize->add_setting( 'mym_hero_mtn_shift_schweiz_mobile', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift_schweiz_h', 'transport' => 'refresh' ) );
 	$wp_customize->add_control( 'mym_hero_mtn_shift_schweiz_mobile', array(
 		'label'       => __( 'Bergkette Schweiz (Mobil): verschieben', 'mym-hochzeit' ),
-		'description' => __( 'Nur bei Startbild-Variante "Horizont", bis 880px Breite (Handy/Tablet). Positiv = Kette nach rechts, negativ = nach links. Nach links ist etwas mehr Spielraum als nach rechts.', 'mym-hochzeit' ),
+		'description' => __( 'Nur bei Startbild-Variante "Horizont", bis 880px Breite (Handy/Tablet). Negativ = Kette nach links. Nach rechts ist praktisch kein Spielraum vorhanden (Originalpanorama endet dort), deshalb ist dort bei 0 Schluss.', 'mym-hochzeit' ),
 		'section'     => 'mym_general', 'type' => 'range',
-		'input_attrs' => array( 'min' => -20, 'max' => 20, 'step' => 1 ),
+		'input_attrs' => array( 'min' => -20, 'max' => 0, 'step' => 1 ),
 	) );
 
 	$wp_customize->add_setting( 'mym_hero_mtn_shift_chile_mobile', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
 	$wp_customize->add_control( 'mym_hero_mtn_shift_chile_mobile', array(
 		'label'       => __( 'Bergkette Chile (Mobil): verschieben', 'mym-hochzeit' ),
-		'description' => __( 'Nur bei Startbild-Variante "Horizont", bis 880px Breite (Handy/Tablet). Positiv = Kette nach rechts, negativ = nach links. Achtung: nach links ist kaum Spielraum vorhanden (Originalbild endet dort) — bei zu grossen negativen Werten wird eine leere Fläche sichtbar.', 'mym-hochzeit' ),
+		'description' => __( 'Nur bei Startbild-Variante "Horizont", bis 880px Breite (Handy/Tablet). Positiv = Kette nach rechts, negativ = nach links.', 'mym-hochzeit' ),
 		'section'     => 'mym_general', 'type' => 'range',
 		'input_attrs' => array( 'min' => -20, 'max' => 20, 'step' => 1 ),
 	) );
@@ -223,4 +223,5 @@ function mym_sanitize_variant( $v ) {
 }
 function mym_sanitize_bool( $v ) { return (bool) $v; }
 function mym_sanitize_mtn_shift( $v ) { return max( -20, min( 20, (int) $v ) ); }
+function mym_sanitize_mtn_shift_schweiz_h( $v ) { return max( -20, min( 0, (int) $v ) ); }
 function mym_sanitize_mtn_scale( $v ) { return max( 60, min( 150, (int) $v ) ); }
