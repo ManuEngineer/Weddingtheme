@@ -38,9 +38,9 @@ function mym_assets() {
 	/* Bergketten-Regler: Prozent-Eingabe aus dem Customizer -> viewBox-Einheiten (viewBox ist 4197 x 300). */
 	$mtn_vb_width  = 4197;
 	$mtn_vb_height = 300;
-	$mtn_pct_to_vbu = function ( $key, $axis_size, $default = 0 ) {
+	$mtn_pct_to_vbu = function ( $key, $vb_axis_length, $default = 0 ) {
 		$pct = mym_sanitize_mtn_shift( mym_opt( $key, $default ) );
-		return round( $pct / 100 * $axis_size, 1 );
+		return round( $pct / 100 * $vb_axis_length, 1 );
 	};
 	$shift_schweiz_d   = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_schweiz_desktop', $mtn_vb_width );
 	$shift_chile_d     = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_chile_desktop', $mtn_vb_width );

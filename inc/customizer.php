@@ -132,7 +132,7 @@ function mym_customize_register( $wp_customize ) {
 	$wp_customize->add_setting( 'mym_hero_mtn_shift_schweiz_mobile', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
 	$wp_customize->add_control( 'mym_hero_mtn_shift_schweiz_mobile', array(
 		'label'       => __( 'Bergkette Schweiz (Mobil): verschieben', 'mym-hochzeit' ),
-		'description' => __( 'Nur bei Startbild-Variante "Horizont", bis 880px Breite (Handy/Tablet). Positiv = Kette nach rechts, negativ = nach links.', 'mym-hochzeit' ),
+		'description' => __( 'Nur bei Startbild-Variante "Horizont", bis 880px Breite (Handy/Tablet). Positiv = Kette nach rechts, negativ = nach links. Nach links ist etwas mehr Spielraum als nach rechts.', 'mym-hochzeit' ),
 		'section'     => 'mym_general', 'type' => 'range',
 		'input_attrs' => array( 'min' => -20, 'max' => 20, 'step' => 1 ),
 	) );
