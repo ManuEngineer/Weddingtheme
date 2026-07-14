@@ -2,61 +2,16 @@
 /**
  * Cordillera - Seiten-Sektionen Helper.
  *
- * Jede Sektion (Geschichte, Programm, Anreise …) kann als eigene
- * WordPress-Seite gepflegt werden. Der Inhalt wird dann als HTML
- * ausgegeben (apply_filters 'the_content' — Bloecke, Shortcodes etc.
- * funktionieren). Existiert keine passende Seite, greift der Fallback
- * aus inc/content.php.
- *
- * Slugs (DE → ES):
- *   geschichte   → historia
- *   programm     → programa
- *   anreise      → como-llegar
- *   uebernachtung → alojamiento
- *   galerie      → galeria
- *   geschenke    → regalos
- *   faq          → preguntas   (Polylang uebernimmt die Uebersetzung)
- *
- * Mit Polylang: get_page_by_path() liefert automatisch die
- * sprachrichtige Version — einfach jede Seite in Polylang uebersetzen.
+ * Seit v2.0 (menügesteuerter Onepager) liest front-page.php die Sektionen
+ * direkt aus dem primären Navigationsmenü (jeder Menüpunkt = eine Seite,
+ * das Seiten-Template bestimmt section-default/-board/-gallery.php).
+ * Diese Datei enthält nur noch einen Hilfs-Helper für eigene Erweiterungen
+ * (siehe unten) und den Dashboard-Einrichtungshinweis.
  *
  * @package MyM_Hochzeit
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-
-/**
- * Gibt Titel + HTML-Inhalt einer Sektion-Seite zurueck.
- *
- * @param string      $slug_de  Slug der deutschen Seite.
- * @param string|null $slug_es  Slug der spanischen Seite (optional, Fallback: $slug_de).
- * @return array|null  Array mit 'title','content','edit_url' oder null wenn keine Seite existiert.
- */
-function mym_section_page( $slug_de, $slug_es = null ) {
-	$lang = mym_preview_lang();
-	$slug = ( $lang === 'es' && $slug_es ) ? $slug_es : $slug_de;
-
-	$page = get_page_by_path( $slug );
-
-	/* Wenn Polylang nicht aktiv und ES-Slug anders: DE-Seite als Fallback versuchen */
-	if ( ! $page && $slug !== $slug_de ) {
-		$page = get_page_by_path( $slug_de );
-	}
-
-	if ( ! $page || $page->post_status !== 'publish' ) {
-		return null;
-	}
-
-	$content = apply_filters( 'the_content', $page->post_content );
-
-	return array(
-		'title'    => get_the_title( $page ),
-		'content'  => $content,
-		'edit_url' => current_user_can( 'edit_post', $page->ID )
-			? get_edit_post_link( $page->ID )
-			: '',
-	);
-}
 
 /**
  * Gibt Titel + HTML-Inhalt einer Seite anhand ihrer ID zurück.

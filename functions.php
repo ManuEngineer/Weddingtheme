@@ -209,19 +209,23 @@ require get_template_directory() . '/inc/strings.php';
 
 /* ============================================================
  * 4c) NAVIGATIONS-ANKER-FILTER
- * Konvertiert Seiten-Permalinks im Hauptmenü auf der Startseite
- * zu Intra-Page-Ankern (#slug), damit das Onepager-Scrolling
- * funktioniert. Auf anderen Seiten bleiben echte Permalinks.
+ * Konvertiert Seiten-Permalinks im Hauptmenü zu Onepager-Sprungzielen,
+ * damit das Hauptmenü von JEDER Seite aus einheitlich zur Startseite
+ * mit dem passenden Abschnitt zurückführt (nicht zur einzelnen Seite):
+ * auf der Startseite selbst ein reiner Intra-Page-Anker (#slug), auf
+ * allen anderen Seiten eine absolute URL zur Startseite mit Anker
+ * (home_url('/#slug')).
  * ========================================================== */
 add_filter( 'wp_nav_menu_objects', function ( $items, $args ) {
-	if ( ! is_front_page() || ! isset( $args->theme_location ) || $args->theme_location !== 'primary' ) {
+	if ( ! isset( $args->theme_location ) || $args->theme_location !== 'primary' ) {
 		return $items;
 	}
+	$is_front = is_front_page();
 	foreach ( $items as $item ) {
 		if ( $item->object === 'page' && (int) $item->menu_item_parent === 0 ) {
 			$slug = get_post_field( 'post_name', (int) $item->object_id );
 			if ( $slug ) {
-				$item->url = '#' . $slug;
+				$item->url = $is_front ? ( '#' . $slug ) : home_url( '/#' . $slug );
 			}
 		}
 	}
