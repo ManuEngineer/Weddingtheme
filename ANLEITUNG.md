@@ -38,6 +38,16 @@ Damit der Hochzeits-Onepager als Startseite erscheint:
   - *Hochzeitsdatum* (für den Countdown), Uhrzeit
   - *Startbild-Variante*: Horizont / Editorial / Bogen
   - *Datums-Auswahl anzeigen* — falls das Datum noch offen ist: mehrere mögliche Tage zur Auswahl zeigen (eines pro Zeile, `JJJJ-MM-TT`). Ausschalten, sobald das Datum fix ist.
+- **Startbild „Horizont": Bergketten-Regler** (nur relevant bei dieser Variante)
+  - Je Bergkette (Schweiz / Chile) getrennt für Desktop (ab 881px) und Mobil (bis 880px):
+    - *verschieben* — horizontale Position. Achtung: Die Schweizer Kette hat rechts vom
+      Zentrum kaum noch echte Bilddaten, ihr Regler geht deshalb nur von 0 bis -20% (nach
+      links). Die chilenische Kette darf in beide Richtungen bis ±20%.
+    - *Höhenlage* — verschiebt die Kette relativ zur anderen nach oben/unten (±15%).
+  - *Höhe (%)* — skaliert **beide** Ketten gemeinsam (60-150%). Bewusst kein getrennter
+    Zoom pro Kette, sonst stimmt das Grössenverhältnis zwischen den beiden Bergketten
+    nicht mehr.
+  - Alle Regler wirken sich sofort in der Live-Vorschau des Customizers aus.
 - **Foto-Galerie** — Link zu eurem geteilten Album / Upload
 - **Fotos** — Startbild- und Geschichte-Foto direkt hochladen
 - **Karte & Ort** — Embed-`src`-URL einer OpenStreetMap/Google-Karte. Leer = stilisierte Platzhalter-Karte
