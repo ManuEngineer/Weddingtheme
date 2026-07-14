@@ -113,7 +113,7 @@ input,select,button,textarea{font-family:inherit}
 .mym-bg-forest .mym-h2{color:var(--mym-cream-bright)}
 .mym-center{text-align:center}
 .mym-narrow{max-width:760px;margin-left:auto;margin-right:auto}
-.mym-wrap{max-width:1040px;margin-left:auto;margin-right:auto}
+.mym-wrap{max-width:var(--mym-content-width,1040px);margin-left:auto;margin-right:auto}
 .mym-note{color:var(--mym-muted);font-size:14px;font-style:italic;font-family:var(--serif)}
 .mym-head-block{text-align:center;margin-bottom:48px}
 
@@ -149,7 +149,7 @@ input,select,button,textarea{font-family:inherit}
 .mym-prog-row p{color:var(--mym-muted-soft);font-size:15px;margin-top:4px}
 
 /* TRAVEL */
-.mym-travel-grid{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,5vw,72px);align-items:center}
+.mym-travel-grid{max-width:var(--mym-content-width,1040px);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,5vw,72px);align-items:center}
 .mym-travel-body{margin-top:18px;color:var(--mym-text);font-size:17px;max-width:440px}
 .mym-travel-legs{margin-top:30px;display:flex;flex-direction:column;gap:18px}
 .mym-leg{display:flex;gap:16px;align-items:flex-start}
@@ -168,7 +168,7 @@ input,select,button,textarea{font-family:inherit}
 .mym-map iframe:not([src=""])~svg,.mym-map iframe:not([src=""])~.center,.mym-map iframe:not([src=""])~.mapnote{display:none}
 
 /* STAY + BOARD */
-.mym-stay-inner{max-width:1040px;margin:0 auto}
+.mym-stay-inner{max-width:var(--mym-content-width,1040px);margin:0 auto}
 .mym-sub-label{font-family:var(--sans);font-weight:500;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--mym-forest);margin-bottom:18px}
 .mym-hotels{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .mym-hotel{background:var(--mym-cream-card);border:1px solid var(--mym-border-card);border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:8px}
@@ -299,7 +299,7 @@ input,select,button,textarea{font-family:inherit}
 .mym-footer-nav a{color:#9aa89d;text-decoration:underline}
 
 /* GENERIC WP PAGE */
-.mym-page{max-width:760px;margin:0 auto;padding:clamp(60px,9vw,120px) clamp(24px,6vw,80px)}
+.mym-page{max-width:var(--mym-content-width,1040px);margin:0 auto;padding:clamp(60px,9vw,120px) clamp(24px,6vw,80px)}
 .mym-page h1{font-size:clamp(36px,5vw,60px);color:var(--mym-forest);margin-bottom:24px}
 .mym-page h2{font-size:32px;color:var(--mym-forest);margin:32px 0 12px}
 .mym-page p,.mym-page li{color:#4a463d;font-size:17px;margin-bottom:12px}
@@ -405,7 +405,7 @@ input,select,button,textarea{font-family:inherit}
 .mym-section-content .wp-block-quote p{color:var(--mym-muted-soft);font-size:clamp(18px,2vw,22px)}
 .mym-bg-forest .mym-section-content .wp-block-quote p{color:#cdd6cb}
 /* mym-wrap in Sektionen mit voll-breitem Inhalt */
-.mym-section-content.mym-wrap{max-width:1040px;margin:0 auto}
+.mym-section-content.mym-wrap{max-width:var(--mym-content-width,1040px);margin:0 auto}
 
 /* RESPONSIVE */
 @media(max-width:880px){
