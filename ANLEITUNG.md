@@ -48,6 +48,10 @@ Damit der Hochzeits-Onepager als Startseite erscheint:
     Zoom pro Kette, sonst stimmt das Grössenverhältnis zwischen den beiden Bergketten
     nicht mehr.
   - Alle Regler wirken sich sofort in der Live-Vorschau des Customizers aus.
+- **Seiteninhalt: Breite (px)** — EIN Wert (Standard 1040px, erlaubt 480–1400) für die
+  gesamte Website: Startbild-Sektionen und alle Unterseiten (Anreise, Übernachtung, Galerie,
+  Impressum, Datenschutz usw.) übernehmen ihn einheitlich. Kein Regler, sondern ein Zahlenfeld
+  zum exakten Eintippen.
 - **Foto-Galerie** — Link zu eurem geteilten Album / Upload
 - **Fotos** — Startbild- und Geschichte-Foto direkt hochladen
 - **Karte & Ort** — Embed-`src`-URL einer OpenStreetMap/Google-Karte. Leer = stilisierte Platzhalter-Karte

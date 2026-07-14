@@ -129,6 +129,14 @@ function mym_customize_register( $wp_customize ) {
 		'input_attrs' => array( 'min' => 60, 'max' => 150, 'step' => 5 ),
 	) );
 
+	$wp_customize->add_setting( 'mym_content_width', array( 'default' => 1040, 'sanitize_callback' => 'mym_sanitize_content_width', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_content_width', array(
+		'label'       => __( 'Seiteninhalt: Breite (px)', 'mym-hochzeit' ),
+		'description' => __( 'Gilt einheitlich für die ganze Website: Startbild-Sektionen, alle Unterseiten (Anreise, Übernachtung, Galerie, Impressum, Datenschutz usw.). 1040 = Standard. Erlaubt: 480–1400.', 'mym-hochzeit' ),
+		'section'     => 'mym_general', 'type' => 'number',
+		'input_attrs' => array( 'min' => 480, 'max' => 1400, 'step' => 10 ),
+	) );
+
 	$wp_customize->add_setting( 'mym_hero_mtn_shift_schweiz_mobile', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift_schweiz_h', 'transport' => 'refresh' ) );
 	$wp_customize->add_control( 'mym_hero_mtn_shift_schweiz_mobile', array(
 		'label'       => __( 'Bergkette Schweiz (Mobil): verschieben', 'mym-hochzeit' ),
@@ -225,3 +233,4 @@ function mym_sanitize_bool( $v ) { return (bool) $v; }
 function mym_sanitize_mtn_shift( $v ) { return max( -20, min( 20, (int) $v ) ); }
 function mym_sanitize_mtn_shift_schweiz_h( $v ) { return max( -20, min( 0, (int) $v ) ); }
 function mym_sanitize_mtn_scale( $v ) { return max( 60, min( 150, (int) $v ) ); }
+function mym_sanitize_content_width( $v ) { return max( 480, min( 1400, (int) $v ) ); }
