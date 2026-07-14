@@ -39,9 +39,19 @@ Requirements: WordPress 6.0+, PHP 7.4+, internet access for Google Fonts (Cormor
 
 A bilingual one-pager. Points that span multiple files:
 
-- **One-pager:** `front-page.php` renders every section and requires a static front page to be set
-  in WP (Settings → Reading). `header.php`/`footer.php` wrap it; `single.php`/`page.php`/`404.php`
-  are minimal fallbacks. `template-parts/front-rest.php` holds the lower sections.
+- **One-pager, menu-driven (v2.0+):** `front-page.php` requires a static front page to be set in
+  WP (Settings → Reading). It reads the **primary nav menu** and renders one section per top-level
+  page item, in menu order, via `get_template_part('template-parts/section', …)`. The page's own
+  `_wp_page_template` picks the variant: `page-board.php` → `section-board.php` (content +
+  Unterkunftsbörse), `page-gallery.php` → `section-gallery.php` (content + gallery CTA), anything
+  else (including `page-map.php`) → `section-default.php` (plain content). Each section's DOM
+  `id` is the page's own slug (`$page->post_name`), which is what the nav-anchor filter (below)
+  jumps to. `header.php`/`footer.php` wrap the page; `single.php`/`page.php`/`404.php` are minimal
+  fallbacks for content outside this flow (e.g. Impressum/Datenschutz, using `.mym-page`).
+- **Nav-anchor filter** (`wp_nav_menu_objects` in `functions.php`) rewrites primary-menu page
+  links to jump to their homepage section from *any* page: `#slug` while already on the front
+  page, `home_url('/#slug')` everywhere else — so the header menu always returns to the
+  onepager instead of opening the page's own standalone (differently-styled) permalink.
 - **`functions.php` is the hub:** theme setup, asset enqueue, block-editor patterns + styles
   (pattern category `mym-hochzeit`), and it `require`s the four `inc/` modules. Shared template
   helpers (`mym_edit_btn`, `mym_board_entry_html`) are defined here behind `function_exists`
@@ -54,13 +64,13 @@ A bilingual one-pager. Points that span multiple files:
     when available.
   - `mym_preview_lang()` / `mym_current_lang()` — resolve the active language from Polylang,
     falling back to `?lang=de|es` for preview when Polylang isn't installed.
-- **Content has a two-tier fallback** (read both to know where on-page text comes from):
-  - `inc/content.php` — `mym_content($lang)` returns the **generic** default DE/ES copy as a nested
-    array, then overlays the Customizer couple/place/connector values and a derived footer line.
-  - `inc/sections.php` — `mym_section_page($slug_de, $slug_es)` looks up an editable WP page by slug
-    and, if it exists, its rendered content overrides the default; otherwise the default wins.
-    DE→ES slug map: `geschichte→historia`, `programm→programa`, `anreise→como-llegar`,
-    `uebernachtung→alojamiento`, `galerie→galeria`, `geschenke→regalos`, `faq→faq`.
+- **`inc/content.php`'s `mym_content($lang)` is a v1-compat shim, not part of the live render
+  path.** It still returns generic default DE/ES copy (kept for child themes / possible future
+  use — see the "v1 compat" comment where it's `require`d), but `front-page.php` doesn't call it;
+  section content comes straight from the menu-selected WP pages (see above). Don't assume
+  editing it changes anything visible on the site. `inc/sections.php` similarly keeps one unused
+  helper (`mym_section_by_page_id`) for the same reason, plus the still-active dashboard
+  setup-notice (`mym_sections_admin_notice`).
 - **`inc/customizer.php`** — panel "Hochzeit: Einstellungen": couple names + connector + place,
   wedding date/time, hero variant (`horizont`/`editorial`/`bogen`), optional candidate dates,
   gallery link, photos, map embed, hotel links, Unterkunfts-Börse moderation/notify. All personal

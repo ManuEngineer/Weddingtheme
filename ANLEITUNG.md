@@ -80,15 +80,21 @@ Einzelne Customizer-Texte lassen sich über **Sprachen → Zeichenketten-Überse
 
 ## 5. Sektionen als WordPress-Seiten bearbeiten
 
-Jede Sektion der Startseite kann als eigene WordPress-Seite gepflegt werden — Texte, Bilder und Formatierungen bequem im Editor, ohne Code.
+Jede Sektion der Startseite ist schlicht eine normale WordPress-Seite, die im **primären Menü**
+steht — Reihenfolge im Menü = Reihenfolge auf der Startseite. Kein fester Slug nötig, keine
+generischen Platzhaltertexte im Hintergrund: **ohne Menüeintrag erscheint schlicht keine
+Sektion.**
 
 **So funktioniert es:**
-1. Unter **Seiten → Erstellen** eine neue Seite anlegen.
-2. Den passenden **Permalink-Slug** setzen.
-3. Veröffentlichen → der Inhalt erscheint sofort auf der Startseite.
-4. Solange keine Seite existiert, zeigt das Theme die generischen Platzhaltertexte.
+1. Unter **Seiten → Erstellen** eine neue Seite anlegen, Inhalt bequem im Editor gestalten.
+2. Veröffentlichen.
+3. Unter **Design → Menüs** die Seite zum **primären Menü** hinzufügen, an der gewünschten
+   Position → erscheint sofort als Sektion auf der Startseite (Hintergrund wechselt automatisch
+   zwischen zwei Farbtönen je nach Position).
+4. Für die Unterkunftsbörse oder die Foto-Galerie zusätzlich das passende **Seiten-Template**
+   setzen (siehe Abschnitte 6 und 7) — sonst wird die Seite als reiner Inhalt angezeigt.
 
-**Slugs für jede Sektion:**
+Übliche Slugs (nur zur eigenen Orientierung, technisch nicht zwingend):
 
 | Sektion         | Slug (Deutsch)    | Slug (Español)   |
 |-----------------|-------------------|------------------|
@@ -102,7 +108,11 @@ Jede Sektion der Startseite kann als eigene WordPress-Seite gepflegt werden — 
 
 Passende **Block-Muster** (Kategorie „Hochzeit") liefern für jede Sektion ein fertiges Gerüst zum Befüllen.
 
-**Mit Polylang:** Die deutsche Seite übersetzen → Polylang zeigt automatisch die richtige Version je Sprache.
+**Mit Polylang:** je ein eigenes primäres Menü pro Sprache pflegen (**Design → Menüs**), jedes mit
+den übersetzten Seiten in gleicher Reihenfolge.
+
+**Das Hauptmenü führt von überall zurück zur Startseite:** Ein Klick auf einen Menüpunkt springt
+zur passenden Sektion — egal von welcher Unterseite aus (z. B. auch von Impressum/Datenschutz).
 
 > Als eingeloggter Nutzer erscheint unter jeder Sektion ein kleiner „✏ Seite bearbeiten"-Link direkt auf der Startseite — nur für euch sichtbar.
 
@@ -138,18 +148,24 @@ Normale WordPress-Seiten anlegen. Für den Footer-Link: **Design → Menüs** �
 ```
 cordillera/
 ├── style.css              Design-Tokens + komplettes CSS
-├── functions.php          Setup, Assets, i18n-Helfer, Block-Muster
-├── front-page.php         Startseite: Hero, Countdown, Story, Programm
+├── functions.php          Setup, Assets, i18n-Helfer, Block-Muster, Nav-Anker-Filter
+├── front-page.php         Startseite: Hero, Countdown + Sektionen aus dem primären Menü
+├── page-map.php           Seiten-Template "Anreise & Karte" (breiter Rahmen)
+├── page-board.php         Seiten-Template "Unterkunftsbörse"
+├── page-gallery.php       Seiten-Template "Foto-Galerie"
 ├── header.php / footer.php
-├── index.php / page.php / single.php / 404.php
+├── index.php / page.php / single.php / 404.php   (generische Seiten, z.B. Impressum/Datenschutz)
 ├── inc/
-│   ├── content.php        Generische Standardtexte (DE/ES) + Backend-Overlay
+│   ├── content.php        v1-Kompatibilität, im aktuellen Rendering nicht mehr aktiv genutzt
 │   ├── customizer.php     Customizer-Optionen
-│   ├── sections.php       Sektion-Seiten-Lookup
+│   ├── sections.php       Dashboard-Einrichtungshinweis + ungenutzter Erweiterungs-Helfer
 │   └── board.php          Unterkunfts-Börse (CPT + AJAX)
 ├── template-parts/
-│   └── front-rest.php     Anreise, Übernachtung+Börse, Galerie, Geschenke, FAQ
+│   ├── section-default.php   Sektion: reiner Seiteninhalt
+│   ├── section-board.php     Sektion: Seiteninhalt + Unterkunftsbörse
+│   └── section-gallery.php   Sektion: Seiteninhalt + Galerie-CTA
 ├── assets/
+│   ├── svg/hero-mountains.svg
 │   ├── css/editor-style.css
 │   ├── js/main.js         Countdown, FAQ, Variantenwechsel, Börse
 │   └── favicon.svg

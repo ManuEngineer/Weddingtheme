@@ -5,10 +5,12 @@
  * Sektionen kommen aus dem primären Navigationsmenü. Jeder Menüpunkt
  * muss auf eine WordPress-Seite zeigen. Der Sektionstyp wird über das
  * Seiten-Template bestimmt:
- *   (Standard)       → section-default  (reiner Seiteninhalt)
- *   page-board.php   → section-board    (Seiteninhalt + Unterkunftsbörse)
- *   page-gallery.php → section-gallery  (Seiteninhalt + Galerie-CTA)
- *   page-map.php     → section-map      (Seiteninhalt + Karten-Embed)
+ *   (Standard/page-map.php) → section-default  (reiner Seiteninhalt;
+ *                              page-map.php hat kein eigenes Section-Template,
+ *                              die Karte kommt über das "Karte mit Text"-Block-
+ *                              Pattern im Seiteninhalt selbst)
+ *   page-board.php          → section-board    (Seiteninhalt + Unterkunftsbörse)
+ *   page-gallery.php        → section-gallery  (Seiteninhalt + Galerie-CTA)
  *
  * Hintergründe wechseln automatisch: Index 0,2,4 = forest · 1,3,5 = cream.
  *
