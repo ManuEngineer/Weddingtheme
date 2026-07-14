@@ -83,7 +83,7 @@ $cd_note   = mym_s( 'mym_hero_dates_note', 'Save one of these dates:' );
 	<div class="mym-hero-pane mym-hero--horizont" data-pane="horizont" style="<?php echo $variant === 'horizont' ? '' : 'display:none'; ?>">
 		<div class="mym-hero-inner">
 			<div class="mym-eyebrow"><?php echo esc_html( $eyebrow ); ?></div>
-			<h1 class="mym-hero-title"><?php echo esc_html( $couple['a'] ); ?> <span class="conn"><?php echo esc_html( $conn ); ?></span> <?php echo esc_html( $couple['b'] ); ?></h1>
+			<h1 class="mym-hero-title"><?php echo esc_html( $couple['a'] ); ?> <br class="mym-hero-break"><span class="conn"><?php echo esc_html( $conn ); ?></span> <br class="mym-hero-break"><?php echo esc_html( $couple['b'] ); ?></h1>
 			<div class="mym-hero-rule"><span class="line"></span><span class="mym-hero-date"><?php echo esc_html( $hero_when ); ?></span><span class="line"></span></div>
 			<div class="mym-hero-place"><?php echo esc_html( $place ); ?></div>
 		</div>
