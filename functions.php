@@ -38,18 +38,18 @@ function mym_assets() {
 	/* Bergketten-Regler: Prozent-Eingabe aus dem Customizer -> viewBox-Einheiten (viewBox ist 4197 x 300). */
 	$mtn_vb_width  = 4197;
 	$mtn_vb_height = 300;
-	$mtn_pct_to_px = function ( $key, $axis_size, $default = 0 ) {
+	$mtn_pct_to_vbu = function ( $key, $axis_size, $default = 0 ) {
 		$pct = mym_sanitize_mtn_shift( mym_opt( $key, $default ) );
 		return round( $pct / 100 * $axis_size, 1 );
 	};
-	$shift_schweiz_d   = $mtn_pct_to_px( 'mym_hero_mtn_shift_schweiz_desktop', $mtn_vb_width );
-	$shift_chile_d     = $mtn_pct_to_px( 'mym_hero_mtn_shift_chile_desktop', $mtn_vb_width );
-	$shift_schweiz_m   = $mtn_pct_to_px( 'mym_hero_mtn_shift_schweiz_mobile', $mtn_vb_width );
-	$shift_chile_m     = $mtn_pct_to_px( 'mym_hero_mtn_shift_chile_mobile', $mtn_vb_width );
-	$shift_schweiz_d_y = $mtn_pct_to_px( 'mym_hero_mtn_shift_schweiz_desktop_y', $mtn_vb_height );
-	$shift_chile_d_y   = $mtn_pct_to_px( 'mym_hero_mtn_shift_chile_desktop_y', $mtn_vb_height );
-	$shift_schweiz_m_y = $mtn_pct_to_px( 'mym_hero_mtn_shift_schweiz_mobile_y', $mtn_vb_height );
-	$shift_chile_m_y   = $mtn_pct_to_px( 'mym_hero_mtn_shift_chile_mobile_y', $mtn_vb_height );
+	$shift_schweiz_d   = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_schweiz_desktop', $mtn_vb_width );
+	$shift_chile_d     = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_chile_desktop', $mtn_vb_width );
+	$shift_schweiz_m   = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_schweiz_mobile', $mtn_vb_width );
+	$shift_chile_m     = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_chile_mobile', $mtn_vb_width );
+	$shift_schweiz_d_y = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_schweiz_desktop_y', $mtn_vb_height );
+	$shift_chile_d_y   = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_chile_desktop_y', $mtn_vb_height );
+	$shift_schweiz_m_y = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_schweiz_mobile_y', $mtn_vb_height );
+	$shift_chile_m_y   = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_chile_mobile_y', $mtn_vb_height );
 	$mtn_scale_d = mym_sanitize_mtn_scale( mym_opt( 'mym_hero_mtn_scale_desktop', 100 ) ) / 100;
 	$mtn_scale_m = mym_sanitize_mtn_scale( mym_opt( 'mym_hero_mtn_scale_mobile', 100 ) ) / 100;
 	wp_add_inline_style( 'mym-style',

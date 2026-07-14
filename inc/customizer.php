@@ -140,7 +140,7 @@ function mym_customize_register( $wp_customize ) {
 	$wp_customize->add_setting( 'mym_hero_mtn_shift_chile_mobile', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
 	$wp_customize->add_control( 'mym_hero_mtn_shift_chile_mobile', array(
 		'label'       => __( 'Bergkette Chile (Mobil): verschieben', 'mym-hochzeit' ),
-		'description' => __( 'Nur bei Startbild-Variante "Horizont", bis 880px Breite (Handy/Tablet). Positiv = Kette nach rechts, negativ = nach links. Achtung: nach links ist kaum Spielraum vorhanden.', 'mym-hochzeit' ),
+		'description' => __( 'Nur bei Startbild-Variante "Horizont", bis 880px Breite (Handy/Tablet). Positiv = Kette nach rechts, negativ = nach links. Achtung: nach links ist kaum Spielraum vorhanden (Originalbild endet dort) — bei zu grossen negativen Werten wird eine leere Fläche sichtbar.', 'mym-hochzeit' ),
 		'section'     => 'mym_general', 'type' => 'range',
 		'input_attrs' => array( 'min' => -20, 'max' => 20, 'step' => 1 ),
 	) );
