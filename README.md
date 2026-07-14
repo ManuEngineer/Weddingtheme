@@ -11,6 +11,9 @@ location, texts — is set in the WordPress backend; the code ships only generic
 
 - **One-page layout** driven by `front-page.php`, with three selectable hero variants
   (Horizont / Editorial / Bogen) and a live countdown to the wedding.
+- **"Horizont" hero:** a two-tone mountain-range silhouette with ridge-contour detail lines.
+  Both ranges can be nudged independently (horizontal + vertical position) from the Customizer,
+  with a shared height/zoom control so their proportions stay correct relative to each other.
 - **Bilingual DE/ES.** Works standalone (`?lang=de|es` preview) or, recommended, with
   **Polylang** for real translated permalinks and a language switcher.
 - **Nothing personal hardcoded.** Names, connector, location and date come from the Customizer

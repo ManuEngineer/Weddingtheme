@@ -65,6 +65,21 @@ A bilingual one-pager. Points that span multiple files:
   wedding date/time, hero variant (`horizont`/`editorial`/`bogen`), optional candidate dates,
   gallery link, photos, map embed, hotel links, Unterkunfts-Börse moderation/notify. All personal
   defaults are empty.
+- **Hero "Horizont" mountain silhouette** (`assets/svg/hero-mountains.svg`) — a two-tone SVG with
+  two groups, `<g class="mym-mtn-schweiz">` and `<g class="mym-mtn-chile">`, each holding a filled
+  base path plus several unfilled ridge-contour stroke paths for texture. The geometry was
+  one-off generated from two real 90°-panorama line-art exports (no build step regenerates it in
+  this repo), manually overlaid/cropped around a fixed anchor point, then color-styled to match
+  the site palette. `functions.php`'s `mtn_pct_to_vbu` converts the Customizer's percentage
+  shift/scale settings into viewBox units (`$mtn_vb_width` must match the SVG's actual `viewBox`
+  width) and injects them as CSS custom properties (`--mym-mtn-shift-*`, `--mym-mtn-scale`)
+  consumed by `style.css`'s `.mym-mtn-schweiz`/`.mym-mtn-chile` transforms. The Schweiz range has
+  almost no real image data to its right past the crop window, so its horizontal shift is
+  deliberately capped to 0..-20% via `mym_sanitize_mtn_shift_schweiz_h` (Chile is safe across the
+  full ±20%) — don't widen that range without re-checking the source data's real extent. If the
+  SVG geometry is ever regenerated, extend the fill/line paths beyond the visible crop window on
+  each color's own real data (not just the shared window) so the shift sliders don't reveal blank
+  edges.
 - **Unterkunfts-Börse (`inc/board.php`)** — guest accommodation exchange: a private CPT
   `mym_board` (offer/seek) with admin columns, a meta box, "mark as placed" + duplicate row
   actions, and email notification. Public submissions arrive via AJAX
