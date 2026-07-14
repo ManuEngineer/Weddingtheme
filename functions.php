@@ -35,16 +35,16 @@ function mym_assets() {
 	wp_enqueue_style( 'mym-fonts', 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap', array(), null );
 	wp_enqueue_style( 'mym-style', get_stylesheet_uri(), array( 'mym-fonts' ), MYM_VERSION );
 
-	/* Bergketten-Regler: Prozent-Eingabe aus dem Customizer -> viewBox-Einheiten (viewBox ist 4197 x 300). */
-	$mtn_vb_width  = 4197;
+	/* Bergketten-Regler: Prozent-Eingabe aus dem Customizer -> viewBox-Einheiten (viewBox ist 5780.6 x 300). */
+	$mtn_vb_width  = 5780.6;
 	$mtn_vb_height = 300;
-	$mtn_pct_to_vbu = function ( $key, $vb_axis_length, $default = 0 ) {
-		$pct = mym_sanitize_mtn_shift( mym_opt( $key, $default ) );
+	$mtn_pct_to_vbu = function ( $key, $vb_axis_length, $default = 0, $sanitizer = 'mym_sanitize_mtn_shift' ) {
+		$pct = call_user_func( $sanitizer, mym_opt( $key, $default ) );
 		return round( $pct / 100 * $vb_axis_length, 1 );
 	};
-	$shift_schweiz_d   = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_schweiz_desktop', $mtn_vb_width );
+	$shift_schweiz_d   = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_schweiz_desktop', $mtn_vb_width, 0, 'mym_sanitize_mtn_shift_schweiz_h' );
 	$shift_chile_d     = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_chile_desktop', $mtn_vb_width );
-	$shift_schweiz_m   = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_schweiz_mobile', $mtn_vb_width );
+	$shift_schweiz_m   = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_schweiz_mobile', $mtn_vb_width, 0, 'mym_sanitize_mtn_shift_schweiz_h' );
 	$shift_chile_m     = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_chile_mobile', $mtn_vb_width );
 	$shift_schweiz_d_y = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_schweiz_desktop_y', $mtn_vb_height );
 	$shift_chile_d_y   = $mtn_pct_to_vbu( 'mym_hero_mtn_shift_chile_desktop_y', $mtn_vb_height );
