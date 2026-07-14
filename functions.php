@@ -231,10 +231,12 @@ add_filter( 'wp_nav_menu_objects', function ( $items, $args ) {
  * Bestimmt den Sektionstyp auf der Startseite:
  *   page-board.php   → Unterkunftsbörse (Seiteninhalt + Formular)
  *   page-gallery.php → Galerie (Seiteninhalt + CTA-Button)
+ *   page-map.php     → breiter Rahmen für Seiten mit "Karte mit Text"-Pattern
  * ========================================================== */
 add_filter( 'theme_page_templates', function ( $templates ) {
 	$templates['page-board.php']   = __( 'Unterkunftsbörse', 'mym-hochzeit' );
 	$templates['page-gallery.php'] = __( 'Foto-Galerie', 'mym-hochzeit' );
+	$templates['page-map.php']     = __( 'Anreise & Karte', 'mym-hochzeit' );
 	return $templates;
 } );
 
