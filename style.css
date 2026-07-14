@@ -303,6 +303,7 @@ input,select,button,textarea{font-family:inherit}
 .mym-page h1{font-size:clamp(36px,5vw,60px);color:var(--mym-forest);margin-bottom:24px}
 .mym-page h2{font-size:32px;color:var(--mym-forest);margin:32px 0 12px}
 .mym-page p,.mym-page li{color:#4a463d;font-size:17px;margin-bottom:12px}
+.mym-page p{text-align:justify;hyphens:auto}
 .mym-page a{color:var(--mym-terra);text-decoration:underline}
 .screen-reader-text{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(1px,1px,1px,1px)}
 .aligncenter{margin-left:auto;margin-right:auto}
