@@ -360,13 +360,16 @@ function mym_calendar_links() {
 	$place  = mym_opt( 'mym_place', '' );
 	$url    = home_url( '/' );
 
+	/* add_query_arg() does NOT urlencode its values (unlike http_build_query()) —
+	 * pre-encoding here is required, not double-encoding. Without it, a "&" in the
+	 * connector (e.g. the default "Name & Name" title) would corrupt the query string. */
 	$google = add_query_arg( array(
 		'action'   => 'TEMPLATE',
-		'text'     => $title,
+		'text'     => rawurlencode( $title ),
 		'dates'    => wp_date( 'Ymd\THis', $start ) . '/' . wp_date( 'Ymd\THis', $end ),
 		'ctz'      => wp_timezone_string(),
-		'details'  => $url,
-		'location' => $place,
+		'details'  => rawurlencode( $url ),
+		'location' => rawurlencode( $place ),
 	), 'https://www.google.com/calendar/render' );
 
 	$ics  = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//" . sanitize_title( get_bloginfo( 'name' ) ) . "//DE\r\n";
