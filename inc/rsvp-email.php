@@ -19,9 +19,9 @@ function mym_rsvp_summary_text( $entry ) {
 	$L    = ( $lang === 'es' )
 		? array(
 			'status_yes' => 'Confirmación', 'status_no' => 'Cancelación',
-			'contact' => 'Kontaktperson', 'status' => 'Status', 'guests' => 'Gäste',
-			'child' => 'Kind', 'veggie' => 'Vegetarisch/Vegan', 'allergies' => 'Allergien',
-			'langs' => 'Sprachen', 'message' => 'Nachricht', 'email' => 'E-Mail', 'phone' => 'Telefon',
+			'contact' => 'Persona de contacto', 'status' => 'Estado', 'guests' => 'Invitados',
+			'child' => 'Niño/a', 'veggie' => 'Vegetariano/vegano', 'allergies' => 'Alergias',
+			'langs' => 'Idiomas', 'message' => 'Mensaje', 'email' => 'Correo electrónico', 'phone' => 'Teléfono',
 		)
 		: array(
 			'status_yes' => 'Zusage', 'status_no' => 'Absage',
@@ -29,8 +29,6 @@ function mym_rsvp_summary_text( $entry ) {
 			'child' => 'Kind', 'veggie' => 'Vegetarisch/Vegan', 'allergies' => 'Allergien',
 			'langs' => 'Sprachen', 'message' => 'Nachricht', 'email' => 'E-Mail', 'phone' => 'Telefon',
 		);
-	// Nur Status-Label ist tatsächlich zweisprachig, der Rest bleibt als Feldbezeichnung
-	// bewusst simpel/technisch — die Mail ist eine Quittung, kein Fliesstext.
 	$status_label = $entry['status'] === 'yes' ? $L['status_yes'] : $L['status_no'];
 
 	$lines   = array();
