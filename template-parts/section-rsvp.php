@@ -16,13 +16,20 @@ $page_id    = (int) ( $args['page_id'] ?? 0 );
 $page       = $args['page'] ?? get_post( $page_id );
 $bg         = $args['bg'] ?? 'mym-bg-cream';
 $section_id = sanitize_html_class( $args['section_id'] ?? '' );
-$content    = apply_filters( 'the_content', $page->post_content );
-$edit_url   = current_user_can( 'edit_post', $page_id ) ? get_edit_post_link( $page_id ) : '';
+$content    = $page instanceof WP_Post ? apply_filters( 'the_content', $page->post_content ) : '';
+$edit_url   = ( $page instanceof WP_Post && current_user_can( 'edit_post', $page_id ) ) ? get_edit_post_link( $page_id ) : '';
 
 $enabled  = get_theme_mod( 'mym_rsvp_enabled', true );
 $deadline = get_theme_mod( 'mym_rsvp_deadline', '' );
-$deadline_ts = $deadline ? strtotime( $deadline . ' 23:59:59' ) : 0;
-$past_deadline = $deadline_ts && time() > $deadline_ts;
+$deadline_ts   = 0;
+$past_deadline = false;
+if ( $deadline ) {
+	$tz          = wp_timezone();
+	$deadline_dt = new DateTimeImmutable( $deadline . ' 23:59:59', $tz );
+	$now_dt      = new DateTimeImmutable( 'now', $tz );
+	$deadline_ts   = $deadline_dt->getTimestamp();
+	$past_deadline = $now_dt > $deadline_dt;
+}
 
 /* Bearbeiten-Modus: gültiger Token in der URL? */
 $edit_token = isset( $_GET['rsvp_token'] ) ? sanitize_text_field( wp_unslash( $_GET['rsvp_token'] ) ) : '';
@@ -84,6 +91,7 @@ $rsvp_card_theme = ( $bg === 'mym-bg-forest' ) ? 'mym-rsvp-dark' : 'mym-rsvp-lig
 				<form class="mym-rsvp-form" id="mym-rsvp-form">
 					<div class="mym-rsvp-row">
 						<fieldset class="mym-rsvp-col-full mym-rsvp-status">
+							<legend class="screen-reader-text"><?php echo esc_html( $s_title ); ?></legend>
 							<label class="mym-rsvp-radio"><input type="radio" name="status" value="yes" <?php checked( ( $prefill['status'] ?? 'yes' ), 'yes' ); ?>> <?php echo esc_html( $s_yes ); ?></label>
 							<label class="mym-rsvp-radio"><input type="radio" name="status" value="no" <?php checked( ( $prefill['status'] ?? '' ), 'no' ); ?>> <?php echo esc_html( $s_no ); ?></label>
 						</fieldset>

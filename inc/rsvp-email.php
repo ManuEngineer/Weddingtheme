@@ -18,7 +18,7 @@ function mym_rsvp_summary_text( $entry ) {
 	$lang = ( $entry['lang'] === 'es' ) ? 'es' : 'de';
 	$L    = ( $lang === 'es' )
 		? array(
-			'status_yes' => 'Zusage', 'status_no' => 'Absage',
+			'status_yes' => 'Confirmación', 'status_no' => 'Cancelación',
 			'contact' => 'Kontaktperson', 'status' => 'Status', 'guests' => 'Gäste',
 			'child' => 'Kind', 'veggie' => 'Vegetarisch/Vegan', 'allergies' => 'Allergien',
 			'langs' => 'Sprachen', 'message' => 'Nachricht', 'email' => 'E-Mail', 'phone' => 'Telefon',

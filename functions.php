@@ -340,7 +340,14 @@ function mym_calendar_links() {
 	if ( ! get_theme_mod( 'mym_date_exact', false ) ) {
 		return null;
 	}
-	$ts = strtotime( mym_opt( 'mym_wedding_date', '' ) . ' ' . mym_opt( 'mym_wedding_time', '11:00' ) );
+	$tz       = wp_timezone();
+	$dt_str   = mym_opt( 'mym_wedding_date', '' ) . ' ' . mym_opt( 'mym_wedding_time', '11:00' );
+	try {
+		$dt = new DateTimeImmutable( $dt_str, $tz );
+		$ts = $dt->getTimestamp();
+	} catch ( Exception $e ) {
+		return null;
+	}
 	if ( ! $ts ) {
 		return null;
 	}
@@ -355,11 +362,11 @@ function mym_calendar_links() {
 
 	$google = add_query_arg( array(
 		'action'   => 'TEMPLATE',
-		'text'     => rawurlencode( $title ),
+		'text'     => $title,
 		'dates'    => wp_date( 'Ymd\THis', $start ) . '/' . wp_date( 'Ymd\THis', $end ),
 		'ctz'      => wp_timezone_string(),
-		'details'  => rawurlencode( $url ),
-		'location' => rawurlencode( $place ),
+		'details'  => $url,
+		'location' => $place,
 	), 'https://www.google.com/calendar/render' );
 
 	$ics  = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//" . sanitize_title( get_bloginfo( 'name' ) ) . "//DE\r\n";

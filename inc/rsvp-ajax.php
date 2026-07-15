@@ -19,8 +19,21 @@ function mym_rsvp_submit() {
 	$existing = $token ? mym_rsvp_get_by_token( $token ) : null;
 	$is_update = (bool) $existing;
 
-	/* Rate-Limit nur für NEUE Anmeldungen (Änderungen über gültigen Token sind bereits legitimiert) */
+	/* Enabled-/Fristprüfung + Rate-Limit nur für NEUE Anmeldungen
+	 * (Änderungen über gültigen Token sind bereits legitimiert) */
 	if ( ! $is_update ) {
+		if ( ! get_theme_mod( 'mym_rsvp_enabled', true ) ) {
+			wp_send_json_error( array( 'message' => __( 'Das RSVP-Formular ist derzeit nicht verfügbar.', 'mym-hochzeit' ) ) );
+		}
+		$rsvp_deadline = get_theme_mod( 'mym_rsvp_deadline', '' );
+		if ( $rsvp_deadline ) {
+			$tz           = wp_timezone();
+			$now_dt       = new DateTimeImmutable( 'now', $tz );
+			$deadline_dt  = new DateTimeImmutable( $rsvp_deadline . ' 23:59:59', $tz );
+			if ( $now_dt > $deadline_dt ) {
+				wp_send_json_error( array( 'message' => __( 'Die Anmeldefrist ist abgelaufen.', 'mym-hochzeit' ) ) );
+			}
+		}
 		$ip = isset( $_SERVER['HTTP_X_FORWARDED_FOR'] )
 			? trim( explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) )[0] )
 			: ( isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : 'unknown' );
