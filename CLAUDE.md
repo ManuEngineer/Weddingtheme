@@ -96,9 +96,31 @@ A bilingual one-pager. Points that span multiple files:
   (`wp_ajax[_nopriv]_mym_board_submit`) with nonce + honeypot; entries are saved as `draft` when
   moderation is on. **The `mym_contact` (email/phone) field is admin-only and must never reach the
   frontend** — `mym_board_entries()` deliberately omits it. Preserve this when editing.
+- **RSVP (`inc/rsvp.php`, `inc/rsvp-ajax.php`, `inc/rsvp-email.php`)** — a private CPT `mym_rsvp`,
+  one post per household. Unlike the Börse, **nothing is ever displayed publicly** — no
+  moderation step, entries go straight to the admin list. Per-guest data (name, child, veggie,
+  allergies, spoken languages) is a plain array in the `mym_rsvp_guests` postmeta (WP handles the
+  (de)serialization); `mym_rsvp_sanitize_guest()` is the single place that sanitizes one guest
+  row and must be used for any new guest-array write path. Editing without login: each entry gets
+  a random 32-hex-char `mym_rsvp_token` (`mym_rsvp_generate_token()`, `random_bytes(16)`); the
+  same AJAX action (`mym_rsvp_submit`) creates a new post when `token` is empty/invalid or updates
+  the matching one (`mym_rsvp_get_by_token()`) when it's valid — rate-limiting only applies to the
+  create path, since a valid token already proves legitimacy. `mym_rsvp_send_guest_confirmation()`
+  fires on every create *and* update, always including the token-bearing edit link
+  (`mym_rsvp_edit_url()`), specifically so repeat guests don't create duplicate entries out of
+  uncertainty ("did it work?"). `page-rsvp.php` renders the *full form* on direct visit (not just
+  page content like the other `page-*.php` templates) because the edit link points at the
+  standalone page, not the homepage-embedded section. CSV export
+  (`admin_post_mym_rsvp_export`) emits one row per **guest**, not per submission — that's the
+  point, it's meant to be usable directly for seating/catering. `mym_rsvp_deadline` (Customizer)
+  hides the form for new signups past that date but must keep working for edits via an existing
+  token — don't let a deadline check block the token path.
 - **Frontend JS** (`assets/js/main.js`) is configured via `wp_localize_script` as the global `MYM`
-  (ajaxUrl, nonce, wedding date/time for the countdown, hero variant, editor flag, i18n strings).
-  The countdown only runs when a date is set.
+  (ajaxUrl, nonce, rsvpNonce, wedding date/time for the countdown, hero variant, editor flag,
+  i18n/rsvpI18n strings). The countdown only runs when a date is set. The RSVP guest list is
+  built by cloning a `<template>` element per row (`#mym-rsvp-guest-tpl`); guest data crosses the
+  AJAX boundary as one JSON string (`guests` field), not parallel array fields — much less
+  error-prone for a dynamically-sized list than index-matched arrays.
 
 `ANLEITUNG.md` is the German end-user setup guide (install, front page, Polylang, Customizer).
 

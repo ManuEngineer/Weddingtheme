@@ -143,4 +143,121 @@
 		div.innerHTML = html;
 		list.appendChild(div);
 	}
+
+	/* ---------- RSVP-Formular ---------- */
+	var rsvpRoot = document.getElementById('mym-rsvp-box');
+	var rsvpForm = document.getElementById('mym-rsvp-form');
+	if (rsvpRoot && rsvpForm && MYM.ajaxUrl) {
+		var rsvpMsg = document.getElementById('mym-rsvp-msg');
+		var guestList = document.getElementById('mym-rsvp-guests');
+		var guestTpl = document.getElementById('mym-rsvp-guest-tpl');
+		var addGuestBtn = document.getElementById('mym-rsvp-add-guest');
+		var guestsWrap = rsvpForm.querySelector('[data-guests-wrap]');
+		var declinedNameWrap = rsvpForm.querySelector('[data-declined-name-wrap]');
+		var statusRadios = rsvpForm.querySelectorAll('input[name="status"]');
+		var i18n = MYM.rsvpI18n || {};
+
+		function addGuestRow(data) {
+			data = data || {};
+			var frag = guestTpl.content.cloneNode(true);
+			var row = frag.querySelector('.mym-rsvp-guest-row');
+			row.querySelector('[data-g="name"]').value = data.name || '';
+			row.querySelector('[data-g="child"]').checked = !!data.child;
+			row.querySelector('[data-g="veggie"]').checked = !!data.veggie;
+			row.querySelector('[data-g="allergies"]').value = data.allergies || '';
+			var langs = data.langs || [];
+			row.querySelectorAll('[data-g="langs"]').forEach(function (cb) {
+				cb.checked = langs.indexOf(cb.value) !== -1;
+			});
+			row.querySelector('[data-remove-guest]').addEventListener('click', function () {
+				row.remove();
+			});
+			guestList.appendChild(row);
+		}
+
+		function updateGuestsVisibility() {
+			var yes = rsvpForm.querySelector('input[name="status"]:checked');
+			var isYes = !yes || yes.value === 'yes';
+			guestsWrap.style.display = isYes ? '' : 'none';
+			if (declinedNameWrap) { declinedNameWrap.style.display = isYes ? 'none' : ''; }
+		}
+		statusRadios.forEach(function (r) { r.addEventListener('change', updateGuestsVisibility); });
+		updateGuestsVisibility();
+
+		if (addGuestBtn) {
+			addGuestBtn.addEventListener('click', function () { addGuestRow(); });
+		}
+
+		/* Vorbefuellung bei Bearbeiten via Token, sonst eine leere Zeile zum Start */
+		var prefillEl = document.getElementById('mym-rsvp-prefill');
+		if (prefillEl) {
+			try {
+				var guests = JSON.parse(prefillEl.textContent || '[]');
+				guests.forEach(function (g) { addGuestRow(g); });
+			} catch (err) { /* ignore malformed prefill */ }
+		} else if (guestList.children.length === 0) {
+			addGuestRow();
+		}
+
+		rsvpForm.addEventListener('submit', function (e) {
+			e.preventDefault();
+			var email = rsvpForm.querySelector('[name="email"]').value.trim();
+			var phone = rsvpForm.querySelector('[name="phone"]').value.trim();
+			var status = (rsvpForm.querySelector('input[name="status"]:checked') || {}).value || 'yes';
+
+			rsvpMsg.classList.remove('error');
+			if (!email || email.indexOf('@') === -1) { rsvpMsg.textContent = i18n.errEmail || 'Email?'; rsvpMsg.classList.add('error'); return; }
+			if (!/^\+[0-9 ()-]{7,20}$/.test(phone)) { rsvpMsg.textContent = i18n.errPhone || 'Phone?'; rsvpMsg.classList.add('error'); return; }
+			if (status === 'no') {
+				var declinedName = rsvpForm.querySelector('[name="name"]').value.trim();
+				if (!declinedName) { rsvpMsg.textContent = i18n.errName || 'Name?'; rsvpMsg.classList.add('error'); return; }
+			}
+
+			var guestsData = [];
+			if (status === 'yes') {
+				guestList.querySelectorAll('.mym-rsvp-guest-row').forEach(function (row) {
+					var gName = row.querySelector('[data-g="name"]').value.trim();
+					if (!gName) { return; }
+					var langs = [];
+					row.querySelectorAll('[data-g="langs"]:checked').forEach(function (cb) { langs.push(cb.value); });
+					guestsData.push({
+						name: gName,
+						child: row.querySelector('[data-g="child"]').checked,
+						veggie: row.querySelector('[data-g="veggie"]').checked,
+						allergies: row.querySelector('[data-g="allergies"]').value.trim(),
+						langs: langs
+					});
+				});
+				if (!guestsData.length) { rsvpMsg.textContent = i18n.errGuest || 'Guests?'; rsvpMsg.classList.add('error'); return; }
+			}
+
+			var data = new FormData(rsvpForm);
+			data.append('action', 'mym_rsvp_submit');
+			data.append('nonce', MYM.rsvpNonce);
+			data.append('token', rsvpRoot.getAttribute('data-token') || '');
+			data.append('guests', JSON.stringify(guestsData));
+
+			rsvpMsg.textContent = i18n.sending || '...';
+			var btn = rsvpForm.querySelector('button[type="submit"]');
+			if (btn) btn.disabled = true;
+
+			fetch(MYM.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: data })
+				.then(function (r) { return r.json(); })
+				.then(function (res) {
+					if (btn) btn.disabled = false;
+					if (res && res.success) {
+						rsvpMsg.textContent = res.data.updated ? (i18n.updated || 'Updated!') : (i18n.thanks || 'Thanks!');
+						if (res.data.token) { rsvpRoot.setAttribute('data-token', res.data.token); }
+					} else {
+						rsvpMsg.textContent = (res && res.data && res.data.message) || i18n.error || 'Error';
+						rsvpMsg.classList.add('error');
+					}
+				})
+				.catch(function () {
+					if (btn) btn.disabled = false;
+					rsvpMsg.textContent = i18n.error || 'Error';
+					rsvpMsg.classList.add('error');
+				});
+		});
+	}
 })();

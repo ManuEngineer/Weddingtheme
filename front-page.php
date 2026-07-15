@@ -11,6 +11,7 @@
  *                              Pattern im Seiteninhalt selbst)
  *   page-board.php          → section-board    (Seiteninhalt + Unterkunftsbörse)
  *   page-gallery.php        → section-gallery  (Seiteninhalt + Galerie-CTA)
+ *   page-rsvp.php           → section-rsvp     (Seiteninhalt + Zu-/Absage-Formular)
  *
  * Hintergründe wechseln automatisch: Index 0,2,4 = forest · 1,3,5 = cream.
  *
@@ -40,6 +41,8 @@ $ts             = strtotime( $wedding_date );
 $exact_date     = get_theme_mod( 'mym_date_exact', false );
 $hero_when      = $ts ? ( $exact_date ? date_i18n( 'j. F Y', $ts ) : date_i18n( 'F Y', $ts ) ) : '';
 $show_countdown = get_theme_mod( 'mym_countdown_enabled', true );
+$cal            = mym_calendar_links();
+$rsvp_slug      = get_theme_mod( 'mym_rsvp_cta_enabled', true ) ? mym_rsvp_page_slug() : '';
 
 $lang = mym_current_lang();
 $day_names_map = array(
@@ -87,6 +90,9 @@ $cd_note   = mym_s( 'mym_hero_dates_note', 'Save one of these dates:' );
 			<div class="mym-hero-rule"><span class="line"></span><span class="mym-hero-date"><?php echo esc_html( $hero_when ); ?></span><span class="line"></span></div>
 			<div class="mym-hero-place"><?php echo esc_html( $place ); ?></div>
 		</div>
+		<?php if ( $rsvp_slug ) : ?>
+		<p class="mym-rsvp-cta-wrap mym-rsvp-cta-wrap--horizont"><a class="mym-gallery-cta" href="#<?php echo esc_attr( $rsvp_slug ); ?>"><?php echo esc_html( mym_s( 'mym_rsvp_cta', 'RSVP now' ) ); ?></a></p>
+		<?php endif; ?>
 		<?php include get_template_directory() . '/assets/svg/hero-mountains.svg'; ?>
 	</div>
 
@@ -98,6 +104,9 @@ $cd_note   = mym_s( 'mym_hero_dates_note', 'Save one of these dates:' );
 			<div class="rule"></div>
 			<div class="d"><?php echo esc_html( $hero_when ); ?></div>
 			<div class="pl"><?php echo esc_html( $place ); ?></div>
+			<?php if ( $rsvp_slug ) : ?>
+			<p class="mym-rsvp-cta-wrap"><a class="mym-gallery-cta" href="#<?php echo esc_attr( $rsvp_slug ); ?>"><?php echo esc_html( mym_s( 'mym_rsvp_cta', 'RSVP now' ) ); ?></a></p>
+			<?php endif; ?>
 		</div>
 		<div class="col-photo"><div class="frame"><?php echo mym_photo( $hero_img, $couple_alt ); // phpcs:ignore ?></div></div>
 	</div>
@@ -110,6 +119,9 @@ $cd_note   = mym_s( 'mym_hero_dates_note', 'Save one of these dates:' );
 			<div class="arch"><?php echo mym_photo( $hero_img, $couple_alt ); // phpcs:ignore ?></div>
 			<div class="mym-hero-rule"><span class="line"></span><span class="mym-hero-date"><?php echo esc_html( $hero_when ); ?></span><span class="line"></span></div>
 			<div class="mym-hero-place"><?php echo esc_html( $place ); ?></div>
+			<?php if ( $rsvp_slug ) : ?>
+			<p class="mym-rsvp-cta-wrap"><a class="mym-gallery-cta" href="#<?php echo esc_attr( $rsvp_slug ); ?>"><?php echo esc_html( mym_s( 'mym_rsvp_cta', 'RSVP now' ) ); ?></a></p>
+			<?php endif; ?>
 		</div>
 	</div>
 
@@ -140,13 +152,22 @@ $cd_note   = mym_s( 'mym_hero_dates_note', 'Save one of these dates:' );
 		<?php endforeach; ?>
 	</div>
 	<?php endif; ?>
+	<?php if ( $cal ) : ?>
+	<div class="mym-cal-links">
+		<a href="<?php echo esc_url( $cal['google'] ); ?>" target="_blank" rel="noopener"><?php esc_html_e( '+ Google Kalender', 'mym-hochzeit' ); ?></a>
+		<a href="<?php echo esc_attr( $cal['ics'] ); ?>" download="hochzeit.ics"><?php esc_html_e( '+ Apple / Outlook', 'mym-hochzeit' ); ?></a>
+	</div>
+	<?php endif; ?>
 </section>
 <?php endif; ?>
 
 <!-- ============ SEKTIONEN (aus primärem Menü) ============ -->
 <?php if ( ! empty( $section_items ) ) : ?>
 	<?php
-	$sect_index = 0;
+	/* Der dunkle Hero geht direkt in die erste Menü-Sektion über, wenn der
+	 * (immer helle) Countdown fehlt — Start-Index dann um 1 verschieben,
+	 * sonst stehen zwei dunkle Flächen hintereinander. */
+	$sect_index = $show_countdown ? 0 : 1;
 	foreach ( $section_items as $item ) :
 		$page_id = (int) $item->object_id;
 		$page    = get_post( $page_id );
@@ -166,6 +187,8 @@ $cd_note   = mym_s( 'mym_hero_dates_note', 'Save one of these dates:' );
 			get_template_part( 'template-parts/section', 'board', $tpl_args );
 		} elseif ( $template === 'page-gallery.php' ) {
 			get_template_part( 'template-parts/section', 'gallery', $tpl_args );
+		} elseif ( $template === 'page-rsvp.php' ) {
+			get_template_part( 'template-parts/section', 'rsvp', $tpl_args );
 		} else {
 			get_template_part( 'template-parts/section', 'default', $tpl_args );
 		}

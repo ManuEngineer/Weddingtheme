@@ -131,19 +131,48 @@ Gäste tragen sich direkt auf der Seite ein („Wir bieten Unterkunft" / „Wir 
 
 ---
 
-## 7. Foto-Galerie
+## 7. RSVP (Zu-/Absage)
+
+Genau wie bei der Unterkunfts-Börse: eine WordPress-Seite anlegen, Seiten-Template
+**„RSVP (Zu-/Absage)"** setzen, zum primären Menü hinzufügen.
+
+- Gäste geben Kontaktdaten, Zu-/Absage und (bei Zusage) eine Gästeliste an — pro Person Name,
+  Kind ja/nein, vegetarisch/vegan ja/nein, Allergien/Wünsche, gesprochene Sprachen.
+- Neue Anmeldungen erscheinen unter **RSVP** (linkes WordPress-Menü). **Keine
+  Freigabe/Moderation nötig** — anders als bei der Börse werden Anmeldungen nirgends öffentlich
+  angezeigt, sie landen direkt vollständig im Backend.
+- Oben in der RSVP-Liste: **Zusammenfassung** (Zusagen/Absagen, Erwachsene, Kinder, Vegi-Anzahl)
+  sowie ein Button für den **CSV-Export** — eine Zeile pro Gast, direkt nutzbar für
+  Tischkarten/Catering.
+- Bei jeder Anmeldung **und** jeder späteren Änderung erhält der Gast eine Bestätigungsmail mit
+  der vollständigen Zusammenfassung seiner Angaben **und einem persönlichen Link**, über den er
+  seine Anmeldung jederzeit selbst ändern kann (keine erneute Anmeldung nötig — vermeidet
+  Duplikate). Ihr bekommt bei jeder Anmeldung/Änderung ebenfalls eine Benachrichtigung.
+- **Anmeldefrist** (Customizer, Format JJJJ-MM-TT): Nach diesem Datum verschwindet das Formular
+  für *neue* Anmeldungen und zeigt einen Hinweistext. Bereits angemeldete Gäste können über
+  ihren persönlichen Link **weiterhin** ändern.
+- Zwei unabhängige Ein-/Ausschalter im Customizer: das Formular selbst, und separat der
+  auffällige **„Jetzt zusagen"-Button** im Startbild (springt zur RSVP-Sektion).
+- Kontaktdaten (E-Mail/Telefon) sind **privat** — wie beim Kontaktfeld der Börse nie öffentlich
+  sichtbar.
+- Spamschutz via Honeypot + IP-Rate-Limit (nur bei Neuanmeldungen, nicht bei Änderungen über den
+  persönlichen Link).
+
+---
+
+## 8. Foto-Galerie
 
 Im Customizer den Galerie-Link eintragen → der Button „Zur Galerie & Upload" verlinkt darauf.
 
 ---
 
-## 8. Impressum / Datenschutz
+## 9. Impressum / Datenschutz
 
 Normale WordPress-Seiten anlegen. Für den Footer-Link: **Design → Menüs** → Menü erstellen → der Position **„Footer-Menü"** zuweisen.
 
 ---
 
-## 9. Struktur (für Entwickler)
+## 10. Struktur (für Entwickler)
 
 ```
 cordillera/
@@ -153,21 +182,26 @@ cordillera/
 ├── page-map.php           Seiten-Template "Anreise & Karte" (breiter Rahmen)
 ├── page-board.php         Seiten-Template "Unterkunftsbörse"
 ├── page-gallery.php       Seiten-Template "Foto-Galerie"
+├── page-rsvp.php          Seiten-Template "RSVP (Zu-/Absage)"
 ├── header.php / footer.php
 ├── index.php / page.php / single.php / 404.php   (generische Seiten, z.B. Impressum/Datenschutz)
 ├── inc/
 │   ├── content.php        v1-Kompatibilität, im aktuellen Rendering nicht mehr aktiv genutzt
 │   ├── customizer.php     Customizer-Optionen
 │   ├── sections.php       Dashboard-Einrichtungshinweis + ungenutzter Erweiterungs-Helfer
-│   └── board.php          Unterkunfts-Börse (CPT + AJAX)
+│   ├── board.php          Unterkunfts-Börse (CPT + AJAX)
+│   ├── rsvp.php           RSVP: CPT, Admin-Übersicht, CSV-Export
+│   ├── rsvp-ajax.php      RSVP: AJAX Neuanmeldung/Änderung via Token
+│   └── rsvp-email.php     RSVP: Bestätigungs-/Benachrichtigungs-E-Mails
 ├── template-parts/
 │   ├── section-default.php   Sektion: reiner Seiteninhalt
 │   ├── section-board.php     Sektion: Seiteninhalt + Unterkunftsbörse
+│   ├── section-rsvp.php      Sektion: Seiteninhalt + RSVP-Formular
 │   └── section-gallery.php   Sektion: Seiteninhalt + Galerie-CTA
 ├── assets/
 │   ├── svg/hero-mountains.svg
 │   ├── css/editor-style.css
-│   ├── js/main.js         Countdown, FAQ, Variantenwechsel, Börse
+│   ├── js/main.js         Countdown, FAQ, Variantenwechsel, Börse, RSVP
 │   └── favicon.svg
 └── screenshot.png
 ```

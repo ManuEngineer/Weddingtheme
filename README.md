@@ -24,6 +24,10 @@ location, texts — is set in the WordPress backend; the code ships only generic
   candidate dates, gallery link, map embed, hotel links, board moderation.
 - **Unterkunfts-Börse:** guests can offer or request a place to stay via a moderated form;
   contact details stay private (admin-only).
+- **RSVP:** guests confirm or decline with a full per-person guest list (kids, dietary/allergy
+  info, languages spoken); a token-based personal link lets them edit their own reply later
+  without logging in, with a confirmation email on every submit/update. Admin list shows live
+  totals and a one-row-per-guest CSV export for seating/catering.
 - **Block editor support:** generic placeholder block patterns and block styles under the
   "Hochzeit" category.
 
