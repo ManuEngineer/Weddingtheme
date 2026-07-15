@@ -223,6 +223,35 @@ function mym_customize_register( $wp_customize ) {
 		'label' => __( 'Benachrichtigung an E-Mail', 'mym-hochzeit' ),
 		'section' => 'mym_board', 'type' => 'email',
 	) );
+
+	/* ---- RSVP ---- */
+	$wp_customize->add_section( 'mym_rsvp', array(
+		'title' => __( 'RSVP (Zu-/Absage)', 'mym-hochzeit' ), 'panel' => 'mym_panel',
+	) );
+	$wp_customize->add_setting( 'mym_rsvp_enabled', array( 'default' => true, 'sanitize_callback' => 'mym_sanitize_bool' ) );
+	$wp_customize->add_control( 'mym_rsvp_enabled', array(
+		'label'       => __( 'RSVP-Formular auf der Seite anzeigen', 'mym-hochzeit' ),
+		'description' => __( 'Hauptschalter. Ausschalten, um das Formular vorübergehend zu deaktivieren, ohne die Seite/den Menüpunkt zu entfernen.', 'mym-hochzeit' ),
+		'section'     => 'mym_rsvp', 'type' => 'checkbox',
+	) );
+	$wp_customize->add_setting( 'mym_rsvp_cta_enabled', array( 'default' => true, 'sanitize_callback' => 'mym_sanitize_bool' ) );
+	$wp_customize->add_control( 'mym_rsvp_cta_enabled', array(
+		'label'       => __( '"Jetzt zusagen"-Button im Startbild anzeigen', 'mym-hochzeit' ),
+		'description' => __( 'Springt zur RSVP-Sektion. Unabhängig vom Formular-Hauptschalter oben abschaltbar.', 'mym-hochzeit' ),
+		'section'     => 'mym_rsvp', 'type' => 'checkbox',
+	) );
+	$wp_customize->add_setting( 'mym_rsvp_deadline', array( 'default' => '', 'sanitize_callback' => 'sanitize_text_field' ) );
+	$wp_customize->add_control( 'mym_rsvp_deadline', array(
+		'label'       => __( 'Anmeldefrist', 'mym-hochzeit' ),
+		'description' => __( 'Format JJJJ-MM-TT. Leer = keine Frist. Nach diesem Datum verschwindet das Formular für Neuanmeldungen und zeigt stattdessen einen Hinweis; bereits angemeldete Gäste können über ihren persönlichen Link weiterhin ändern.', 'mym-hochzeit' ),
+		'section'     => 'mym_rsvp', 'type' => 'date',
+	) );
+	$wp_customize->add_setting( 'mym_rsvp_notify', array( 'default' => '', 'sanitize_callback' => 'sanitize_email' ) );
+	$wp_customize->add_control( 'mym_rsvp_notify', array(
+		'label'       => __( 'Benachrichtigung an E-Mail', 'mym-hochzeit' ),
+		'description' => __( 'Leer = dieselbe Adresse wie bei der Unterkunfts-Börse.', 'mym-hochzeit' ),
+		'section'     => 'mym_rsvp', 'type' => 'email',
+	) );
 }
 add_action( 'customize_register', 'mym_customize_register' );
 

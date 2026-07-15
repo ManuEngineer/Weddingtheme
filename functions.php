@@ -8,7 +8,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'MYM_VERSION', '2.1.1' );
+define( 'MYM_VERSION', '2.4.0' );
 
 /* ============================================================
  * 1) THEME SETUP
@@ -63,6 +63,7 @@ function mym_assets() {
 	wp_localize_script( 'mym-script', 'MYM', array(
 		'ajaxUrl'     => admin_url( 'admin-ajax.php' ),
 		'nonce'       => wp_create_nonce( 'mym_board' ),
+		'rsvpNonce'   => wp_create_nonce( 'mym_rsvp' ),
 		'weddingDate' => mym_opt( 'mym_wedding_date', '' ),
 		'weddingTime' => mym_opt( 'mym_wedding_time', '11:00' ),
 		'defaultHero' => mym_opt( 'mym_hero_variant', 'horizont' ),
@@ -72,6 +73,16 @@ function mym_assets() {
 			'thanks'   => mym_s( 'mym_js_thanks',   'Thank you! Your entry will be visible after review.' ),
 			'errName'  => mym_s( 'mym_js_err_name', 'Please enter your name.' ),
 			'error'    => mym_s( 'mym_js_error',    'Something went wrong. Please try again later.' ),
+		),
+		'rsvpI18n'    => array(
+			'sending'  => mym_s( 'mym_rsvp_js_sending',   'Sending …' ),
+			'thanks'   => mym_s( 'mym_rsvp_js_thanks',    'Thank you for your reply! We\'ve sent you a confirmation email.' ),
+			'updated'  => mym_s( 'mym_rsvp_js_updated',   'Updated! We\'ve sent you a new confirmation email.' ),
+			'errName'  => mym_s( 'mym_rsvp_js_err_name',  'Please enter a name.' ),
+			'errEmail' => mym_s( 'mym_rsvp_js_err_email', 'Please enter a valid email address.' ),
+			'errPhone' => mym_s( 'mym_rsvp_js_err_phone', 'Please enter a phone number with country code, e.g. +41 79 123 45 67.' ),
+			'errGuest' => mym_s( 'mym_rsvp_js_err_guest', 'Please add at least one person.' ),
+			'error'    => mym_s( 'mym_rsvp_js_error',     'Something went wrong. Please try again later.' ),
 		),
 	) );
 }
@@ -203,6 +214,7 @@ function mym_monogram() {
 
 require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/board.php';
+require get_template_directory() . '/inc/rsvp.php';
 require get_template_directory() . '/inc/content.php'; /* v1 compat — mym_content() still available for child themes */
 require get_template_directory() . '/inc/sections.php';
 require get_template_directory() . '/inc/strings.php';
@@ -238,13 +250,144 @@ add_filter( 'wp_nav_menu_objects', function ( $items, $args ) {
  *   page-board.php   → Unterkunftsbörse (Seiteninhalt + Formular)
  *   page-gallery.php → Galerie (Seiteninhalt + CTA-Button)
  *   page-map.php     → breiter Rahmen für Seiten mit "Karte mit Text"-Pattern
+ *   page-rsvp.php    → RSVP (Seiteninhalt + Zu-/Absage-Formular)
  * ========================================================== */
 add_filter( 'theme_page_templates', function ( $templates ) {
 	$templates['page-board.php']   = __( 'Unterkunftsbörse', 'mym-hochzeit' );
 	$templates['page-gallery.php'] = __( 'Foto-Galerie', 'mym-hochzeit' );
 	$templates['page-map.php']     = __( 'Anreise & Karte', 'mym-hochzeit' );
+	$templates['page-rsvp.php']    = __( 'RSVP (Zu-/Absage)', 'mym-hochzeit' );
 	return $templates;
 } );
+
+/* ============================================================
+ * 4e) OPEN GRAPH / SOCIAL-PREVIEW META-TAGS
+ * Für eine ansehnliche Linkvorschau beim Teilen (WhatsApp, iMessage,
+ * Facebook, ...). Kein SEO-Plugin nötig, nur die og:/twitter:-Tags.
+ * Startseite: Namen + Datum/Ort. Andere Seiten: normaler Titel.
+ * Bild: Startbild-Foto aus dem Customizer, sonst Beitragsbild der
+ * Startseite, sonst kein Bild-Tag (kein SVG als og:image geeignet).
+ * ========================================================== */
+function mym_social_meta_tags() {
+	$is_front = is_front_page();
+	$couple   = mym_couple();
+	$conn     = mym_opt( 'mym_connector', '&' ) ?: '&';
+	$title    = $is_front
+		? trim( $couple['a'] . ' ' . $conn . ' ' . $couple['b'] )
+		: wp_get_document_title();
+	if ( $title === '' ) {
+		$title = get_bloginfo( 'name' );
+	}
+
+	$description = '';
+	if ( $is_front ) {
+		$ts    = strtotime( mym_opt( 'mym_wedding_date', '' ) );
+		$exact = get_theme_mod( 'mym_date_exact', false );
+		$when  = $ts ? date_i18n( $exact ? 'j. F Y' : 'F Y', $ts ) : '';
+		$place = mym_opt( 'mym_place', '' );
+		$description = trim( implode( ' · ', array_filter( array( $when, $place ) ) ) );
+	}
+	if ( $description === '' ) {
+		$description = get_bloginfo( 'description' );
+	}
+
+	$image = get_theme_mod( 'mym_hero_photo', '' );
+	if ( ! $image && $is_front && has_post_thumbnail() ) {
+		$image = get_the_post_thumbnail_url( get_the_ID(), 'full' );
+	}
+
+	$url    = $is_front ? home_url( '/' ) : get_permalink();
+	$lang   = mym_current_lang();
+	$locale = array( 'de' => 'de_DE', 'es' => 'es_ES' );
+	$locale = isset( $locale[ $lang ] ) ? $locale[ $lang ] : $lang;
+	?>
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
+	<meta property="og:locale" content="<?php echo esc_attr( $locale ); ?>">
+	<meta property="og:url" content="<?php echo esc_url( $url ); ?>">
+	<meta property="og:title" content="<?php echo esc_attr( $title ); ?>">
+	<?php if ( $description ) : ?>
+	<meta property="og:description" content="<?php echo esc_attr( $description ); ?>">
+	<?php endif; ?>
+	<?php if ( $image ) : ?>
+	<meta property="og:image" content="<?php echo esc_url( $image ); ?>">
+	<?php endif; ?>
+	<meta name="twitter:card" content="<?php echo $image ? 'summary_large_image' : 'summary'; ?>">
+	<meta name="twitter:title" content="<?php echo esc_attr( $title ); ?>">
+	<?php if ( $description ) : ?>
+	<meta name="twitter:description" content="<?php echo esc_attr( $description ); ?>">
+	<?php endif; ?>
+	<?php if ( $image ) : ?>
+	<meta name="twitter:image" content="<?php echo esc_url( $image ); ?>">
+	<?php endif; ?>
+	<?php
+}
+add_action( 'wp_head', 'mym_social_meta_tags', 1 );
+
+/* ============================================================
+ * 4f) "ZUM KALENDER HINZUFÜGEN"-LINKS
+ * Nur wenn ein EXAKTES Datum gesetzt ist (mym_date_exact) — bei nur
+ * grob bekanntem Monat wäre ein Kalendereintrag irreführend. Dauer
+ * mangels Detailangabe pauschal 8 Std. ab Startzeit.
+ * Google: direkter Render-Link. Alle anderen (Apple/Outlook/...):
+ * generierte .ics-Datei als data-URI, kein Server-Endpunkt nötig.
+ * ========================================================== */
+function mym_ics_escape( $text ) {
+	return str_replace( array( '\\', ',', ';', "\n" ), array( '\\\\', '\\,', '\\;', '\\n' ), $text );
+}
+
+function mym_calendar_links() {
+	if ( ! get_theme_mod( 'mym_date_exact', false ) ) {
+		return null;
+	}
+	$tz       = wp_timezone();
+	$dt_str   = mym_opt( 'mym_wedding_date', '' ) . ' ' . mym_opt( 'mym_wedding_time', '11:00' );
+	try {
+		$dt = new DateTimeImmutable( $dt_str, $tz );
+		$ts = $dt->getTimestamp();
+	} catch ( Exception $e ) {
+		return null;
+	}
+	if ( ! $ts ) {
+		return null;
+	}
+	$start = $ts;
+	$end   = $ts + 8 * HOUR_IN_SECONDS;
+
+	$couple = mym_couple();
+	$conn   = mym_opt( 'mym_connector', '&' ) ?: '&';
+	$title  = trim( $couple['a'] . ' ' . $conn . ' ' . $couple['b'] );
+	$place  = mym_opt( 'mym_place', '' );
+	$url    = home_url( '/' );
+
+	/* add_query_arg() does NOT urlencode its values (unlike http_build_query()) —
+	 * pre-encoding here is required, not double-encoding. Without it, a "&" in the
+	 * connector (e.g. the default "Name & Name" title) would corrupt the query string. */
+	$google = add_query_arg( array(
+		'action'   => 'TEMPLATE',
+		'text'     => rawurlencode( $title ),
+		'dates'    => wp_date( 'Ymd\THis', $start ) . '/' . wp_date( 'Ymd\THis', $end ),
+		'ctz'      => wp_timezone_string(),
+		'details'  => rawurlencode( $url ),
+		'location' => rawurlencode( $place ),
+	), 'https://www.google.com/calendar/render' );
+
+	$ics  = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//" . sanitize_title( get_bloginfo( 'name' ) ) . "//DE\r\n";
+	$ics .= "BEGIN:VEVENT\r\nUID:" . md5( $title . $start ) . '@' . wp_parse_url( $url, PHP_URL_HOST ) . "\r\n";
+	$ics .= 'DTSTART:' . wp_date( 'Ymd\THis', $start ) . "\r\n";
+	$ics .= 'DTEND:' . wp_date( 'Ymd\THis', $end ) . "\r\n";
+	$ics .= 'SUMMARY:' . mym_ics_escape( $title ) . "\r\n";
+	if ( $place ) {
+		$ics .= 'LOCATION:' . mym_ics_escape( $place ) . "\r\n";
+	}
+	$ics .= 'DESCRIPTION:' . mym_ics_escape( $url ) . "\r\n";
+	$ics .= "END:VEVENT\r\nEND:VCALENDAR\r\n";
+
+	return array(
+		'google' => esc_url_raw( $google ),
+		'ics'    => 'data:text/calendar;charset=utf8;base64,' . base64_encode( $ics ),
+	);
+}
 
 /* ============================================================
  * Template-Hilfsfunktionen (hier definiert, nicht im Template,

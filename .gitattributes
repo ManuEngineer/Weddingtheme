@@ -1,0 +1,6 @@
+# Excluded from `git archive` output — GitHub's "Download ZIP" and the
+# auto-generated release zip/tarball both use git archive under the hood,
+# so this keeps AI-assistant-only instructions out of the distributed
+# theme while leaving the file fully tracked and visible in the repo.
+CLAUDE.md export-ignore
+.gitattributes export-ignore

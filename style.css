@@ -4,7 +4,7 @@ Theme URI: https://github.com/ManuEngineer/Weddingtheme
 Author: ManuEngineer
 Author URI: https://github.com/ManuEngineer
 Description: Mehrsprachiges Hochzeits-Onepager-Theme: Countdown, Sektionen via Navigationsmenü, Unterkunfts-Boerse, Galerie, Geschenke und FAQ. Inhalte werden als WordPress-Seiten gepflegt. Polylang-kompatibel (beliebige Sprachen).
-Version: 2.1.1
+Version: 2.4.0
 Requires at least: 6.0
 Tested up to: 6.5
 Requires PHP: 7.4
@@ -68,6 +68,9 @@ input,select,button,textarea{font-family:inherit}
 .mym-hero-rule span.line{height:1px;width:42px;background:#7d8c80}
 .mym-hero-date{font-size:clamp(15px,2vw,19px);letter-spacing:.22em;text-transform:uppercase}
 .mym-hero-place{margin-top:10px;font-size:14px;letter-spacing:.16em;text-transform:uppercase}
+.mym-cal-links{margin-top:18px;display:flex;gap:18px;justify-content:center;flex-wrap:wrap;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.mym-cal-links a{border-bottom:1px solid currentColor;padding-bottom:2px;opacity:.85;transition:opacity .2s}
+.mym-cal-links a:hover{opacity:1}
 .mym-hero--horizont{position:relative;min-height:88vh;min-height:88dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 0;background:linear-gradient(180deg,#202c25 0%,#2F4339 50%,#3a5244 100%);overflow:hidden}
 .mym-hero--horizont .mym-hero-title{color:var(--mym-cream);font-size:clamp(54px,11vw,128px);font-weight:400;letter-spacing:.5px}
 .mym-hero--horizont .mym-hero-title .mym-hero-break{display:none}
@@ -76,6 +79,9 @@ input,select,button,textarea{font-family:inherit}
   /* Zeilenumbruch braucht eine zusätzliche Titelzeile -> Inhalt etwas nach oben rücken,
      damit "Ort"-Zeile nicht in die Bergketten hineinrutscht. */
   .mym-hero--horizont .mym-hero-inner{margin-top:-56px}
+  /* Button an den Fuss der Bergkette pinnen statt in der zentrierten Textbox zu bleiben,
+     sonst rutscht er bei drei Titelzeilen in die Gipfel-Silhouette hinein. */
+  .mym-rsvp-cta-wrap--horizont{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);z-index:2;margin-top:0}
 }
 .mym-hero--horizont .conn{color:var(--mym-gold-warm);font-style:italic;font-weight:400}
 .mym-hero--horizont .mym-hero-place{color:#c2cdbf}
@@ -136,17 +142,20 @@ input,select,button,textarea{font-family:inherit}
 .mym-cd-dates{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
 .mym-cd-date{border:1px solid var(--mym-border-soft);border-radius:999px;padding:9px 20px;font-size:14px;letter-spacing:.08em;color:var(--mym-forest);background:var(--mym-cream-card)}
 
-/* STORY */
+/* STORY — Basis hell (Creme-Sektion); .mym-bg-forest weiter unten schaltet auf dunkel um */
 .mym-story-grid{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:0.9fr 1.1fr;gap:clamp(36px,6vw,80px);align-items:center}
-.mym-story-photo{margin-top:30px;border:1px solid #4a5d50;padding:8px;border-radius:2px}
-.mym-story-photo .mym-photo-ph{aspect-ratio:4/3;min-height:0;background:repeating-linear-gradient(45deg,#37493f,#37493f 12px,#324239 12px,#324239 24px);color:#9fae9f}
+.mym-story-photo{margin-top:30px;border:1px solid var(--mym-border);padding:8px;border-radius:2px}
 .mym-story-photo img{aspect-ratio:4/3;object-fit:cover;width:100%}
 .mym-story-body{display:flex;flex-direction:column;gap:20px}
-.mym-story-body p{font-size:clamp(17px,1.6vw,20px);color:#cdd6cb;font-family:var(--serif);line-height:1.55}
+.mym-story-body p{font-size:clamp(17px,1.6vw,20px);color:var(--mym-text);font-family:var(--serif);line-height:1.55}
 .mym-story-sign{display:flex;align-items:center;gap:14px;margin-top:6px;color:var(--mym-gold)}
 .mym-story-sign .line{height:1px;width:40px;background:var(--mym-gold)}
 .mym-story-sign .names{font-family:var(--serif);font-style:italic;font-size:22px;letter-spacing:.04em}
-.mym-story-sign .conn{color:var(--mym-gold-light)}
+.mym-story-sign .conn{color:var(--mym-gold)}
+.mym-bg-forest .mym-story-photo{border-color:#4a5d50}
+.mym-bg-forest .mym-story-photo .mym-photo-ph{background:repeating-linear-gradient(45deg,#37493f,#37493f 12px,#324239 12px,#324239 24px);color:#9fae9f}
+.mym-bg-forest .mym-story-body p{color:#cdd6cb}
+.mym-bg-forest .mym-story-sign .conn{color:var(--mym-gold-light)}
 
 /* PROGRAM */
 .mym-prog-list{max-width:680px;margin:0 auto;display:flex;flex-direction:column}
@@ -257,11 +266,92 @@ input,select,button,textarea{font-family:inherit}
 .mym-board-item .note{color:#9aa89d;font-size:13px}
 .mym-board-item .contact{color:#7fae8a;font-size:13px;margin-top:2px}
 
+/* RSVP */
+.mym-rsvp-cta-wrap{margin-top:22px}
+.mym-rsvp{margin-top:32px}
+.mym-rsvp-head{text-align:center;max-width:560px;margin:0 auto 28px}
+.mym-rsvp-head h2{font-family:var(--serif);font-weight:500;font-size:clamp(28px,3.5vw,40px)}
+.mym-rsvp-head p{margin-top:10px;font-size:16px}
+.mym-rsvp-deadline{margin-top:8px;font-size:13px!important;letter-spacing:.08em;text-transform:uppercase}
+.mym-rsvp-closed{max-width:560px;margin:0 auto;text-align:center;font-size:16px;line-height:1.6}
+.mym-rsvp-form{display:flex;flex-direction:column;gap:16px;border-radius:6px;padding:20px;margin-bottom:14px;max-width:760px;margin-left:auto;margin-right:auto}
+.mym-rsvp-row{display:grid;gap:12px}
+.mym-rsvp-row:has(.mym-rsvp-col-1){grid-template-columns:1fr 1fr}
+.mym-rsvp-row:has(.mym-rsvp-col-full){grid-template-columns:1fr}
+.mym-rsvp-form label{display:flex;flex-direction:column;gap:5px;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.mym-rsvp-form label .req{color:var(--mym-terra);margin-left:2px}
+.mym-rsvp-form input,.mym-rsvp-form select,.mym-rsvp-form textarea{border-radius:4px;padding:10px;font-size:14px;transition:border-color .2s;width:100%;min-width:0}
+.mym-rsvp-form input:focus,.mym-rsvp-form textarea:focus{outline:none;border-color:var(--mym-gold)}
+.mym-rsvp-form textarea{resize:vertical;min-height:56px}
+.mym-rsvp-status{border:none;padding:0;margin:0;display:flex;gap:20px;flex-wrap:wrap}
+.mym-rsvp-radio{flex-direction:row!important;align-items:center;gap:8px!important;font-size:14px!important;letter-spacing:normal!important;text-transform:none!important}
+.mym-rsvp-radio input{width:auto}
+.mym-rsvp-guests-wrap{border-top:1px solid;padding-top:14px}
+.mym-rsvp-guests-label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
+.mym-rsvp-contact-hint{font-size:12px;margin:0 0 10px}
+.mym-rsvp-phone-hint{font-size:12px;margin:-8px 0 0}
+.mym-rsvp-guest-row{display:grid;grid-template-columns:2fr auto auto 2fr;gap:10px 14px;align-items:end;padding:14px;border-radius:4px;margin-bottom:10px}
+.mym-rsvp-check{flex-direction:row!important;align-items:center;gap:6px!important;font-size:12px!important;letter-spacing:normal!important;text-transform:none!important;white-space:nowrap}
+.mym-rsvp-check input{width:auto}
+.mym-rsvp-guest-langs{grid-column:1/-1;border:none;padding:0;margin:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.mym-rsvp-guest-langs legend{font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-right:4px}
+.mym-rsvp-remove-guest{grid-column:1/-1;justify-self:start;background:none;border:none;color:#c96a4e;font-size:12px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;padding:0}
+.mym-rsvp-add-guest{background:none;border-radius:4px;padding:10px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;width:100%;transition:border-color .2s}
+.mym-rsvp-submit-wrap{display:flex;justify-content:center;margin-top:4px}
+.mym-rsvp-submit{background:var(--mym-terra);color:#fff;border:none;border-radius:4px;padding:13px 34px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .2s}
+.mym-rsvp-submit:hover{background:var(--mym-terra-dark)}
+.mym-rsvp-msg{min-height:20px;font-size:14px;margin:0;text-align:center}
+
+/* Textfarben dunkel (auf Waldgrün-Sektion) — die Sektion selbst liefert den Hintergrund, nur die Formularbox hat eine eigene Fläche */
+.mym-rsvp-dark .mym-rsvp-head h2{color:var(--mym-cream-bright)}
+.mym-rsvp-dark .mym-rsvp-head p{color:#aeb9ac}
+.mym-rsvp-dark .mym-rsvp-deadline{color:var(--mym-gold-light)!important}
+.mym-rsvp-dark .mym-rsvp-closed{color:#aeb9ac}
+.mym-rsvp-dark .mym-rsvp-form{background:var(--mym-forest-deep);border:1px solid var(--mym-forest-line)}
+.mym-rsvp-dark .mym-rsvp-form label{color:#8fa093}
+.mym-rsvp-dark .mym-rsvp-form input,.mym-rsvp-dark .mym-rsvp-form select,.mym-rsvp-dark .mym-rsvp-form textarea{background:#1f2a24;border:1px solid var(--mym-forest-line);color:var(--mym-cream-on-dark)}
+.mym-rsvp-dark .mym-rsvp-radio{color:var(--mym-cream-on-dark)!important}
+.mym-rsvp-dark .mym-rsvp-guests-wrap{border-top-color:var(--mym-forest-line)}
+.mym-rsvp-dark .mym-rsvp-guests-label{color:#8fa093}
+.mym-rsvp-dark .mym-rsvp-contact-hint{color:#8fa093}
+.mym-rsvp-dark .mym-rsvp-phone-hint{color:#8fa093}
+.mym-rsvp-dark .mym-rsvp-guest-row{background:#1a241f;border:1px solid var(--mym-forest-line)}
+.mym-rsvp-dark .mym-rsvp-guest-langs legend{color:#8fa093}
+.mym-rsvp-dark .mym-rsvp-add-guest{border:1px dashed var(--mym-forest-line);color:#cfe0d2}
+.mym-rsvp-dark .mym-rsvp-add-guest:hover{border-color:var(--mym-gold)}
+.mym-rsvp-dark .mym-rsvp-msg{color:var(--mym-gold-light)}
+.mym-rsvp-dark .mym-rsvp-msg.error{color:#e0a08c}
+
+/* Textfarben hell (auf Creme-Sektion) — die Sektion selbst liefert den Hintergrund, nur die Formularbox hat eine eigene Fläche */
+.mym-rsvp-light .mym-rsvp-head h2{color:var(--mym-forest)}
+.mym-rsvp-light .mym-rsvp-head p{color:var(--mym-text)}
+.mym-rsvp-light .mym-rsvp-deadline{color:var(--mym-gold)!important}
+.mym-rsvp-light .mym-rsvp-closed{color:var(--mym-muted)}
+.mym-rsvp-light .mym-rsvp-form{background:var(--mym-cream-card);border:1px solid var(--mym-border-card)}
+.mym-rsvp-light .mym-rsvp-form label{color:var(--mym-muted)}
+.mym-rsvp-light .mym-rsvp-form input,.mym-rsvp-light .mym-rsvp-form select,.mym-rsvp-light .mym-rsvp-form textarea{background:#fff;border:1px solid var(--mym-border-card);color:var(--mym-ink)}
+.mym-rsvp-light .mym-rsvp-radio{color:var(--mym-ink)!important}
+.mym-rsvp-light .mym-rsvp-guests-wrap{border-top-color:var(--mym-border-card)}
+.mym-rsvp-light .mym-rsvp-guests-label{color:var(--mym-muted)}
+.mym-rsvp-light .mym-rsvp-contact-hint{color:var(--mym-muted)}
+.mym-rsvp-light .mym-rsvp-phone-hint{color:var(--mym-muted)}
+.mym-rsvp-light .mym-rsvp-guest-row{background:#fff;border:1px solid var(--mym-border-card)}
+.mym-rsvp-light .mym-rsvp-guest-langs legend{color:var(--mym-muted)}
+.mym-rsvp-light .mym-rsvp-add-guest{border:1px dashed var(--mym-border-card);color:var(--mym-forest)}
+.mym-rsvp-light .mym-rsvp-add-guest:hover{border-color:var(--mym-gold)}
+.mym-rsvp-light .mym-rsvp-msg{color:var(--mym-gold)}
+.mym-rsvp-light .mym-rsvp-msg.error{color:var(--mym-terra-dark)}
+
+@media(max-width:640px){
+	.mym-rsvp-row:has(.mym-rsvp-col-1){grid-template-columns:1fr}
+	.mym-rsvp-guest-row{grid-template-columns:1fr}
+}
+
 /* GALLERY */
 .mym-gallery-inner{max-width:1000px;margin:0 auto}
 .mym-gallery-head{text-align:center;max-width:640px;margin:0 auto 44px}
 .mym-gallery-head p{margin-top:16px;color:var(--mym-text);font-size:17px}
-.mym-gallery-cta,.mym-gallery-cta .wp-block-button__link{display:inline-block;margin-top:26px;background:var(--mym-forest);color:var(--mym-cream) !important;padding:13px 30px;border-radius:999px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none !important;transition:background .2s}
+.mym-gallery-cta,.mym-gallery-cta .wp-block-button__link{display:inline-block;margin-top:26px;background:var(--mym-forest);color:var(--mym-cream) !important;padding:13px 30px;border-radius:999px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none !important;transition:background .2s;white-space:nowrap}
 .mym-gallery-cta:hover,.mym-gallery-cta .wp-block-button__link:hover{background:var(--mym-forest-dark)}
 .mym-bg-forest .mym-gallery-cta{background:var(--mym-cream);color:var(--mym-forest) !important}
 .mym-bg-forest .mym-gallery-cta:hover{background:var(--mym-gold-light);color:var(--mym-forest) !important}
@@ -279,20 +369,25 @@ input,select,button,textarea{font-family:inherit}
 .mym-gift h3{font-size:25px;color:var(--mym-forest)}
 .mym-gift p{color:var(--mym-muted-soft);font-size:15px}
 
-/* FAQ */
+/* FAQ — Basis hell (Creme-Sektion); .mym-bg-forest weiter unten schaltet auf dunkel um */
 .mym-faq-inner{max-width:760px;margin:0 auto}
 .mym-faq .mym-h2{font-size:clamp(36px,5vw,60px)}
 .mym-faq-list{display:flex;flex-direction:column}
-.mym-faq-item{border-bottom:1px solid var(--mym-forest-line)}
-.mym-faq-q{width:100%;list-style:none;background:none;border:none;cursor:pointer;text-align:left;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 0;color:var(--mym-cream-bright)}
+.mym-faq-item{border-bottom:1px solid var(--mym-border)}
+.mym-faq-q{width:100%;list-style:none;background:none;border:none;cursor:pointer;text-align:left;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 0;color:var(--mym-forest)}
 .mym-faq-q::-webkit-details-marker{display:none}
 .mym-faq-q::marker{content:""}
 .mym-faq-q .q{font-family:var(--serif);font-size:clamp(20px,2.4vw,26px)}
 .mym-faq-q .plus{flex:none;font-size:22px;color:var(--mym-gold);transition:transform .25s}
 .mym-faq-item[open] .plus{transform:rotate(45deg)}
 .mym-faq-a{padding:0 0 24px}
-.mym-faq-a p{color:#aeb9ac;font-size:16px;line-height:1.7;max-width:640px}
-.mym-faq-disclaimer{margin-top:30px;font-size:13px;color:#7d8c80;text-align:center;font-style:italic;font-family:var(--serif)}
+.mym-faq-a p{color:var(--mym-text);font-size:16px;line-height:1.7;max-width:640px}
+.mym-faq-disclaimer{margin-top:30px;font-size:13px;color:var(--mym-muted);text-align:center;font-style:italic;font-family:var(--serif)}
+.mym-bg-forest .mym-faq-item{border-bottom-color:var(--mym-forest-line)}
+.mym-bg-forest .mym-faq-q{color:var(--mym-cream-bright)}
+.mym-bg-forest .mym-faq-q .plus{color:var(--mym-gold-light)}
+.mym-bg-forest .mym-faq-a p{color:#aeb9ac}
+.mym-bg-forest .mym-faq-disclaimer{color:#7d8c80}
 
 /* FOOTER */
 .mym-footer{background:var(--mym-forest-dark);color:#9aa89d;padding:60px 24px;text-align:center}
@@ -352,13 +447,15 @@ input,select,button,textarea{font-family:inherit}
 .mym-section-content .wp-block-heading.is-style-h2-gross{font-size:clamp(40px,5.5vw,68px);font-weight:500;color:var(--mym-forest);line-height:1.04;margin-bottom:24px}
 .mym-bg-forest .mym-section-content h2.is-style-h2-gross{color:var(--mym-cream-bright)}
 /* Foto-Rahmen (Geschichte) via Block-Stil */
-.mym-section-content figure.is-style-foto-rahmen{border:1px solid #4a5d50;padding:8px;border-radius:2px}
+.mym-section-content figure.is-style-foto-rahmen{border:1px solid var(--mym-border);padding:8px;border-radius:2px}
 .mym-section-content figure.is-style-foto-rahmen img{width:100%;height:auto;display:block}
+.mym-bg-forest .mym-section-content figure.is-style-foto-rahmen{border-color:#4a5d50}
 /* Signatur-Zeile */
 .mym-section-content .mym-story-sign{display:flex;align-items:center;gap:14px;color:var(--mym-gold);margin:24px 0 8px}
 .mym-section-content .mym-story-sign .line{height:1px;width:40px;background:var(--mym-gold);flex:none}
 .mym-section-content .mym-story-sign .names{font-family:var(--serif);font-style:italic;font-size:22px;letter-spacing:.04em}
-.mym-section-content .mym-story-sign .conn{color:var(--mym-gold-light)}
+.mym-section-content .mym-story-sign .conn{color:var(--mym-gold)}
+.mym-bg-forest .mym-section-content .mym-story-sign .conn{color:var(--mym-gold-light)}
 /* Hotel-Karten innerhalb Seiten-Content */
 .mym-section-content .mym-hotels{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
 .mym-section-content .mym-hotel{background:var(--mym-cream-card);border:1px solid var(--mym-border-card);border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:8px}
@@ -390,6 +487,10 @@ input,select,button,textarea{font-family:inherit}
 .mym-section-content .mym-prog-table .zeit{font-family:var(--serif);font-size:26px;color:var(--mym-gold);white-space:nowrap;width:96px;text-align:right;padding-right:24px}
 .mym-section-content .mym-prog-table h3{font-family:var(--serif);font-size:26px;color:var(--mym-forest);margin:0 0 4px;font-weight:500}
 .mym-section-content .mym-prog-table p{color:var(--mym-muted-soft);font-size:15px;margin:0}
+.mym-bg-forest .mym-section-content .mym-prog-table td{border-bottom-color:var(--mym-forest-line)!important}
+.mym-bg-forest .mym-section-content .mym-prog-table .zeit{color:var(--mym-gold-light)}
+.mym-bg-forest .mym-section-content .mym-prog-table h3{color:var(--mym-cream-bright)}
+.mym-bg-forest .mym-section-content .mym-prog-table p{color:#9aa89d}
 /* WordPress setzt auf .wp-block-html table manchmal Borders — zuruecksetzen */
 .mym-section-content .wp-block-html table,
 .mym-section-content .wp-block-html table td,
