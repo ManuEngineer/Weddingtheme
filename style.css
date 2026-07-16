@@ -378,7 +378,8 @@ input,select,button,textarea{font-family:inherit}
 .mym-team-member .role{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mym-terra)}
 .mym-team-member .task{font-size:14px;color:var(--mym-muted-soft)}
 .mym-team-langs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:2px}
-.mym-team-member .contact{font-size:13px;color:var(--mym-terra);text-decoration:underline;margin-top:4px}
+.mym-team-contact{display:flex;flex-direction:column;gap:2px;margin-top:4px}
+.mym-team-contact a{font-size:13px;color:var(--mym-terra);text-decoration:underline}
 .mym-team-member .mym-lang-badge.es{color:var(--mym-gold)}
 
 /* FOTO-SLIDER — eigenständiges Modul, überall im Seiteninhalt einsetzbar (nicht Startbild).

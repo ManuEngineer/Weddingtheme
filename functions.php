@@ -842,7 +842,10 @@ function mym_register_block_patterns() {
       <span class="mym-lang-badge de">DE</span>
       <span class="mym-lang-badge es">ES</span>
     </div>
-    <a class="contact" href="mailto:name@example.com">Kontakt aufnehmen →</a>
+    <div class="mym-team-contact">
+      <a href="mailto:name@example.com">Kontakt aufnehmen →</a>
+      <a href="tel:+41000000000">+41 00 000 00 00</a>
+    </div>
   </div>
   <div class="mym-team-member">
     <div class="mym-team-photo"><img src="https://" alt="Name"></div>
@@ -852,7 +855,10 @@ function mym_register_block_patterns() {
     <div class="mym-team-langs">
       <span class="mym-lang-badge es">ES</span>
     </div>
-    <a class="contact" href="mailto:name@example.com">Kontakt aufnehmen →</a>
+    <div class="mym-team-contact">
+      <a href="mailto:name@example.com">Kontakt aufnehmen →</a>
+      <a href="tel:+41000000000">+41 00 000 00 00</a>
+    </div>
   </div>
   <div class="mym-team-member">
     <div class="mym-team-photo"><img src="https://" alt="Name"></div>
@@ -863,7 +869,10 @@ function mym_register_block_patterns() {
       <span class="mym-lang-badge de">DE</span>
       <span class="mym-lang-badge fr">FR</span>
     </div>
-    <a class="contact" href="mailto:name@example.com">Kontakt aufnehmen →</a>
+    <div class="mym-team-contact">
+      <a href="mailto:name@example.com">Kontakt aufnehmen →</a>
+      <a href="tel:+41000000000">+41 00 000 00 00</a>
+    </div>
   </div>
   <div class="mym-team-member">
     <div class="mym-team-photo"><img src="https://" alt="Name"></div>
@@ -874,7 +883,10 @@ function mym_register_block_patterns() {
       <span class="mym-lang-badge de">DE</span>
       <span class="mym-lang-badge en">EN</span>
     </div>
-    <a class="contact" href="mailto:name@example.com">Kontakt aufnehmen →</a>
+    <div class="mym-team-contact">
+      <a href="mailto:name@example.com">Kontakt aufnehmen →</a>
+      <a href="tel:+41000000000">+41 00 000 00 00</a>
+    </div>
   </div>
   <div class="mym-team-member">
     <div class="mym-team-photo"><img src="https://" alt="Name"></div>
@@ -884,7 +896,10 @@ function mym_register_block_patterns() {
     <div class="mym-team-langs">
       <span class="mym-lang-badge de">DE</span>
     </div>
-    <a class="contact" href="mailto:name@example.com">Kontakt aufnehmen →</a>
+    <div class="mym-team-contact">
+      <a href="mailto:name@example.com">Kontakt aufnehmen →</a>
+      <a href="tel:+41000000000">+41 00 000 00 00</a>
+    </div>
   </div>
   <div class="mym-team-member">
     <div class="mym-team-photo"><img src="https://" alt="Name"></div>
@@ -895,7 +910,10 @@ function mym_register_block_patterns() {
       <span class="mym-lang-badge de">DE</span>
       <span class="mym-lang-badge en">EN</span>
     </div>
-    <a class="contact" href="mailto:name@example.com">Kontakt aufnehmen →</a>
+    <div class="mym-team-contact">
+      <a href="mailto:name@example.com">Kontakt aufnehmen →</a>
+      <a href="tel:+41000000000">+41 00 000 00 00</a>
+    </div>
   </div>
 </div>
 <!-- /wp:html -->',
