@@ -55,6 +55,7 @@ Damit der Hochzeits-Onepager als Startseite erscheint:
     zum exakten Eintippen.
 - **Fotos** — Startbild-Foto direkt hochladen
 - **Unterkunfts-Börse** — An/Aus, Moderation, Benachrichtigungs-E-Mail
+- **Musikwünsche** — An/Aus, Benachrichtigungs-E-Mail
 
 > Tipp: Das Startbild lässt sich live testen, indem man als eingeloggter Nutzer unten im Startbild die Variante umschaltet (nur für euch sichtbar). Dauerhaft einstellen im Customizer.
 
@@ -104,7 +105,7 @@ Sektion.**
 | Geschenke       | `geschenke`       | `regalos`        |
 | FAQ             | `faq`             | `faq`            |
 
-Passende **Block-Muster** (Kategorie „Hochzeit") liefern für jede Sektion ein fertiges Gerüst zum Befüllen.
+Passende **Block-Muster** (Kategorie „Hochzeit") liefern für jede Sektion ein fertiges Gerüst zum Befüllen — u.a. **Team / Trauzeugen** (Profilkarten mit Foto, Rolle, Aufgabenbereich, Sprachen, Kontakt inkl. Telefon) und **Foto-Slider** (eigenständiges Bildkarussell), beide frei auf jeder beliebigen Seite einsetzbar, unabhängig von einem Menüeintrag.
 
 **Mit Polylang:** je ein eigenes primäres Menü pro Sprache pflegen (**Design → Menüs**), jedes mit
 den übersetzten Seiten in gleicher Reihenfolge.
@@ -151,6 +152,9 @@ Genau wie bei der Unterkunfts-Börse: eine WordPress-Seite anlegen, Seiten-Templ
   ihren persönlichen Link **weiterhin** ändern.
 - Zwei unabhängige Ein-/Ausschalter im Customizer: das Formular selbst, und separat der
   auffällige **„Jetzt zusagen"-Button** im Startbild (springt zur RSVP-Sektion).
+- Schaltet ihr das Formular selbst aus, verschwindet die Seite komplett aus Menü und Startseite
+  (wie bei Musikwünsche) — **nur** der persönliche Änderungslink bereits angemeldeter Gäste
+  funktioniert weiterhin, damit niemand seine Anmeldung nicht mehr korrigieren kann.
 - Kontaktdaten (E-Mail/Telefon) sind **privat** — wie beim Kontaktfeld der Börse nie öffentlich
   sichtbar.
 - Spamschutz via Honeypot + IP-Rate-Limit (nur bei Neuanmeldungen, nicht bei Änderungen über den
@@ -158,19 +162,38 @@ Genau wie bei der Unterkunfts-Börse: eine WordPress-Seite anlegen, Seiten-Templ
 
 ---
 
-## 8. Foto-Galerie
+## 8. Musikwünsche
+
+Genau wie bei RSVP: eine WordPress-Seite anlegen, Seiten-Template **„Musikwünsche"** setzen, zum
+primären Menü hinzufügen — Position im Menü bestimmt, wo die Sektion auf der Startseite erscheint.
+
+- Gäste tragen ihren Namen (**optional**) sowie beliebig viele Songwünsche ein (Titel/Interpret
+  über „+ weiteren Song hinzufügen").
+- Neue Einreichungen erscheinen unter **Musikwünsche** (linkes WordPress-Menü). **Keine
+  Freigabe/Moderation nötig** — wie bei RSVP werden Einreichungen nirgends öffentlich angezeigt.
+- Oben in der Liste: **Zusammenfassung** (Anzahl Einreichungen/Songs) sowie ein Button für den
+  **CSV-Export** — eine Zeile pro Song, inklusive einem fertigen **Spotify-Suchlink** pro Wunsch
+  (öffnet die Trefferliste für Titel + Interpret, kein exakter Treffer garantiert, aber ein Klick
+  entfernt — kein Spotify-Konto/API-Key nötig).
+- Bei jeder Einreichung geht eine E-Mail an die im Customizer hinterlegte Adresse (leer = dieselbe
+  wie bei der Unterkunfts-Börse).
+- Spamschutz via Honeypot + IP-Rate-Limit.
+
+---
+
+## 9. Foto-Galerie
 
 Im Customizer den Galerie-Link eintragen → der Button „Zur Galerie & Upload" verlinkt darauf.
 
 ---
 
-## 9. Impressum / Datenschutz
+## 10. Impressum / Datenschutz
 
 Normale WordPress-Seiten anlegen. Für den Footer-Link: **Design → Menüs** → Menü erstellen → der Position **„Footer-Menü"** zuweisen.
 
 ---
 
-## 10. Struktur (für Entwickler)
+## 11. Struktur (für Entwickler)
 
 ```
 cordillera/
@@ -181,25 +204,29 @@ cordillera/
 ├── page-board.php         Seiten-Template "Unterkunftsbörse"
 ├── page-gallery.php       Seiten-Template "Foto-Galerie"
 ├── page-rsvp.php          Seiten-Template "RSVP (Zu-/Absage)"
+├── page-songs.php         Seiten-Template "Musikwünsche"
 ├── header.php / footer.php
 ├── index.php / page.php / single.php / 404.php   (generische Seiten, z.B. Impressum/Datenschutz)
 ├── inc/
 │   ├── content.php        v1-Kompatibilität, im aktuellen Rendering nicht mehr aktiv genutzt
 │   ├── customizer.php     Customizer-Optionen
+│   ├── customizer-controls.php  Eigene WP_Customize_Control-Klassen (Startbild-Wähler, Überschriften)
 │   ├── sections.php       Dashboard-Einrichtungshinweis + ungenutzter Erweiterungs-Helfer
 │   ├── board.php          Unterkunfts-Börse (CPT + AJAX)
 │   ├── rsvp.php           RSVP: CPT, Admin-Übersicht, CSV-Export
 │   ├── rsvp-ajax.php      RSVP: AJAX Neuanmeldung/Änderung via Token
-│   └── rsvp-email.php     RSVP: Bestätigungs-/Benachrichtigungs-E-Mails
+│   ├── rsvp-email.php     RSVP: Bestätigungs-/Benachrichtigungs-E-Mails
+│   └── songs.php          Musikwünsche: CPT, AJAX, Admin-Übersicht, CSV-Export, Spotify-Link
 ├── template-parts/
 │   ├── section-default.php   Sektion: reiner Seiteninhalt
 │   ├── section-board.php     Sektion: Seiteninhalt + Unterkunftsbörse
 │   ├── section-rsvp.php      Sektion: Seiteninhalt + RSVP-Formular
+│   ├── section-songs.php     Sektion: Seiteninhalt + Musikwünsche-Formular
 │   └── section-gallery.php   Sektion: Seiteninhalt + Galerie-CTA
 ├── assets/
 │   ├── svg/hero-mountains.svg
 │   ├── css/editor-style.css
-│   ├── js/main.js         Countdown, FAQ, Variantenwechsel, Börse, RSVP
+│   ├── js/main.js         Countdown, FAQ, Variantenwechsel, Börse, RSVP, Musikwünsche, Foto-Slider
 │   └── favicon.svg
 └── screenshot.png
 ```

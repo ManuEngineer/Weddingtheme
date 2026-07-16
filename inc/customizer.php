@@ -252,7 +252,7 @@ function mym_customize_register( $wp_customize ) {
 	$wp_customize->add_setting( 'mym_rsvp_enabled', array( 'default' => true, 'sanitize_callback' => 'mym_sanitize_bool' ) );
 	$wp_customize->add_control( 'mym_rsvp_enabled', array(
 		'label'       => __( 'RSVP-Formular auf der Seite anzeigen', 'mym-hochzeit' ),
-		'description' => __( 'Hauptschalter. Ausschalten, um das Formular vorübergehend zu deaktivieren, ohne die Seite/den Menüpunkt zu entfernen.', 'mym-hochzeit' ),
+		'description' => __( 'Hauptschalter. Ausschalten, um NEUE Anmeldungen zu stoppen — die Seite verschwindet dann aus Menü und Startseite. Bereits angemeldete Gäste können über ihren persönlichen Link weiterhin ändern.', 'mym-hochzeit' ),
 		'section'     => 'mym_rsvp', 'type' => 'checkbox',
 	) );
 	$wp_customize->add_setting( 'mym_rsvp_cta_enabled', array( 'default' => true, 'sanitize_callback' => 'mym_sanitize_bool' ) );
@@ -272,6 +272,23 @@ function mym_customize_register( $wp_customize ) {
 		'label'       => __( 'Benachrichtigung an E-Mail', 'mym-hochzeit' ),
 		'description' => __( 'Leer = dieselbe Adresse wie bei der Unterkunfts-Börse.', 'mym-hochzeit' ),
 		'section'     => 'mym_rsvp', 'type' => 'email',
+	) );
+
+	/* ---- Musikwünsche ---- */
+	$wp_customize->add_section( 'mym_songs', array(
+		'title' => __( 'Musikwünsche', 'mym-hochzeit' ), 'panel' => 'mym_panel',
+	) );
+	$wp_customize->add_setting( 'mym_songs_enabled', array( 'default' => true, 'sanitize_callback' => 'mym_sanitize_bool' ) );
+	$wp_customize->add_control( 'mym_songs_enabled', array(
+		'label'       => __( 'Musikwünsche-Formular auf der Seite anzeigen', 'mym-hochzeit' ),
+		'description' => __( 'Hauptschalter. Ausschalten, um das Formular zu deaktivieren, ohne die Seite/den Menüpunkt zu entfernen.', 'mym-hochzeit' ),
+		'section'     => 'mym_songs', 'type' => 'checkbox',
+	) );
+	$wp_customize->add_setting( 'mym_songs_notify', array( 'default' => '', 'sanitize_callback' => 'sanitize_email' ) );
+	$wp_customize->add_control( 'mym_songs_notify', array(
+		'label'       => __( 'Benachrichtigung an E-Mail', 'mym-hochzeit' ),
+		'description' => __( 'Leer = dieselbe Adresse wie bei der Unterkunfts-Börse.', 'mym-hochzeit' ),
+		'section'     => 'mym_songs', 'type' => 'email',
 	) );
 }
 add_action( 'customize_register', 'mym_customize_register' );

@@ -261,6 +261,74 @@
 		});
 	}
 
+	/* ---------- Musikwünsche ---------- */
+	var songsForm = document.getElementById('mym-songs-form');
+	if (songsForm && MYM.ajaxUrl) {
+		var songsMsg = document.getElementById('mym-songs-msg');
+		var songsList = document.getElementById('mym-songs-list');
+		var songsTpl = document.getElementById('mym-songs-row-tpl');
+		var songsAddBtn = document.getElementById('mym-songs-add');
+		var sI18n = MYM.songsI18n || {};
+
+		function addSongRow() {
+			var frag = songsTpl.content.cloneNode(true);
+			var row = frag.querySelector('.mym-songs-row');
+			row.querySelector('[data-remove-song]').addEventListener('click', function () {
+				if (songsList.children.length > 1) { row.remove(); }
+			});
+			songsList.appendChild(row);
+		}
+		if (songsAddBtn) {
+			songsAddBtn.addEventListener('click', function () { addSongRow(); });
+		}
+		addSongRow();
+
+		songsForm.addEventListener('submit', function (e) {
+			e.preventDefault();
+			songsMsg.classList.remove('error');
+
+			var songsData = [];
+			songsList.querySelectorAll('.mym-songs-row').forEach(function (row) {
+				var title = row.querySelector('[data-s="title"]').value.trim();
+				if (!title) { return; }
+				songsData.push({
+					title: title,
+					artist: row.querySelector('[data-s="artist"]').value.trim()
+				});
+			});
+			if (!songsData.length) { songsMsg.textContent = sI18n.errTitle || 'Title?'; songsMsg.classList.add('error'); return; }
+
+			var data = new FormData(songsForm);
+			data.append('action', 'mym_songs_submit');
+			data.append('nonce', MYM.songsNonce);
+			data.append('songs', JSON.stringify(songsData));
+
+			songsMsg.textContent = sI18n.sending || '...';
+			var btn = songsForm.querySelector('button[type="submit"]');
+			if (btn) btn.disabled = true;
+
+			fetch(MYM.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: data })
+				.then(function (r) { return r.json(); })
+				.then(function (res) {
+					if (btn) btn.disabled = false;
+					if (res && res.success) {
+						songsMsg.textContent = sI18n.thanks || 'Thanks!';
+						songsForm.reset();
+						songsList.innerHTML = '';
+						addSongRow();
+					} else {
+						songsMsg.textContent = (res && res.data && res.data.message) || sI18n.error || 'Error';
+						songsMsg.classList.add('error');
+					}
+				})
+				.catch(function () {
+					if (btn) btn.disabled = false;
+					songsMsg.textContent = sI18n.error || 'Error';
+					songsMsg.classList.add('error');
+				});
+		});
+	}
+
 	/* ---------- Foto-Slider ---------- */
 	document.querySelectorAll('.mym-slider').forEach(function (slider) {
 		var track = slider.querySelector('.mym-slider-track');

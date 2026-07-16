@@ -4,7 +4,7 @@ Tags: one-column, custom-menu, custom-colors, translation-ready, wedding
 Requires at least: 6.0
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 2.4.0
+Stable tag: 2.6.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,8 +18,9 @@ plus einer gästegeführten Unterkunfts-Börse und einem RSVP-Formular (Zu-/Absa
 Inhalte (Namen, Datum, Ort, Texte) werden im WordPress-Backend gepflegt, der Code enthält nur
 generische Platzhalter.
 
-**Wichtiger Hinweis zur Weiterverbreitung:** Dieses Theme registriert zwei eigene Custom Post
-Types (`mym_board` für die Unterkunfts-Börse, `mym_rsvp` für RSVP). Das ist laut den
+**Wichtiger Hinweis zur Weiterverbreitung:** Dieses Theme registriert drei eigene Custom Post
+Types (`mym_board` für die Unterkunfts-Börse, `mym_rsvp` für RSVP, `mym_song` für Musikwünsche).
+Das ist laut den
 WordPress.org-Theme-Richtlinien "Plugin-Territorium" (Datenverlust beim Theme-Wechsel) und daher
 nicht für den offiziellen Theme-Verzeichnis-Upload geeignet. Diese `readme.txt` folgt trotzdem dem
 WordPress.org-Format als Dokumentationsstandard — das Theme wird aber (vorerst) nur über GitHub
@@ -33,8 +34,9 @@ verteilt, nicht über wordpress.org/themes eingereicht.
 * Nichts Persönliches hartcodiert: Namen, Ort, Datum kommen aus dem Customizer, Langtexte aus normalen WordPress-Seiten
 * Unterkunfts-Börse: Gäste bieten/suchen Unterkunft über ein moderiertes Formular, Kontaktdaten bleiben privat
 * RSVP (Zu-/Absage): vollständige Gästeliste pro Anmeldung (Kind, vegetarisch/vegan, Allergien, Sprachen), Bearbeiten ohne Login über einen persönlichen Token-Link, Bestätigungsmail bei jeder Änderung, CSV-Export (eine Zeile pro Gast) fürs Catering/Tischkarten
+* Musikwünsche: Gäste reichen beliebig viele Songwünsche (Titel/Interpret, Absender optional) ein, CSV-Export (eine Zeile pro Song) inkl. Spotify-Suchlink, eigener Ein-/Aus-Schalter
 * Open-Graph-/Twitter-Card-Meta-Tags und Zum-Kalender-hinzufügen-Links (Google Kalender + .ics)
-* Block-Editor-Unterstützung: generische Platzhalter-Blockmuster und Block-Styles unter der Kategorie "Hochzeit"
+* Block-Editor-Unterstützung: generische Platzhalter-Blockmuster (u.a. Team/Trauzeugen-Profilkarten, eigenständiger Foto-Slider) und Block-Styles unter der Kategorie "Hochzeit"
 
 == Installation ==
 
@@ -53,10 +55,11 @@ Die vollständige Einrichtungsanleitung steht in ANLEITUNG.md (Deutsch).
 Nein. Das Theme funktioniert auch ohne Polylang (Sprachvorschau über `?lang=de|es`), für echte
 übersetzte Permalinks und einen Sprachumschalter wird es aber empfohlen.
 
-= Wo werden RSVP- und Unterkunfts-Börse-Daten gespeichert? =
+= Wo werden RSVP-, Börse- und Musikwunsch-Daten gespeichert? =
 
-Als private Custom Post Types (`mym_board`, `mym_rsvp`) im Admin-Bereich, nirgends öffentlich
-sichtbar. RSVP hat zusätzlich einen CSV-Export (eine Zeile pro Gast) unter der Beitragsliste.
+Als private Custom Post Types (`mym_board`, `mym_rsvp`, `mym_song`) im Admin-Bereich, nirgends
+öffentlich sichtbar. RSVP und Musikwünsche haben zusätzlich einen CSV-Export (eine Zeile pro
+Gast bzw. pro Song) unter der jeweiligen Beitragsliste.
 
 = Was passiert mit den Gästedaten, wenn ich das Theme wechsle? =
 
@@ -64,15 +67,25 @@ Die Daten bleiben in der Datenbank erhalten, sind aber ohne das Theme (bzw. ohne
 CPT-Registrierung) nicht mehr über die normale WordPress-Oberfläche einsehbar. Vor einem
 Theme-Wechsel unbedingt vorher den CSV-Export nutzen.
 
-= Kann ich RSVP oder die Unterkunfts-Börse einzeln deaktivieren? =
+= Kann ich RSVP, die Unterkunfts-Börse oder die Musikwünsche einzeln deaktivieren? =
 
-Ja, beide haben eigene Ein-/Aus-Schalter im Customizer-Panel "Hochzeit: Einstellungen".
+Ja, alle drei haben eigene Ein-/Aus-Schalter im Customizer-Panel "Hochzeit: Einstellungen".
 
 == Screenshots ==
 
 1. Startseite mit Bergketten-Titelbild und Countdown (screenshot.png)
 
 == Changelog ==
+
+= 2.6.0 =
+* Neues Feature: Musikwünsche — Gäste reichen beliebig viele Songwünsche (Titel/Interpret, Absender optional) über ein eigenes Formular ein
+* Admin-Detailansicht und CSV-Export (eine Zeile pro Song) inkl. automatischem Spotify-Suchlink pro Wunsch
+* Eigener Ein-/Aus-Schalter und Benachrichtigungs-E-Mail im Customizer-Panel "Hochzeit: Einstellungen"
+
+= 2.5.0 =
+* Neue Block-Muster: Team/Trauzeugen-Profilkarten (Foto, Rolle, Aufgabenbereich, Sprachen, Kontakt inkl. Telefon) und ein eigenständiger Foto-Slider, beide frei im Seiteninhalt platzierbar
+* Customizer überarbeitet: Startbild-Einstellungen in eigenen Abschnitt "Startbild" verschoben, visueller Titelbild-Varianten-Wähler mit Schema-Vorschau statt Auswahlliste, Bergketten-Regler unter Desktop-/Mobil-Überschriften gruppiert
+* Neuer Abschnitt "Seiten-Layout" (Inhaltsbreite, vorher unter "Allgemein")
 
 = 2.4.0 =
 * RSVP-Feature: Zu-/Absage mit vollständiger Gästeliste, Token-basiertem Bearbeiten-Link ohne Login, Bestätigungsmail bei jeder Änderung, CSV-Export (eine Zeile pro Gast), Admin-Detailansicht
@@ -112,6 +125,10 @@ Ja, beide haben eigene Ein-/Aus-Schalter im Customizer-Panel "Hochzeit: Einstell
 * FAQ-Akkordeon ohne JavaScript (natives details/summary)
 
 == Upgrade Notice ==
+
+= 2.6.0 =
+Neues Musikwünsche-Feature — nach dem Update im Customizer-Panel "Hochzeit: Einstellungen" die
+Sektion aktivieren und ggf. eine eigene Seite mit Template "Musikwünsche" anlegen und ins Menü einhängen.
 
 = 2.4.0 =
 Neues RSVP-Feature — nach dem Update im Customizer-Panel "Hochzeit: Einstellungen" die

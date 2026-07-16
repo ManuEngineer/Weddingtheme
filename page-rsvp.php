@@ -8,8 +8,20 @@
  * Änderungslink aus der Bestätigungsmail führt genau hierher.
  * Auf der Startseite rendert front-page.php dieselbe Sektion eingebettet.
  *
+ * Ist der Hauptschalter im Customizer aus, ist die Seite für NEUE Besucher
+ * nicht erreichbar (wie aus dem Menü ausgeblendet) — ein gültiger
+ * persönlicher Token in der URL funktioniert aber weiterhin, sonst könnten
+ * bereits angemeldete Gäste ihre eigene Anmeldung nicht mehr ändern.
+ *
  * @package MyM_Hochzeit
  */
+if ( ! get_theme_mod( 'mym_rsvp_enabled', true ) ) {
+	$rsvp_token = isset( $_GET['rsvp_token'] ) ? sanitize_text_field( wp_unslash( $_GET['rsvp_token'] ) ) : '';
+	if ( ! $rsvp_token || ! mym_rsvp_get_by_token( $rsvp_token ) ) {
+		wp_safe_redirect( home_url( '/' ) );
+		exit;
+	}
+}
 get_header();
 if ( have_posts() ) :
 	while ( have_posts() ) :

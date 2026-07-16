@@ -8,7 +8,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'MYM_VERSION', '2.5.0' );
+define( 'MYM_VERSION', '2.6.0' );
 
 /* ============================================================
  * 1) THEME SETUP
@@ -64,6 +64,7 @@ function mym_assets() {
 		'ajaxUrl'     => admin_url( 'admin-ajax.php' ),
 		'nonce'       => wp_create_nonce( 'mym_board' ),
 		'rsvpNonce'   => wp_create_nonce( 'mym_rsvp' ),
+		'songsNonce'  => wp_create_nonce( 'mym_songs' ),
 		'weddingDate' => mym_opt( 'mym_wedding_date', '' ),
 		'weddingTime' => mym_opt( 'mym_wedding_time', '11:00' ),
 		'defaultHero' => mym_opt( 'mym_hero_variant', 'horizont' ),
@@ -83,6 +84,12 @@ function mym_assets() {
 			'errPhone' => mym_s( 'mym_rsvp_js_err_phone', 'Please enter a phone number with country code, e.g. +41 79 123 45 67.' ),
 			'errGuest' => mym_s( 'mym_rsvp_js_err_guest', 'Please add at least one person.' ),
 			'error'    => mym_s( 'mym_rsvp_js_error',     'Something went wrong. Please try again later.' ),
+		),
+		'songsI18n'   => array(
+			'sending'  => mym_s( 'mym_songs_js_sending',   'Sending …' ),
+			'thanks'   => mym_s( 'mym_songs_js_thanks',    'Thank you for your song requests!' ),
+			'errTitle' => mym_s( 'mym_songs_js_err_title', 'Please enter at least one song title.' ),
+			'error'    => mym_s( 'mym_songs_js_error',     'Something went wrong. Please try again later.' ),
 		),
 	) );
 }
@@ -216,6 +223,7 @@ require get_template_directory() . '/inc/customizer-controls.php';
 require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/board.php';
 require get_template_directory() . '/inc/rsvp.php';
+require get_template_directory() . '/inc/songs.php';
 require get_template_directory() . '/inc/content.php'; /* v1 compat — mym_content() still available for child themes */
 require get_template_directory() . '/inc/sections.php';
 require get_template_directory() . '/inc/strings.php';
