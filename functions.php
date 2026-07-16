@@ -818,7 +818,7 @@ function mym_register_block_patterns() {
 	register_block_pattern( 'mym-hochzeit/team', array(
 		'title'       => 'Team / Trauzeugen',
 		'categories'  => array( 'mym-hochzeit' ),
-		'description' => 'Kicker, Titel, Profilkarten (3 Spalten): Foto, Name, Rolle, Aufgabenbereich, Sprachen, Kontakt-Link.',
+		'description' => 'Kicker, Titel, Profilkarten (3 Spalten, beliebig viele Karten — das Grid bricht automatisch in weitere Zeilen um): Foto, Name, Rolle, Aufgabenbereich, Sprachen, Kontakt-Link.',
 		'content'     => '<!-- wp:paragraph {"className":"is-style-kicker"} -->
 <p class="is-style-kicker">Ansprechpartner</p>
 <!-- /wp:paragraph -->
@@ -847,6 +847,27 @@ function mym_register_block_patterns() {
   <div class="mym-team-member">
     <div class="mym-team-photo"><img src="https://" alt="Name"></div>
     <h4>Name</h4>
+    <p class="role">Helferin</p>
+    <p class="task">Ansprechpartnerin für Geschenke</p>
+    <div class="mym-team-langs">
+      <span class="mym-lang-badge es">ES</span>
+    </div>
+    <a class="contact" href="mailto:name@example.com">Kontakt aufnehmen →</a>
+  </div>
+  <div class="mym-team-member">
+    <div class="mym-team-photo"><img src="https://" alt="Name"></div>
+    <h4>Name</h4>
+    <p class="role">Helferin</p>
+    <p class="task">Ansprechpartnerin für die Unterkunfts-Börse</p>
+    <div class="mym-team-langs">
+      <span class="mym-lang-badge de">DE</span>
+      <span class="mym-lang-badge fr">FR</span>
+    </div>
+    <a class="contact" href="mailto:name@example.com">Kontakt aufnehmen →</a>
+  </div>
+  <div class="mym-team-member">
+    <div class="mym-team-photo"><img src="https://" alt="Name"></div>
+    <h4>Name</h4>
     <p class="role">Trauzeuge</p>
     <p class="task">Ansprechpartner für den Ablauf am Hochzeitstag</p>
     <div class="mym-team-langs">
@@ -858,11 +879,21 @@ function mym_register_block_patterns() {
   <div class="mym-team-member">
     <div class="mym-team-photo"><img src="https://" alt="Name"></div>
     <h4>Name</h4>
-    <p class="role">Familie</p>
-    <p class="task">Ansprechperson für Geschenke &amp; Unterkunfts-Börse</p>
+    <p class="role">Helfer</p>
+    <p class="task">Ansprechpartner für die Anreise</p>
     <div class="mym-team-langs">
-      <span class="mym-lang-badge es">ES</span>
-      <span class="mym-lang-badge fr">FR</span>
+      <span class="mym-lang-badge de">DE</span>
+    </div>
+    <a class="contact" href="mailto:name@example.com">Kontakt aufnehmen →</a>
+  </div>
+  <div class="mym-team-member">
+    <div class="mym-team-photo"><img src="https://" alt="Name"></div>
+    <h4>Name</h4>
+    <p class="role">Helfer</p>
+    <p class="task">Ansprechpartner für Technik &amp; Musik</p>
+    <div class="mym-team-langs">
+      <span class="mym-lang-badge de">DE</span>
+      <span class="mym-lang-badge en">EN</span>
     </div>
     <a class="contact" href="mailto:name@example.com">Kontakt aufnehmen →</a>
   </div>
