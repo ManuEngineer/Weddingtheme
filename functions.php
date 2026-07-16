@@ -8,7 +8,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'MYM_VERSION', '2.4.0' );
+define( 'MYM_VERSION', '2.5.0' );
 
 /* ============================================================
  * 1) THEME SETUP
@@ -212,6 +212,7 @@ function mym_monogram() {
 	return '<span class="l1">' . esc_html( $logo ) . '</span>';
 }
 
+require get_template_directory() . '/inc/customizer-controls.php';
 require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/board.php';
 require get_template_directory() . '/inc/rsvp.php';
@@ -810,6 +811,81 @@ function mym_register_block_patterns() {
 		'description' => 'Zentrierter Button im Theme-Stil (z. B. für Galerie, Formular, externe Links). Link und Text anpassen.',
 		'content'     => '<!-- wp:html -->
 <p class="mym-center"><a class="mym-gallery-cta" href="https://dein-link.ch" target="_blank" rel="noopener">Button-Text →</a></p>
+<!-- /wp:html -->',
+	) );
+
+	/* ---- Team / Trauzeugen ---- */
+	register_block_pattern( 'mym-hochzeit/team', array(
+		'title'       => 'Team / Trauzeugen',
+		'categories'  => array( 'mym-hochzeit' ),
+		'description' => 'Kicker, Titel, Profilkarten (3 Spalten): Foto, Name, Rolle, Aufgabenbereich, Sprachen, Kontakt-Link.',
+		'content'     => '<!-- wp:paragraph {"className":"is-style-kicker"} -->
+<p class="is-style-kicker">Ansprechpartner</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":2,"className":"wp-block-heading is-style-h2-gross"} -->
+<h2 class="wp-block-heading is-style-h2-gross">Unser Team</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Bei Fragen rund um die Hochzeit meldet euch gerne direkt bei der zuständigen Person.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<div class="mym-team">
+  <div class="mym-team-member">
+    <div class="mym-team-photo"><img src="https://" alt="Name"></div>
+    <h4>Name</h4>
+    <p class="role">Trauzeugin</p>
+    <p class="task">Ansprechpartnerin für Übernachtung &amp; Anreise</p>
+    <div class="mym-team-langs">
+      <span class="mym-lang-badge de">DE</span>
+      <span class="mym-lang-badge es">ES</span>
+    </div>
+    <a class="contact" href="mailto:name@example.com">Kontakt aufnehmen →</a>
+  </div>
+  <div class="mym-team-member">
+    <div class="mym-team-photo"><img src="https://" alt="Name"></div>
+    <h4>Name</h4>
+    <p class="role">Trauzeuge</p>
+    <p class="task">Ansprechpartner für den Ablauf am Hochzeitstag</p>
+    <div class="mym-team-langs">
+      <span class="mym-lang-badge de">DE</span>
+      <span class="mym-lang-badge en">EN</span>
+    </div>
+    <a class="contact" href="mailto:name@example.com">Kontakt aufnehmen →</a>
+  </div>
+  <div class="mym-team-member">
+    <div class="mym-team-photo"><img src="https://" alt="Name"></div>
+    <h4>Name</h4>
+    <p class="role">Familie</p>
+    <p class="task">Ansprechperson für Geschenke &amp; Unterkunfts-Börse</p>
+    <div class="mym-team-langs">
+      <span class="mym-lang-badge es">ES</span>
+      <span class="mym-lang-badge fr">FR</span>
+    </div>
+    <a class="contact" href="mailto:name@example.com">Kontakt aufnehmen →</a>
+  </div>
+</div>
+<!-- /wp:html -->',
+	) );
+
+	/* ---- Foto-Slider ---- */
+	register_block_pattern( 'mym-hochzeit/foto-slider', array(
+		'title'       => 'Foto-Slider',
+		'categories'  => array( 'mym-hochzeit' ),
+		'description' => 'Eigenständiges Bildkarussell, überall im Seiteninhalt einsetzbar (nicht das Startbild). Bilder/Bildunterschriften anpassen, autoplay="false" für ohne Automatik.',
+		'content'     => '<!-- wp:html -->
+<div class="mym-slider" data-autoplay="true">
+  <div class="mym-slider-track">
+    <div class="mym-slide"><img src="https://" alt="Foto 1"><p class="caption">Bildunterschrift 1</p></div>
+    <div class="mym-slide"><img src="https://" alt="Foto 2"><p class="caption">Bildunterschrift 2</p></div>
+    <div class="mym-slide"><img src="https://" alt="Foto 3"><p class="caption">Bildunterschrift 3</p></div>
+  </div>
+  <button type="button" class="mym-slider-prev" aria-label="Zurück">‹</button>
+  <button type="button" class="mym-slider-next" aria-label="Weiter">›</button>
+  <div class="mym-slider-dots"></div>
+</div>
 <!-- /wp:html -->',
 	) );
 }

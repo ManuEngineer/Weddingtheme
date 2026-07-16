@@ -53,9 +53,11 @@ A bilingual one-pager. Points that span multiple files:
   page, `home_url('/#slug')` everywhere else — so the header menu always returns to the
   onepager instead of opening the page's own standalone (differently-styled) permalink.
 - **`functions.php` is the hub:** theme setup, asset enqueue, block-editor patterns + styles
-  (pattern category `mym-hochzeit`), and it `require`s the four `inc/` modules. Shared template
-  helpers (`mym_edit_btn`, `mym_board_entry_html`) are defined here behind `function_exists`
-  guards because they can be included from multiple contexts.
+  (pattern category `mym-hochzeit`), and it `require`s the `inc/` modules — including
+  `inc/customizer-controls.php` (own `WP_Customize_Control` subclasses, must be required *before*
+  `inc/customizer.php`) and `inc/customizer.php` itself. Shared template helpers (`mym_edit_btn`,
+  `mym_board_entry_html`) are defined here behind `function_exists` guards because they can be
+  included from multiple contexts.
 - **Couple names are backend-driven:** `mym_couple()` reads `mym_partner_a`/`mym_partner_b` from
   the Customizer; if empty it splits the **site title** on a connector (`&`/`y`/`und`/`+`).
   `mym_monogram()` builds the header/footer logo from the initials. No name is hardcoded.
@@ -71,10 +73,14 @@ A bilingual one-pager. Points that span multiple files:
   editing it changes anything visible on the site. `inc/sections.php` similarly keeps one unused
   helper (`mym_section_by_page_id`) for the same reason, plus the still-active dashboard
   setup-notice (`mym_sections_admin_notice`).
-- **`inc/customizer.php`** — panel "Hochzeit: Einstellungen": couple names + connector + place,
-  wedding date/time, hero variant (`horizont`/`editorial`/`bogen`), optional candidate dates,
-  gallery link, photos, map embed, hotel links, Unterkunfts-Börse moderation/notify. All personal
-  defaults are empty.
+- **`inc/customizer.php`** — panel "Hochzeit: Einstellungen", split into focused sections rather
+  than one large grab-bag: "Brautpaar & Ort", "Allgemein & Datum" (date/time/countdown only),
+  "Startbild" (hero variant + all mountain-silhouette sliders, grouped under Desktop/Mobile
+  headings via `Mym_Customize_Heading_Control`), "Seiten-Layout" (content width), "Fotos",
+  "Unterkunfts-Boerse", "RSVP". The hero variant uses `Mym_Customize_Hero_Variant_Control`
+  (`inc/customizer-controls.php`) — a visual picker with inline-SVG schematic previews per
+  variant instead of a plain `<select>`, no image assets to maintain. All personal defaults are
+  empty.
 - **Hero "Horizont" mountain silhouette** (`assets/svg/hero-mountains.svg`) — a two-tone SVG with
   two groups, `<g class="mym-mtn-schweiz">` and `<g class="mym-mtn-chile">`, each holding a filled
   base path plus several unfilled ridge-contour stroke paths for texture. The geometry was
@@ -115,6 +121,16 @@ A bilingual one-pager. Points that span multiple files:
   point, it's meant to be usable directly for seating/catering. `mym_rsvp_deadline` (Customizer)
   hides the form for new signups past that date but must keep working for edits via an existing
   token — don't let a deadline check block the token path.
+- **Team/Trauzeugen and Foto-Slider are plain block patterns, not custom post types or page
+  templates** — both render via the existing `section-default.php` content path like
+  Hotels/Gifts, so a page using either just needs to be added to (or left out of) the primary
+  menu like any other content page. `.mym-team`/`.mym-team-member` (functions.php's
+  `mym-hochzeit/team` pattern) is a self-contained light card — safe on either alternating
+  section background without its own dark-mode variant, same reasoning as `.mym-hotel`/`.mym-gift`.
+  `.mym-slider` (`mym-hochzeit/foto-slider` pattern) is a vanilla-JS carousel (no bundled library)
+  auto-initialized in `main.js` for every `.mym-slider` found on the page — works standalone
+  anywhere in page content, deliberately *not* wired into the hero. `data-autoplay="true"` on the
+  wrapper enables autoplay (5s interval); touch-swipe and arrow-key navigation are built in.
 - **Frontend JS** (`assets/js/main.js`) is configured via `wp_localize_script` as the global `MYM`
   (ajaxUrl, nonce, rsvpNonce, wedding date/time for the countdown, hero variant, editor flag,
   i18n/rsvpI18n strings). The countdown only runs when a date is set. The RSVP guest list is

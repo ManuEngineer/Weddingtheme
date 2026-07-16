@@ -36,26 +36,24 @@ Damit der Hochzeits-Onepager als Startseite erscheint:
   - *Ort* — Untertitel im Startbild. Leer = ausgeblendet.
 - **Allgemein & Datum**
   - *Hochzeitsdatum* (für den Countdown), Uhrzeit
-  - *Startbild-Variante*: Horizont / Editorial / Bogen
   - *Datums-Auswahl anzeigen* — falls das Datum noch offen ist: mehrere mögliche Tage zur Auswahl zeigen (eines pro Zeile, `JJJJ-MM-TT`). Ausschalten, sobald das Datum fix ist.
-- **Startbild „Horizont": Bergketten-Regler** (nur relevant bei dieser Variante)
-  - Je Bergkette (Schweiz / Chile) getrennt für Desktop (ab 881px) und Mobil (bis 880px):
+- **Startbild**
+  - *Startbild-Variante*: Horizont / Editorial / Bogen — Auswahl mit kleiner Vorschau je Variante.
+  - Nur bei „Horizont": Bergketten-Regler, je Kette (Schweiz / Chile) getrennt für Desktop (ab 881px) und Mobil (bis 880px), unter eigenen Zwischenüberschriften gruppiert:
     - *verschieben* — horizontale Position. Achtung: Die Schweizer Kette hat rechts vom
       Zentrum kaum noch echte Bilddaten, ihr Regler geht deshalb nur von 0 bis -20% (nach
       links). Die chilenische Kette darf in beide Richtungen bis ±20%.
     - *Höhenlage* — verschiebt die Kette relativ zur anderen nach oben/unten (±15%).
-  - *Höhe (%)* — skaliert **beide** Ketten gemeinsam (60-150%). Bewusst kein getrennter
-    Zoom pro Kette, sonst stimmt das Grössenverhältnis zwischen den beiden Bergketten
-    nicht mehr.
+    - *Höhe (%)* — skaliert **beide** Ketten gemeinsam (60-150%). Bewusst kein getrennter
+      Zoom pro Kette, sonst stimmt das Grössenverhältnis zwischen den beiden Bergketten
+      nicht mehr.
   - Alle Regler wirken sich sofort in der Live-Vorschau des Customizers aus.
-- **Seiteninhalt: Breite (px)** — EIN Wert (Standard 1040px, erlaubt 480–1400) für die
-  gesamte Website: Startbild-Sektionen und alle Unterseiten (Anreise, Übernachtung, Galerie,
-  Impressum, Datenschutz usw.) übernehmen ihn einheitlich. Kein Regler, sondern ein Zahlenfeld
-  zum exakten Eintippen.
-- **Foto-Galerie** — Link zu eurem geteilten Album / Upload
-- **Fotos** — Startbild- und Geschichte-Foto direkt hochladen
-- **Karte & Ort** — Embed-`src`-URL einer OpenStreetMap/Google-Karte. Leer = stilisierte Platzhalter-Karte
-- **Hotels (Links)** — optionale Links für die drei Hotel-Karten
+- **Seiten-Layout**
+  - *Seiteninhalt: Breite (px)* — EIN Wert (Standard 1040px, erlaubt 480–1400) für die
+    gesamte Website: Startbild-Sektionen und alle Unterseiten (Anreise, Übernachtung, Galerie,
+    Impressum, Datenschutz usw.) übernehmen ihn einheitlich. Kein Regler, sondern ein Zahlenfeld
+    zum exakten Eintippen.
+- **Fotos** — Startbild-Foto direkt hochladen
 - **Unterkunfts-Börse** — An/Aus, Moderation, Benachrichtigungs-E-Mail
 
 > Tipp: Das Startbild lässt sich live testen, indem man als eingeloggter Nutzer unten im Startbild die Variante umschaltet (nur für euch sichtbar). Dauerhaft einstellen im Customizer.

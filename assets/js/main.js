@@ -260,4 +260,63 @@
 				});
 		});
 	}
+
+	/* ---------- Foto-Slider ---------- */
+	document.querySelectorAll('.mym-slider').forEach(function (slider) {
+		var track = slider.querySelector('.mym-slider-track');
+		var slides = Array.prototype.slice.call(slider.querySelectorAll('.mym-slide'));
+		if (!track || slides.length < 2) { return; }
+
+		var dotsWrap = slider.querySelector('.mym-slider-dots');
+		var prevBtn = slider.querySelector('.mym-slider-prev');
+		var nextBtn = slider.querySelector('.mym-slider-next');
+		var index = 0;
+		var dots = [];
+
+		if (dotsWrap) {
+			slides.forEach(function (_, i) {
+				var dot = document.createElement('button');
+				dot.type = 'button';
+				dot.setAttribute('aria-label', 'Bild ' + (i + 1));
+				dot.addEventListener('click', function () { goTo(i); });
+				dotsWrap.appendChild(dot);
+				dots.push(dot);
+			});
+		}
+
+		function goTo(i) {
+			index = (i + slides.length) % slides.length;
+			track.style.transform = 'translateX(-' + (index * 100) + '%)';
+			dots.forEach(function (d, di) { d.classList.toggle('active', di === index); });
+		}
+		goTo(0);
+
+		if (prevBtn) { prevBtn.addEventListener('click', function () { goTo(index - 1); stopAutoplay(); }); }
+		if (nextBtn) { nextBtn.addEventListener('click', function () { goTo(index + 1); stopAutoplay(); }); }
+
+		slider.setAttribute('tabindex', '0');
+		slider.addEventListener('keydown', function (e) {
+			if (e.key === 'ArrowLeft') { goTo(index - 1); stopAutoplay(); }
+			if (e.key === 'ArrowRight') { goTo(index + 1); stopAutoplay(); }
+		});
+
+		/* Touch-Wisch-Geste */
+		var touchStartX = null;
+		slider.addEventListener('touchstart', function (e) { touchStartX = e.touches[0].clientX; }, { passive: true });
+		slider.addEventListener('touchend', function (e) {
+			if (touchStartX === null) { return; }
+			var dx = e.changedTouches[0].clientX - touchStartX;
+			if (Math.abs(dx) > 40) { goTo(dx < 0 ? index + 1 : index - 1); stopAutoplay(); }
+			touchStartX = null;
+		}, { passive: true });
+
+		/* Autoplay, per data-autoplay="true" am .mym-slider-Element aktivierbar */
+		var timer = null;
+		function startAutoplay() {
+			if (slider.dataset.autoplay !== 'true') { return; }
+			timer = setInterval(function () { goTo(index + 1); }, 5000);
+		}
+		function stopAutoplay() { if (timer) { clearInterval(timer); timer = null; } }
+		startAutoplay();
+	});
 })();
