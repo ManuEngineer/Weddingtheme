@@ -104,7 +104,9 @@ function mym_songs_column_content( $col, $pid ) {
 			break;
 		case 'mym_preview':
 			$labels = array_map( function ( $s ) {
-				return trim( $s['title'] . ( $s['artist'] ? ' – ' . $s['artist'] : '' ) );
+				$title  = isset( $s['title'] ) ? $s['title'] : '';
+				$artist = isset( $s['artist'] ) ? $s['artist'] : '';
+				return trim( $title . ( $artist ? ' – ' . $artist : '' ) );
 			}, array_slice( $list, 0, 3 ) );
 			echo esc_html( implode( ' · ', $labels ) . ( count( $list ) > 3 ? ' …' : '' ) );
 			break;

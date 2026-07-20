@@ -219,7 +219,9 @@ function mym_monogram() {
 	return '<span class="l1">' . esc_html( $logo ) . '</span>';
 }
 
-require get_template_directory() . '/inc/customizer-controls.php';
+if ( is_admin() || is_customize_preview() ) {
+	require get_template_directory() . '/inc/customizer-controls.php';
+}
 require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/board.php';
 require get_template_directory() . '/inc/rsvp.php';

@@ -281,7 +281,7 @@ function mym_customize_register( $wp_customize ) {
 	$wp_customize->add_setting( 'mym_songs_enabled', array( 'default' => true, 'sanitize_callback' => 'mym_sanitize_bool' ) );
 	$wp_customize->add_control( 'mym_songs_enabled', array(
 		'label'       => __( 'Musikwünsche-Formular auf der Seite anzeigen', 'mym-hochzeit' ),
-		'description' => __( 'Hauptschalter. Ausschalten, um das Formular zu deaktivieren, ohne die Seite/den Menüpunkt zu entfernen.', 'mym-hochzeit' ),
+		'description' => __( 'Hauptschalter. Ausschalten blendet die Seite aus Menüs aus und leitet Direktaufrufe auf die Startseite um.', 'mym-hochzeit' ),
 		'section'     => 'mym_songs', 'type' => 'checkbox',
 	) );
 	$wp_customize->add_setting( 'mym_songs_notify', array( 'default' => '', 'sanitize_callback' => 'sanitize_email' ) );
