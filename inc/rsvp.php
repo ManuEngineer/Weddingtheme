@@ -382,5 +382,27 @@ function mym_rsvp_export_csv() {
 }
 add_action( 'admin_post_mym_rsvp_export', 'mym_rsvp_export_csv' );
 
+/* ============================================================
+ * 6) Deaktiviert = auch aus dem Menü weg (Direktaufruf siehe page-rsvp.php)
+ * ========================================================== */
+
+/**
+ * Blendet die Seite mit dem RSVP-Template aus jedem Navigationsmenü aus,
+ * solange der Hauptschalter im Customizer aus ist. Der Token-Änderungslink
+ * bleibt trotzdem funktionsfähig — Menüs kennen keine Tokens, das betrifft
+ * nur die Navigation, nicht die persönlichen Bestätigungsmail-Links.
+ *
+ * @param WP_Post[] $items
+ * @return WP_Post[]
+ */
+function mym_rsvp_filter_menu_items( $items ) {
+	if ( get_theme_mod( 'mym_rsvp_enabled', true ) ) { return $items; }
+	return array_values( array_filter( $items, function ( $item ) {
+		if ( $item->object !== 'page' ) { return true; }
+		return get_post_meta( (int) $item->object_id, '_wp_page_template', true ) !== 'page-rsvp.php';
+	} ) );
+}
+add_filter( 'wp_get_nav_menu_items', 'mym_rsvp_filter_menu_items' );
+
 require get_template_directory() . '/inc/rsvp-email.php';
 require get_template_directory() . '/inc/rsvp-ajax.php';

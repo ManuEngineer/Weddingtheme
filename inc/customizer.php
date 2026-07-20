@@ -48,7 +48,7 @@ function mym_customize_register( $wp_customize ) {
 		'section' => 'mym_couple', 'type' => 'text',
 	) );
 
-	/* ---- Allgemein ---- */
+	/* ---- Allgemein & Datum ---- */
 	$wp_customize->add_section( 'mym_general', array(
 		'title' => __( 'Allgemein & Datum', 'mym-hochzeit' ), 'panel' => 'mym_panel',
 	) );
@@ -79,104 +79,6 @@ function mym_customize_register( $wp_customize ) {
 		'section'     => 'mym_general', 'type' => 'checkbox',
 	) );
 
-	$wp_customize->add_setting( 'mym_hero_variant', array( 'default' => 'horizont', 'sanitize_callback' => 'mym_sanitize_variant' ) );
-	$wp_customize->add_control( 'mym_hero_variant', array(
-		'label' => __( 'Startbild-Variante', 'mym-hochzeit' ), 'section' => 'mym_general', 'type' => 'select',
-		'choices' => array(
-			'horizont'  => __( 'Horizont (Bergsilhouette)', 'mym-hochzeit' ),
-			'editorial' => __( 'Editorial (mit Foto)', 'mym-hochzeit' ),
-			'bogen'     => __( 'Bogen (Zeremonie-Bogen mit Foto)', 'mym-hochzeit' ),
-		),
-	) );
-
-	$wp_customize->add_setting( 'mym_hero_mtn_shift_schweiz_desktop', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift_schweiz_h', 'transport' => 'refresh' ) );
-	$wp_customize->add_control( 'mym_hero_mtn_shift_schweiz_desktop', array(
-		'label'       => __( 'Bergkette Schweiz (Desktop): verschieben', 'mym-hochzeit' ),
-		'description' => __( 'Nur bei Startbild-Variante "Horizont", ab 881px Breite. Negativ = Kette nach links. Nach rechts ist praktisch kein Spielraum vorhanden (Originalpanorama endet dort), deshalb ist dort bei 0 Schluss.', 'mym-hochzeit' ),
-		'section'     => 'mym_general', 'type' => 'range',
-		'input_attrs' => array( 'min' => -20, 'max' => 0, 'step' => 1 ),
-	) );
-
-	$wp_customize->add_setting( 'mym_hero_mtn_shift_chile_desktop', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
-	$wp_customize->add_control( 'mym_hero_mtn_shift_chile_desktop', array(
-		'label'       => __( 'Bergkette Chile (Desktop): verschieben', 'mym-hochzeit' ),
-		'description' => __( 'Nur bei Startbild-Variante "Horizont", ab 881px Breite. Positiv = Kette nach rechts, negativ = nach links.', 'mym-hochzeit' ),
-		'section'     => 'mym_general', 'type' => 'range',
-		'input_attrs' => array( 'min' => -20, 'max' => 20, 'step' => 1 ),
-	) );
-
-	$wp_customize->add_setting( 'mym_hero_mtn_shift_schweiz_desktop_y', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
-	$wp_customize->add_control( 'mym_hero_mtn_shift_schweiz_desktop_y', array(
-		'label'       => __( 'Bergkette Schweiz (Desktop): Höhenlage', 'mym-hochzeit' ),
-		'description' => __( 'Nur bei Startbild-Variante "Horizont", ab 881px Breite. Verschiebt die Schweizer Kette relativ zur chilenischen nach oben (negativ) oder unten (positiv).', 'mym-hochzeit' ),
-		'section'     => 'mym_general', 'type' => 'range',
-		'input_attrs' => array( 'min' => -15, 'max' => 15, 'step' => 1 ),
-	) );
-
-	$wp_customize->add_setting( 'mym_hero_mtn_shift_chile_desktop_y', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
-	$wp_customize->add_control( 'mym_hero_mtn_shift_chile_desktop_y', array(
-		'label'       => __( 'Bergkette Chile (Desktop): Höhenlage', 'mym-hochzeit' ),
-		'description' => __( 'Nur bei Startbild-Variante "Horizont", ab 881px Breite. Verschiebt die chilenische Kette relativ zur schweizerischen nach oben (negativ) oder unten (positiv).', 'mym-hochzeit' ),
-		'section'     => 'mym_general', 'type' => 'range',
-		'input_attrs' => array( 'min' => -15, 'max' => 15, 'step' => 1 ),
-	) );
-
-	$wp_customize->add_setting( 'mym_hero_mtn_scale_desktop', array( 'default' => 100, 'sanitize_callback' => 'mym_sanitize_mtn_scale', 'transport' => 'refresh' ) );
-	$wp_customize->add_control( 'mym_hero_mtn_scale_desktop', array(
-		'label'       => __( 'Bergketten (Desktop): Höhe (%)', 'mym-hochzeit' ),
-		'description' => __( 'Ab 881px Breite. Skaliert Höhe und Breite BEIDER Bergketten gleichzeitig (Grössenverhältnis zwischen den beiden Ketten bleibt korrekt). 100% = Standard.', 'mym-hochzeit' ),
-		'section'     => 'mym_general', 'type' => 'range',
-		'input_attrs' => array( 'min' => 60, 'max' => 150, 'step' => 5 ),
-	) );
-
-	$wp_customize->add_setting( 'mym_content_width', array( 'default' => 1040, 'sanitize_callback' => 'mym_sanitize_content_width', 'transport' => 'refresh' ) );
-	$wp_customize->add_control( 'mym_content_width', array(
-		'label'       => __( 'Seiteninhalt: Breite (px)', 'mym-hochzeit' ),
-		'description' => __( 'Gilt einheitlich für die ganze Website: Startbild-Sektionen, alle Unterseiten (Anreise, Übernachtung, Galerie, Impressum, Datenschutz usw.). 1040 = Standard. Erlaubt: 480–1400.', 'mym-hochzeit' ),
-		'section'     => 'mym_general', 'type' => 'number',
-		'input_attrs' => array( 'min' => 480, 'max' => 1400, 'step' => 10 ),
-	) );
-
-	$wp_customize->add_setting( 'mym_hero_mtn_shift_schweiz_mobile', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift_schweiz_h', 'transport' => 'refresh' ) );
-	$wp_customize->add_control( 'mym_hero_mtn_shift_schweiz_mobile', array(
-		'label'       => __( 'Bergkette Schweiz (Mobil): verschieben', 'mym-hochzeit' ),
-		'description' => __( 'Nur bei Startbild-Variante "Horizont", bis 880px Breite (Handy/Tablet). Negativ = Kette nach links. Nach rechts ist praktisch kein Spielraum vorhanden (Originalpanorama endet dort), deshalb ist dort bei 0 Schluss.', 'mym-hochzeit' ),
-		'section'     => 'mym_general', 'type' => 'range',
-		'input_attrs' => array( 'min' => -20, 'max' => 0, 'step' => 1 ),
-	) );
-
-	$wp_customize->add_setting( 'mym_hero_mtn_shift_chile_mobile', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
-	$wp_customize->add_control( 'mym_hero_mtn_shift_chile_mobile', array(
-		'label'       => __( 'Bergkette Chile (Mobil): verschieben', 'mym-hochzeit' ),
-		'description' => __( 'Nur bei Startbild-Variante "Horizont", bis 880px Breite (Handy/Tablet). Positiv = Kette nach rechts, negativ = nach links.', 'mym-hochzeit' ),
-		'section'     => 'mym_general', 'type' => 'range',
-		'input_attrs' => array( 'min' => -20, 'max' => 20, 'step' => 1 ),
-	) );
-
-	$wp_customize->add_setting( 'mym_hero_mtn_shift_schweiz_mobile_y', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
-	$wp_customize->add_control( 'mym_hero_mtn_shift_schweiz_mobile_y', array(
-		'label'       => __( 'Bergkette Schweiz (Mobil): Höhenlage', 'mym-hochzeit' ),
-		'description' => __( 'Nur bei Startbild-Variante "Horizont", bis 880px Breite (Handy/Tablet). Verschiebt die Schweizer Kette relativ zur chilenischen nach oben (negativ) oder unten (positiv).', 'mym-hochzeit' ),
-		'section'     => 'mym_general', 'type' => 'range',
-		'input_attrs' => array( 'min' => -15, 'max' => 15, 'step' => 1 ),
-	) );
-
-	$wp_customize->add_setting( 'mym_hero_mtn_shift_chile_mobile_y', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
-	$wp_customize->add_control( 'mym_hero_mtn_shift_chile_mobile_y', array(
-		'label'       => __( 'Bergkette Chile (Mobil): Höhenlage', 'mym-hochzeit' ),
-		'description' => __( 'Nur bei Startbild-Variante "Horizont", bis 880px Breite (Handy/Tablet). Verschiebt die chilenische Kette relativ zur schweizerischen nach oben (negativ) oder unten (positiv).', 'mym-hochzeit' ),
-		'section'     => 'mym_general', 'type' => 'range',
-		'input_attrs' => array( 'min' => -15, 'max' => 15, 'step' => 1 ),
-	) );
-
-	$wp_customize->add_setting( 'mym_hero_mtn_scale_mobile', array( 'default' => 100, 'sanitize_callback' => 'mym_sanitize_mtn_scale', 'transport' => 'refresh' ) );
-	$wp_customize->add_control( 'mym_hero_mtn_scale_mobile', array(
-		'label'       => __( 'Bergketten (Mobil): Höhe (%)', 'mym-hochzeit' ),
-		'description' => __( 'Bis 880px Breite (Handy/Tablet). Skaliert Höhe und Breite BEIDER Bergketten gleichzeitig (Grössenverhältnis zwischen den beiden Ketten bleibt korrekt). 100% = Standard.', 'mym-hochzeit' ),
-		'section'     => 'mym_general', 'type' => 'range',
-		'input_attrs' => array( 'min' => 60, 'max' => 150, 'step' => 5 ),
-	) );
-
 	$wp_customize->add_setting( 'mym_dates_visible', array( 'default' => true, 'sanitize_callback' => 'mym_sanitize_bool' ) );
 	$wp_customize->add_control( 'mym_dates_visible', array(
 		'label' => __( 'Datums-Auswahl (3 Samstage) anzeigen', 'mym-hochzeit' ),
@@ -188,6 +90,125 @@ function mym_customize_register( $wp_customize ) {
 	$wp_customize->add_control( 'mym_dates_list', array(
 		'label' => __( 'Moegliche Daten (eines pro Zeile, JJJJ-MM-TT)', 'mym-hochzeit' ),
 		'section' => 'mym_general', 'type' => 'textarea',
+	) );
+
+	/* ---- Startbild ---- */
+	$wp_customize->add_section( 'mym_hero', array(
+		'title' => __( 'Startbild', 'mym-hochzeit' ), 'panel' => 'mym_panel',
+		'description' => __( 'Variante wählen und, nur bei "Horizont", die beiden Bergketten feinjustieren.', 'mym-hochzeit' ),
+	) );
+
+	$wp_customize->add_setting( 'mym_hero_variant', array( 'default' => 'horizont', 'sanitize_callback' => 'mym_sanitize_variant' ) );
+	$wp_customize->add_control( new Mym_Customize_Hero_Variant_Control( $wp_customize, 'mym_hero_variant', array(
+		'label' => __( 'Startbild-Variante', 'mym-hochzeit' ), 'section' => 'mym_hero',
+		'choices' => array(
+			'horizont'  => __( 'Horizont (Bergsilhouette)', 'mym-hochzeit' ),
+			'editorial' => __( 'Editorial (mit Foto)', 'mym-hochzeit' ),
+			'bogen'     => __( 'Bogen (Zeremonie-Bogen mit Foto)', 'mym-hochzeit' ),
+		),
+	) ) );
+
+	$wp_customize->add_setting( 'mym_hero_heading_desktop', array( 'sanitize_callback' => '__return_false' ) );
+	$wp_customize->add_control( new Mym_Customize_Heading_Control( $wp_customize, 'mym_hero_heading_desktop', array(
+		'label' => __( 'Bergketten: Desktop (ab 881px)', 'mym-hochzeit' ), 'section' => 'mym_hero',
+	) ) );
+
+	$wp_customize->add_setting( 'mym_hero_mtn_shift_schweiz_desktop', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift_schweiz_h', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_shift_schweiz_desktop', array(
+		'label'       => __( 'Bergkette Schweiz: verschieben', 'mym-hochzeit' ),
+		'description' => __( 'Negativ = Kette nach links. Nach rechts ist praktisch kein Spielraum vorhanden (Originalpanorama endet dort), deshalb ist dort bei 0 Schluss.', 'mym-hochzeit' ),
+		'section'     => 'mym_hero', 'type' => 'range',
+		'input_attrs' => array( 'min' => -20, 'max' => 0, 'step' => 1 ),
+	) );
+
+	$wp_customize->add_setting( 'mym_hero_mtn_shift_chile_desktop', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_shift_chile_desktop', array(
+		'label'       => __( 'Bergkette Chile: verschieben', 'mym-hochzeit' ),
+		'description' => __( 'Positiv = Kette nach rechts, negativ = nach links.', 'mym-hochzeit' ),
+		'section'     => 'mym_hero', 'type' => 'range',
+		'input_attrs' => array( 'min' => -20, 'max' => 20, 'step' => 1 ),
+	) );
+
+	$wp_customize->add_setting( 'mym_hero_mtn_shift_schweiz_desktop_y', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_shift_schweiz_desktop_y', array(
+		'label'       => __( 'Bergkette Schweiz: Höhenlage', 'mym-hochzeit' ),
+		'description' => __( 'Verschiebt die Schweizer Kette relativ zur chilenischen nach oben (negativ) oder unten (positiv).', 'mym-hochzeit' ),
+		'section'     => 'mym_hero', 'type' => 'range',
+		'input_attrs' => array( 'min' => -15, 'max' => 15, 'step' => 1 ),
+	) );
+
+	$wp_customize->add_setting( 'mym_hero_mtn_shift_chile_desktop_y', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_shift_chile_desktop_y', array(
+		'label'       => __( 'Bergkette Chile: Höhenlage', 'mym-hochzeit' ),
+		'description' => __( 'Verschiebt die chilenische Kette relativ zur schweizerischen nach oben (negativ) oder unten (positiv).', 'mym-hochzeit' ),
+		'section'     => 'mym_hero', 'type' => 'range',
+		'input_attrs' => array( 'min' => -15, 'max' => 15, 'step' => 1 ),
+	) );
+
+	$wp_customize->add_setting( 'mym_hero_mtn_scale_desktop', array( 'default' => 100, 'sanitize_callback' => 'mym_sanitize_mtn_scale', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_scale_desktop', array(
+		'label'       => __( 'Bergketten: Höhe (%)', 'mym-hochzeit' ),
+		'description' => __( 'Skaliert Höhe und Breite BEIDER Bergketten gleichzeitig (Grössenverhältnis zwischen den beiden Ketten bleibt korrekt). 100% = Standard.', 'mym-hochzeit' ),
+		'section'     => 'mym_hero', 'type' => 'range',
+		'input_attrs' => array( 'min' => 60, 'max' => 150, 'step' => 5 ),
+	) );
+
+	$wp_customize->add_setting( 'mym_hero_heading_mobile', array( 'sanitize_callback' => '__return_false' ) );
+	$wp_customize->add_control( new Mym_Customize_Heading_Control( $wp_customize, 'mym_hero_heading_mobile', array(
+		'label' => __( 'Bergketten: Mobil (bis 880px)', 'mym-hochzeit' ), 'section' => 'mym_hero',
+	) ) );
+
+	$wp_customize->add_setting( 'mym_hero_mtn_shift_schweiz_mobile', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift_schweiz_h', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_shift_schweiz_mobile', array(
+		'label'       => __( 'Bergkette Schweiz: verschieben', 'mym-hochzeit' ),
+		'description' => __( 'Negativ = Kette nach links. Nach rechts ist praktisch kein Spielraum vorhanden (Originalpanorama endet dort), deshalb ist dort bei 0 Schluss.', 'mym-hochzeit' ),
+		'section'     => 'mym_hero', 'type' => 'range',
+		'input_attrs' => array( 'min' => -20, 'max' => 0, 'step' => 1 ),
+	) );
+
+	$wp_customize->add_setting( 'mym_hero_mtn_shift_chile_mobile', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_shift_chile_mobile', array(
+		'label'       => __( 'Bergkette Chile: verschieben', 'mym-hochzeit' ),
+		'description' => __( 'Positiv = Kette nach rechts, negativ = nach links.', 'mym-hochzeit' ),
+		'section'     => 'mym_hero', 'type' => 'range',
+		'input_attrs' => array( 'min' => -20, 'max' => 20, 'step' => 1 ),
+	) );
+
+	$wp_customize->add_setting( 'mym_hero_mtn_shift_schweiz_mobile_y', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_shift_schweiz_mobile_y', array(
+		'label'       => __( 'Bergkette Schweiz: Höhenlage', 'mym-hochzeit' ),
+		'description' => __( 'Verschiebt die Schweizer Kette relativ zur chilenischen nach oben (negativ) oder unten (positiv).', 'mym-hochzeit' ),
+		'section'     => 'mym_hero', 'type' => 'range',
+		'input_attrs' => array( 'min' => -15, 'max' => 15, 'step' => 1 ),
+	) );
+
+	$wp_customize->add_setting( 'mym_hero_mtn_shift_chile_mobile_y', array( 'default' => 0, 'sanitize_callback' => 'mym_sanitize_mtn_shift', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_shift_chile_mobile_y', array(
+		'label'       => __( 'Bergkette Chile: Höhenlage', 'mym-hochzeit' ),
+		'description' => __( 'Verschiebt die chilenische Kette relativ zur schweizerischen nach oben (negativ) oder unten (positiv).', 'mym-hochzeit' ),
+		'section'     => 'mym_hero', 'type' => 'range',
+		'input_attrs' => array( 'min' => -15, 'max' => 15, 'step' => 1 ),
+	) );
+
+	$wp_customize->add_setting( 'mym_hero_mtn_scale_mobile', array( 'default' => 100, 'sanitize_callback' => 'mym_sanitize_mtn_scale', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_hero_mtn_scale_mobile', array(
+		'label'       => __( 'Bergketten: Höhe (%)', 'mym-hochzeit' ),
+		'description' => __( 'Skaliert Höhe und Breite BEIDER Bergketten gleichzeitig (Grössenverhältnis zwischen den beiden Ketten bleibt korrekt). 100% = Standard.', 'mym-hochzeit' ),
+		'section'     => 'mym_hero', 'type' => 'range',
+		'input_attrs' => array( 'min' => 60, 'max' => 150, 'step' => 5 ),
+	) );
+
+	/* ---- Seiten-Layout ---- */
+	$wp_customize->add_section( 'mym_layout', array(
+		'title' => __( 'Seiten-Layout', 'mym-hochzeit' ), 'panel' => 'mym_panel',
+	) );
+
+	$wp_customize->add_setting( 'mym_content_width', array( 'default' => 1040, 'sanitize_callback' => 'mym_sanitize_content_width', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'mym_content_width', array(
+		'label'       => __( 'Seiteninhalt: Breite (px)', 'mym-hochzeit' ),
+		'description' => __( 'Gilt einheitlich für die ganze Website: Startbild-Sektionen, alle Unterseiten (Anreise, Übernachtung, Galerie, Impressum, Datenschutz usw.). 1040 = Standard. Erlaubt: 480–1400.', 'mym-hochzeit' ),
+		'section'     => 'mym_layout', 'type' => 'number',
+		'input_attrs' => array( 'min' => 480, 'max' => 1400, 'step' => 10 ),
 	) );
 
 	/* ---- Fotos ---- */
@@ -231,7 +252,7 @@ function mym_customize_register( $wp_customize ) {
 	$wp_customize->add_setting( 'mym_rsvp_enabled', array( 'default' => true, 'sanitize_callback' => 'mym_sanitize_bool' ) );
 	$wp_customize->add_control( 'mym_rsvp_enabled', array(
 		'label'       => __( 'RSVP-Formular auf der Seite anzeigen', 'mym-hochzeit' ),
-		'description' => __( 'Hauptschalter. Ausschalten, um das Formular vorübergehend zu deaktivieren, ohne die Seite/den Menüpunkt zu entfernen.', 'mym-hochzeit' ),
+		'description' => __( 'Hauptschalter. Ausschalten, um NEUE Anmeldungen zu stoppen — die Seite verschwindet dann aus Menü und Startseite. Bereits angemeldete Gäste können über ihren persönlichen Link weiterhin ändern.', 'mym-hochzeit' ),
 		'section'     => 'mym_rsvp', 'type' => 'checkbox',
 	) );
 	$wp_customize->add_setting( 'mym_rsvp_cta_enabled', array( 'default' => true, 'sanitize_callback' => 'mym_sanitize_bool' ) );
@@ -251,6 +272,23 @@ function mym_customize_register( $wp_customize ) {
 		'label'       => __( 'Benachrichtigung an E-Mail', 'mym-hochzeit' ),
 		'description' => __( 'Leer = dieselbe Adresse wie bei der Unterkunfts-Börse.', 'mym-hochzeit' ),
 		'section'     => 'mym_rsvp', 'type' => 'email',
+	) );
+
+	/* ---- Musikwünsche ---- */
+	$wp_customize->add_section( 'mym_songs', array(
+		'title' => __( 'Musikwünsche', 'mym-hochzeit' ), 'panel' => 'mym_panel',
+	) );
+	$wp_customize->add_setting( 'mym_songs_enabled', array( 'default' => true, 'sanitize_callback' => 'mym_sanitize_bool' ) );
+	$wp_customize->add_control( 'mym_songs_enabled', array(
+		'label'       => __( 'Musikwünsche-Formular auf der Seite anzeigen', 'mym-hochzeit' ),
+		'description' => __( 'Hauptschalter. Ausschalten blendet die Seite aus Menüs aus und leitet Direktaufrufe auf die Startseite um.', 'mym-hochzeit' ),
+		'section'     => 'mym_songs', 'type' => 'checkbox',
+	) );
+	$wp_customize->add_setting( 'mym_songs_notify', array( 'default' => '', 'sanitize_callback' => 'sanitize_email' ) );
+	$wp_customize->add_control( 'mym_songs_notify', array(
+		'label'       => __( 'Benachrichtigung an E-Mail', 'mym-hochzeit' ),
+		'description' => __( 'Leer = dieselbe Adresse wie bei der Unterkunfts-Börse.', 'mym-hochzeit' ),
+		'section'     => 'mym_songs', 'type' => 'email',
 	) );
 }
 add_action( 'customize_register', 'mym_customize_register' );

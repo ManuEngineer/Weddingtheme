@@ -12,6 +12,7 @@
  *   page-board.php          → section-board    (Seiteninhalt + Unterkunftsbörse)
  *   page-gallery.php        → section-gallery  (Seiteninhalt + Galerie-CTA)
  *   page-rsvp.php           → section-rsvp     (Seiteninhalt + Zu-/Absage-Formular)
+ *   page-songs.php          → section-songs    (Seiteninhalt + Musikwünsche-Formular)
  *
  * Hintergründe wechseln automatisch: Index 0,2,4 = forest · 1,3,5 = cream.
  *
@@ -42,7 +43,7 @@ $exact_date     = get_theme_mod( 'mym_date_exact', false );
 $hero_when      = $ts ? ( $exact_date ? date_i18n( 'j. F Y', $ts ) : date_i18n( 'F Y', $ts ) ) : '';
 $show_countdown = get_theme_mod( 'mym_countdown_enabled', true );
 $cal            = mym_calendar_links();
-$rsvp_slug      = get_theme_mod( 'mym_rsvp_cta_enabled', true ) ? mym_rsvp_page_slug() : '';
+$rsvp_slug      = ( get_theme_mod( 'mym_rsvp_enabled', true ) && get_theme_mod( 'mym_rsvp_cta_enabled', true ) ) ? mym_rsvp_page_slug() : '';
 
 $lang = mym_current_lang();
 $day_names_map = array(
@@ -189,6 +190,8 @@ $cd_note   = mym_s( 'mym_hero_dates_note', 'Save one of these dates:' );
 			get_template_part( 'template-parts/section', 'gallery', $tpl_args );
 		} elseif ( $template === 'page-rsvp.php' ) {
 			get_template_part( 'template-parts/section', 'rsvp', $tpl_args );
+		} elseif ( $template === 'page-songs.php' ) {
+			get_template_part( 'template-parts/section', 'songs', $tpl_args );
 		} else {
 			get_template_part( 'template-parts/section', 'default', $tpl_args );
 		}

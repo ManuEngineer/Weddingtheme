@@ -8,7 +8,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'MYM_VERSION', '2.4.0' );
+define( 'MYM_VERSION', '2.6.0' );
 
 /* ============================================================
  * 1) THEME SETUP
@@ -64,6 +64,7 @@ function mym_assets() {
 		'ajaxUrl'     => admin_url( 'admin-ajax.php' ),
 		'nonce'       => wp_create_nonce( 'mym_board' ),
 		'rsvpNonce'   => wp_create_nonce( 'mym_rsvp' ),
+		'songsNonce'  => wp_create_nonce( 'mym_songs' ),
 		'weddingDate' => mym_opt( 'mym_wedding_date', '' ),
 		'weddingTime' => mym_opt( 'mym_wedding_time', '11:00' ),
 		'defaultHero' => mym_opt( 'mym_hero_variant', 'horizont' ),
@@ -83,6 +84,12 @@ function mym_assets() {
 			'errPhone' => mym_s( 'mym_rsvp_js_err_phone', 'Please enter a phone number with country code, e.g. +41 79 123 45 67.' ),
 			'errGuest' => mym_s( 'mym_rsvp_js_err_guest', 'Please add at least one person.' ),
 			'error'    => mym_s( 'mym_rsvp_js_error',     'Something went wrong. Please try again later.' ),
+		),
+		'songsI18n'   => array(
+			'sending'  => mym_s( 'mym_songs_js_sending',   'Sending …' ),
+			'thanks'   => mym_s( 'mym_songs_js_thanks',    'Thank you for your song requests!' ),
+			'errTitle' => mym_s( 'mym_songs_js_err_title', 'Please enter at least one song title.' ),
+			'error'    => mym_s( 'mym_songs_js_error',     'Something went wrong. Please try again later.' ),
 		),
 	) );
 }
@@ -212,9 +219,13 @@ function mym_monogram() {
 	return '<span class="l1">' . esc_html( $logo ) . '</span>';
 }
 
+if ( is_admin() || is_customize_preview() ) {
+	require get_template_directory() . '/inc/customizer-controls.php';
+}
 require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/board.php';
 require get_template_directory() . '/inc/rsvp.php';
+require get_template_directory() . '/inc/songs.php';
 require get_template_directory() . '/inc/content.php'; /* v1 compat — mym_content() still available for child themes */
 require get_template_directory() . '/inc/sections.php';
 require get_template_directory() . '/inc/strings.php';
@@ -810,6 +821,130 @@ function mym_register_block_patterns() {
 		'description' => 'Zentrierter Button im Theme-Stil (z. B. für Galerie, Formular, externe Links). Link und Text anpassen.',
 		'content'     => '<!-- wp:html -->
 <p class="mym-center"><a class="mym-gallery-cta" href="https://dein-link.ch" target="_blank" rel="noopener">Button-Text →</a></p>
+<!-- /wp:html -->',
+	) );
+
+	/* ---- Team / Trauzeugen ---- */
+	register_block_pattern( 'mym-hochzeit/team', array(
+		'title'       => 'Team / Trauzeugen',
+		'categories'  => array( 'mym-hochzeit' ),
+		'description' => 'Kicker, Titel, Profilkarten (3 Spalten, beliebig viele Karten — das Grid bricht automatisch in weitere Zeilen um): Foto, Name, Rolle, Aufgabenbereich, Sprachen, Kontakt-Link.',
+		'content'     => '<!-- wp:paragraph {"className":"is-style-kicker"} -->
+<p class="is-style-kicker">Ansprechpartner</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":2,"className":"wp-block-heading is-style-h2-gross"} -->
+<h2 class="wp-block-heading is-style-h2-gross">Unser Team</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Bei Fragen rund um die Hochzeit meldet euch gerne direkt bei der zuständigen Person.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<div class="mym-team">
+  <div class="mym-team-member">
+    <div class="mym-team-photo"><img src="https://" alt="Name"></div>
+    <h4>Name</h4>
+    <p class="role">Trauzeugin</p>
+    <p class="task">Ansprechpartnerin für Übernachtung &amp; Anreise</p>
+    <div class="mym-team-langs">
+      <span class="mym-lang-badge de">DE</span>
+      <span class="mym-lang-badge es">ES</span>
+    </div>
+    <div class="mym-team-contact">
+      <a href="mailto:name@example.com">Kontakt aufnehmen →</a>
+      <a href="tel:+41000000000">+41 00 000 00 00</a>
+    </div>
+  </div>
+  <div class="mym-team-member">
+    <div class="mym-team-photo"><img src="https://" alt="Name"></div>
+    <h4>Name</h4>
+    <p class="role">Helferin</p>
+    <p class="task">Ansprechpartnerin für Geschenke</p>
+    <div class="mym-team-langs">
+      <span class="mym-lang-badge es">ES</span>
+    </div>
+    <div class="mym-team-contact">
+      <a href="mailto:name@example.com">Kontakt aufnehmen →</a>
+      <a href="tel:+41000000000">+41 00 000 00 00</a>
+    </div>
+  </div>
+  <div class="mym-team-member">
+    <div class="mym-team-photo"><img src="https://" alt="Name"></div>
+    <h4>Name</h4>
+    <p class="role">Helferin</p>
+    <p class="task">Ansprechpartnerin für die Unterkunfts-Börse</p>
+    <div class="mym-team-langs">
+      <span class="mym-lang-badge de">DE</span>
+      <span class="mym-lang-badge fr">FR</span>
+    </div>
+    <div class="mym-team-contact">
+      <a href="mailto:name@example.com">Kontakt aufnehmen →</a>
+      <a href="tel:+41000000000">+41 00 000 00 00</a>
+    </div>
+  </div>
+  <div class="mym-team-member">
+    <div class="mym-team-photo"><img src="https://" alt="Name"></div>
+    <h4>Name</h4>
+    <p class="role">Trauzeuge</p>
+    <p class="task">Ansprechpartner für den Ablauf am Hochzeitstag</p>
+    <div class="mym-team-langs">
+      <span class="mym-lang-badge de">DE</span>
+      <span class="mym-lang-badge en">EN</span>
+    </div>
+    <div class="mym-team-contact">
+      <a href="mailto:name@example.com">Kontakt aufnehmen →</a>
+      <a href="tel:+41000000000">+41 00 000 00 00</a>
+    </div>
+  </div>
+  <div class="mym-team-member">
+    <div class="mym-team-photo"><img src="https://" alt="Name"></div>
+    <h4>Name</h4>
+    <p class="role">Helfer</p>
+    <p class="task">Ansprechpartner für die Anreise</p>
+    <div class="mym-team-langs">
+      <span class="mym-lang-badge de">DE</span>
+    </div>
+    <div class="mym-team-contact">
+      <a href="mailto:name@example.com">Kontakt aufnehmen →</a>
+      <a href="tel:+41000000000">+41 00 000 00 00</a>
+    </div>
+  </div>
+  <div class="mym-team-member">
+    <div class="mym-team-photo"><img src="https://" alt="Name"></div>
+    <h4>Name</h4>
+    <p class="role">Helfer</p>
+    <p class="task">Ansprechpartner für Technik &amp; Musik</p>
+    <div class="mym-team-langs">
+      <span class="mym-lang-badge de">DE</span>
+      <span class="mym-lang-badge en">EN</span>
+    </div>
+    <div class="mym-team-contact">
+      <a href="mailto:name@example.com">Kontakt aufnehmen →</a>
+      <a href="tel:+41000000000">+41 00 000 00 00</a>
+    </div>
+  </div>
+</div>
+<!-- /wp:html -->',
+	) );
+
+	/* ---- Foto-Slider ---- */
+	register_block_pattern( 'mym-hochzeit/foto-slider', array(
+		'title'       => 'Foto-Slider',
+		'categories'  => array( 'mym-hochzeit' ),
+		'description' => 'Eigenständiges Bildkarussell, überall im Seiteninhalt einsetzbar (nicht das Startbild). Bilder/Bildunterschriften anpassen, autoplay="false" für ohne Automatik.',
+		'content'     => '<!-- wp:html -->
+<div class="mym-slider" data-autoplay="true">
+  <div class="mym-slider-track">
+    <div class="mym-slide"><img src="https://" alt="Foto 1"><p class="caption">Bildunterschrift 1</p></div>
+    <div class="mym-slide"><img src="https://" alt="Foto 2"><p class="caption">Bildunterschrift 2</p></div>
+    <div class="mym-slide"><img src="https://" alt="Foto 3"><p class="caption">Bildunterschrift 3</p></div>
+  </div>
+  <button type="button" class="mym-slider-prev" aria-label="Zurück">‹</button>
+  <button type="button" class="mym-slider-next" aria-label="Weiter">›</button>
+  <div class="mym-slider-dots"></div>
+</div>
 <!-- /wp:html -->',
 	) );
 }

@@ -18,6 +18,10 @@ $section_id = sanitize_html_class( $args['section_id'] ?? '' );
 $content    = apply_filters( 'the_content', $page->post_content );
 $edit_url   = current_user_can( 'edit_post', $page_id ) ? get_edit_post_link( $page_id ) : '';
 
+/* Card-Theme je nach Sektions-Hintergrund — wie bei RSVP/Musikwünsche: kein
+ * fest dunkler äusserer Container, sondern .mym-board-dark/-light je nach $bg. */
+$board_card_theme = ( $bg === 'mym-bg-forest' ) ? 'mym-board-dark' : 'mym-board-light';
+
 $offers = mym_board_entries( 'offer' );
 $seeks  = mym_board_entries( 'seek' );
 
@@ -54,7 +58,7 @@ $s_loc_ph      = mym_s( 'mym_board_loc_ph',          'e.g. city centre' );
 
 		<?php if ( get_theme_mod( 'mym_board_enabled', true ) ) : ?>
 		<!-- Börse -->
-		<div class="mym-board" id="boerse">
+		<div class="mym-board <?php echo esc_attr( $board_card_theme ); ?>" id="boerse">
 			<form class="mym-board-form" id="mym-board-form">
 				<!-- Zeile 1: Name + Art + Plätze -->
 				<div class="mym-board-row">

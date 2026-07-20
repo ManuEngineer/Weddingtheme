@@ -260,4 +260,131 @@
 				});
 		});
 	}
+
+	/* ---------- Musikwünsche ---------- */
+	var songsForm = document.getElementById('mym-songs-form');
+	if (songsForm && MYM.ajaxUrl) {
+		var songsMsg = document.getElementById('mym-songs-msg');
+		var songsList = document.getElementById('mym-songs-list');
+		var songsTpl = document.getElementById('mym-songs-row-tpl');
+		var songsAddBtn = document.getElementById('mym-songs-add');
+		var sI18n = MYM.songsI18n || {};
+
+		function addSongRow() {
+			var frag = songsTpl.content.cloneNode(true);
+			var row = frag.querySelector('.mym-songs-row');
+			row.querySelector('[data-remove-song]').addEventListener('click', function () {
+				if (songsList.children.length > 1) { row.remove(); }
+			});
+			songsList.appendChild(row);
+		}
+		if (songsAddBtn) {
+			songsAddBtn.addEventListener('click', function () { addSongRow(); });
+		}
+		addSongRow();
+
+		songsForm.addEventListener('submit', function (e) {
+			e.preventDefault();
+			songsMsg.classList.remove('error');
+
+			var songsData = [];
+			songsList.querySelectorAll('.mym-songs-row').forEach(function (row) {
+				var title = row.querySelector('[data-s="title"]').value.trim();
+				if (!title) { return; }
+				songsData.push({
+					title: title,
+					artist: row.querySelector('[data-s="artist"]').value.trim()
+				});
+			});
+			if (!songsData.length) { songsMsg.textContent = sI18n.errTitle || 'Title?'; songsMsg.classList.add('error'); return; }
+
+			var data = new FormData(songsForm);
+			data.append('action', 'mym_songs_submit');
+			data.append('nonce', MYM.songsNonce);
+			data.append('songs', JSON.stringify(songsData));
+
+			songsMsg.textContent = sI18n.sending || '...';
+			var btn = songsForm.querySelector('button[type="submit"]');
+			if (btn) btn.disabled = true;
+
+			fetch(MYM.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: data })
+				.then(function (r) { return r.json(); })
+				.then(function (res) {
+					if (btn) btn.disabled = false;
+					if (res && res.success) {
+						songsMsg.textContent = sI18n.thanks || 'Thanks!';
+						songsForm.reset();
+						songsList.innerHTML = '';
+						addSongRow();
+					} else {
+						songsMsg.textContent = (res && res.data && res.data.message) || sI18n.error || 'Error';
+						songsMsg.classList.add('error');
+					}
+				})
+				.catch(function () {
+					if (btn) btn.disabled = false;
+					songsMsg.textContent = sI18n.error || 'Error';
+					songsMsg.classList.add('error');
+				});
+		});
+	}
+
+	/* ---------- Foto-Slider ---------- */
+	document.querySelectorAll('.mym-slider').forEach(function (slider) {
+		var track = slider.querySelector('.mym-slider-track');
+		var slides = Array.prototype.slice.call(slider.querySelectorAll('.mym-slide'));
+		if (!track || slides.length < 2) { return; }
+
+		var dotsWrap = slider.querySelector('.mym-slider-dots');
+		var prevBtn = slider.querySelector('.mym-slider-prev');
+		var nextBtn = slider.querySelector('.mym-slider-next');
+		var index = 0;
+		var dots = [];
+
+		if (dotsWrap) {
+			slides.forEach(function (_, i) {
+				var dot = document.createElement('button');
+				dot.type = 'button';
+				dot.setAttribute('aria-label', 'Bild ' + (i + 1));
+				dot.addEventListener('click', function () { goTo(i); });
+				dotsWrap.appendChild(dot);
+				dots.push(dot);
+			});
+		}
+
+		function goTo(i) {
+			index = (i + slides.length) % slides.length;
+			track.style.transform = 'translateX(-' + (index * 100) + '%)';
+			dots.forEach(function (d, di) { d.classList.toggle('active', di === index); });
+		}
+		goTo(0);
+
+		if (prevBtn) { prevBtn.addEventListener('click', function () { goTo(index - 1); stopAutoplay(); }); }
+		if (nextBtn) { nextBtn.addEventListener('click', function () { goTo(index + 1); stopAutoplay(); }); }
+
+		slider.setAttribute('tabindex', '0');
+		slider.addEventListener('keydown', function (e) {
+			if (e.key === 'ArrowLeft') { goTo(index - 1); stopAutoplay(); }
+			if (e.key === 'ArrowRight') { goTo(index + 1); stopAutoplay(); }
+		});
+
+		/* Touch-Wisch-Geste */
+		var touchStartX = null;
+		slider.addEventListener('touchstart', function (e) { touchStartX = e.touches[0].clientX; }, { passive: true });
+		slider.addEventListener('touchend', function (e) {
+			if (touchStartX === null) { return; }
+			var dx = e.changedTouches[0].clientX - touchStartX;
+			if (Math.abs(dx) > 40) { goTo(dx < 0 ? index + 1 : index - 1); stopAutoplay(); }
+			touchStartX = null;
+		}, { passive: true });
+
+		/* Autoplay, per data-autoplay="true" am .mym-slider-Element aktivierbar */
+		var timer = null;
+		function startAutoplay() {
+			if (slider.dataset.autoplay !== 'true') { return; }
+			timer = setInterval(function () { goTo(index + 1); }, 5000);
+		}
+		function stopAutoplay() { if (timer) { clearInterval(timer); timer = null; } }
+		startAutoplay();
+	});
 })();

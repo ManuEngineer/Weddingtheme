@@ -53,9 +53,11 @@ A bilingual one-pager. Points that span multiple files:
   page, `home_url('/#slug')` everywhere else — so the header menu always returns to the
   onepager instead of opening the page's own standalone (differently-styled) permalink.
 - **`functions.php` is the hub:** theme setup, asset enqueue, block-editor patterns + styles
-  (pattern category `mym-hochzeit`), and it `require`s the four `inc/` modules. Shared template
-  helpers (`mym_edit_btn`, `mym_board_entry_html`) are defined here behind `function_exists`
-  guards because they can be included from multiple contexts.
+  (pattern category `mym-hochzeit`), and it `require`s the `inc/` modules — including
+  `inc/customizer-controls.php` (own `WP_Customize_Control` subclasses, must be required *before*
+  `inc/customizer.php`) and `inc/customizer.php` itself. Shared template helpers (`mym_edit_btn`,
+  `mym_board_entry_html`) are defined here behind `function_exists` guards because they can be
+  included from multiple contexts.
 - **Couple names are backend-driven:** `mym_couple()` reads `mym_partner_a`/`mym_partner_b` from
   the Customizer; if empty it splits the **site title** on a connector (`&`/`y`/`und`/`+`).
   `mym_monogram()` builds the header/footer logo from the initials. No name is hardcoded.
@@ -71,10 +73,14 @@ A bilingual one-pager. Points that span multiple files:
   editing it changes anything visible on the site. `inc/sections.php` similarly keeps one unused
   helper (`mym_section_by_page_id`) for the same reason, plus the still-active dashboard
   setup-notice (`mym_sections_admin_notice`).
-- **`inc/customizer.php`** — panel "Hochzeit: Einstellungen": couple names + connector + place,
-  wedding date/time, hero variant (`horizont`/`editorial`/`bogen`), optional candidate dates,
-  gallery link, photos, map embed, hotel links, Unterkunfts-Börse moderation/notify. All personal
-  defaults are empty.
+- **`inc/customizer.php`** — panel "Hochzeit: Einstellungen", split into focused sections rather
+  than one large grab-bag: "Brautpaar & Ort", "Allgemein & Datum" (date/time/countdown only),
+  "Startbild" (hero variant + all mountain-silhouette sliders, grouped under Desktop/Mobile
+  headings via `Mym_Customize_Heading_Control`), "Seiten-Layout" (content width), "Fotos",
+  "Unterkunfts-Boerse", "RSVP". The hero variant uses `Mym_Customize_Hero_Variant_Control`
+  (`inc/customizer-controls.php`) — a visual picker with inline-SVG schematic previews per
+  variant instead of a plain `<select>`, no image assets to maintain. All personal defaults are
+  empty.
 - **Hero "Horizont" mountain silhouette** (`assets/svg/hero-mountains.svg`) — a two-tone SVG with
   two groups, `<g class="mym-mtn-schweiz">` and `<g class="mym-mtn-chile">`, each holding a filled
   base path plus several unfilled ridge-contour stroke paths for texture. The geometry was
@@ -95,7 +101,20 @@ A bilingual one-pager. Points that span multiple files:
   actions, and email notification. Public submissions arrive via AJAX
   (`wp_ajax[_nopriv]_mym_board_submit`) with nonce + honeypot; entries are saved as `draft` when
   moderation is on. **The `mym_contact` (email/phone) field is admin-only and must never reach the
-  frontend** — `mym_board_entries()` deliberately omits it. Preserve this when editing.
+  frontend** — `mym_board_entries()` deliberately omits it. Preserve this when editing. Unlike
+  RSVP/Musikwünsche, `mym_board_enabled` deliberately leaves the page/menu item in place when off
+  (only the form+entries widget disappears) — a placeholder page content ("coming soon") stays
+  reachable, which is the intended difference from the other two modules.
+- **Card theming pattern (Börse/RSVP/Musikwünsche) — copy this for any new form/card module.**
+  The outer wrapper (`.mym-board`/`.mym-rsvp`/`.mym-songs`) carries **no** background/border/
+  padding, just spacing — it sits directly on the section's own alternating background. Only the
+  inner form/item cards are visible boxes, and their colors come from a `-dark`/`-light` modifier
+  class computed once per render: `$theme = ( $bg === 'mym-bg-forest' ) ? 'mym-X-dark' :
+  'mym-X-light';`, added to the outer wrapper (`$bg` is already passed into every section template
+  via `$tpl_args` from front-page.php). All colored CSS lives under `.mym-X-dark ...`/
+  `.mym-X-light ...` selectors; base classes stay structural-only (layout, no `background`/`color`/
+  `border`). Shipping a module with a hardcoded background instead of this split is a repeat
+  mistake — check it against both `mym-bg-forest` and `mym-bg-cream` before calling it done.
 - **RSVP (`inc/rsvp.php`, `inc/rsvp-ajax.php`, `inc/rsvp-email.php`)** — a private CPT `mym_rsvp`,
   one post per household. Unlike the Börse, **nothing is ever displayed publicly** — no
   moderation step, entries go straight to the admin list. Per-guest data (name, child, veggie,
@@ -114,7 +133,36 @@ A bilingual one-pager. Points that span multiple files:
   (`admin_post_mym_rsvp_export`) emits one row per **guest**, not per submission — that's the
   point, it's meant to be usable directly for seating/catering. `mym_rsvp_deadline` (Customizer)
   hides the form for new signups past that date but must keep working for edits via an existing
-  token — don't let a deadline check block the token path.
+  token — don't let a deadline check block the token path. `mym_rsvp_enabled` off hides the page
+  from every nav menu (`mym_rsvp_filter_menu_items()` on `wp_get_nav_menu_items`) and redirects
+  direct visits home (`page-rsvp.php`) — **except** when a valid `rsvp_token` is in the URL, same
+  reasoning as the deadline: existing guests must keep their edit link working. The hero "Jetzt
+  zusagen" CTA slug lookup also respects this toggle, not just `mym_rsvp_cta_enabled`.
+- **Musikwünsche (`inc/songs.php`)** — private CPT `mym_song`, one post per submission
+  (submitter name optional), holding a list of song wishes (title required, artist optional) as
+  a plain array in `mym_song_list` postmeta — same shape as RSVP's per-guest array. Like RSVP,
+  **nothing is ever displayed publicly**, no moderation, straight to `publish`. `page-songs.php` +
+  `template-parts/section-songs.php` mirror the Börse pair (content-only on direct visit, full
+  form embedded on the homepage section) — this is what gives it an independent, menu-orderable
+  position like RSVP/Börse, unlike the Team/Slider patterns below. CSV export
+  (`admin_post_mym_songs_export`) emits one row per **song**, including a ready-made
+  `mym_song_spotify_link()` search URL (`open.spotify.com/search/<urlencoded title+artist>`) —
+  a zero-setup search link, not a resolved exact track; a real Spotify Web API integration would
+  need the user to register a developer app and manage OAuth credentials, deliberately not built.
+  `mym_songs_enabled` (Customizer) is the on/off toggle; `mym_songs_notify` falls back to
+  `mym_board_notify` when empty, same pattern as `mym_rsvp_notify`. Off hides the page from every
+  nav menu (`mym_songs_filter_menu_items()`) and redirects direct visits home (`page-songs.php`)
+  — no token-bypass needed here (no persistent edit-link feature, unlike RSVP).
+- **Team/Trauzeugen and Foto-Slider are plain block patterns, not custom post types or page
+  templates** — both render via the existing `section-default.php` content path like
+  Hotels/Gifts, so a page using either just needs to be added to (or left out of) the primary
+  menu like any other content page. `.mym-team`/`.mym-team-member` (functions.php's
+  `mym-hochzeit/team` pattern) is a self-contained light card — safe on either alternating
+  section background without its own dark-mode variant, same reasoning as `.mym-hotel`/`.mym-gift`.
+  `.mym-slider` (`mym-hochzeit/foto-slider` pattern) is a vanilla-JS carousel (no bundled library)
+  auto-initialized in `main.js` for every `.mym-slider` found on the page — works standalone
+  anywhere in page content, deliberately *not* wired into the hero. `data-autoplay="true"` on the
+  wrapper enables autoplay (5s interval); touch-swipe and arrow-key navigation are built in.
 - **Frontend JS** (`assets/js/main.js`) is configured via `wp_localize_script` as the global `MYM`
   (ajaxUrl, nonce, rsvpNonce, wedding date/time for the countdown, hero variant, editor flag,
   i18n/rsvpI18n strings). The countdown only runs when a date is set. The RSVP guest list is
